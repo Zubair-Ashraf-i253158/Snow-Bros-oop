@@ -13,7 +13,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(600, 700), "Catch the Stars!");
     window.setFramerateLimit(60);
 
-    // ── Font & Text ────────────────────────────
+    
     sf::Font font;
     font.loadFromFile("arial.ttf");
 
