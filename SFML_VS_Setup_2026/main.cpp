@@ -5,7 +5,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Circle Test");
 
     // Create a circle
-    sf::CircleShape circle(220.f);   // radius = 80
+    sf::CircleShape circle(220.f);   // radius = 80//any change in code than
     circle.setFillColor(sf::Color::Green);
     circle.setPosition(360.f, 260.f); // center-ish
 
