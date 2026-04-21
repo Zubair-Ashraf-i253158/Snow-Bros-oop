@@ -7,7 +7,7 @@ Player::Player()
 	player.setPosition(400, 500);
 }
 
-void Player::update()
+void Player::update(Platform platforms[], int count)
 {
 	// Left
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -31,10 +31,25 @@ void Player::update()
 	player.move(0, jumpSpeed);
 	jumpSpeed += gravity;
 	// Ground
-	if (player.getPosition().y >= 500)
+	Ground = false; // har time fall
+	for (int i = 0; i < count; i++)
 	{
-		player.setPosition(player.getPosition().x, 500);
-		jumpSpeed = 0;
-		Ground = true;
+		sf::FloatRect pl_bndry = platforms[i].getBounds();//platform ki boundary
+		sf::FloatRect p_bndry = player.getGlobalBounds();//player ki boundary
+
+		// Check if player bottom is hitting platform top
+		bool side = p_bndry.left < pl_bndry.left + pl_bndry.width && p_bndry.left + p_bndry.width > pl_bndry.left;
+		bool top = p_bndry.top + p_bndry.height >= pl_bndry.top &&p_bndry.top + p_bndry.height <= pl_bndry.top + 10;
+
+		if (side && top)
+		{
+			player.setPosition(player.getPosition().x, pl_bndry.top - p_bndry.height);
+			jumpSpeed = 0;
+			Ground = true;
+		}
 	}
+}
+ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const 
+{
+	target.draw(player, states);
 }
