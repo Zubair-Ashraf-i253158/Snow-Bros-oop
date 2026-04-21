@@ -12,18 +12,18 @@ Tornado::Tornado(float x, float y) : FlyingFooga(x, y)
 	groundE = false;
 	directionE = 1.0f; // Start moving right
 	flyE = -5.0f;    // fly strength
-	flyingE = false;     // is flying
-	flyy = -2.0f; //fly ki speed vertical
-	flyx = 3.0f; //fly ki speed horizonatal
-	flyTime = 0.0f;//time jab tak enemy fly karega
+	flyingE = false;    // is flying
+	flyy = -2.0f;     //fly ki speed vertical
+	flyx = 3.0f;      //fly ki speed horizonatal
+	flyTime = 0.0f;  //time jab tak enemy fly karega
 	enemy.setFillColor(sf::Color::White);
 	//knife 
     knifeTime = 0.0f;
     zindaK = false;
     knifex = 0.0f;
     knifey = 0.0f;
-    knife.setSize(sf::Vector2f(10, 5));
-	knife.setFillColor(sf::Color::Cyan);
+    knife.setSize(sf::Vector2f(15, 5));
+	knife.setFillColor(sf::Color::White);
 }
 void Tornado::update(Platform platforms[], int count, sf::Vector2f p_pos)
 {

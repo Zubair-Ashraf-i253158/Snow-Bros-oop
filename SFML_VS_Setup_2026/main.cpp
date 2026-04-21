@@ -10,13 +10,25 @@ int main()
     window.setFramerateLimit(60);
 	
     Player player;
-    FlyingFooga f[2] = { FlyingFooga(150, 100),FlyingFooga(450, 100) };
+    
+    //ENEMY 1 Botom
     Botom b[5]= { Botom(200, 100), 
                   Botom(300, 100), 
                   Botom(400, 100), 
                   Botom(500, 100), 
                   Botom(600, 100)   };
+	
+    //ENEMY 2 FlyingFooga
+    FlyingFooga f[2] = { FlyingFooga(150, 100),
+                         FlyingFooga(450, 100) };
 
+	//ENEMY 3 Tornado
+    Tornado t[2] = { Tornado(250, 100), 
+                     Tornado(550, 100) };
+    
+    //Boss Mogera
+
+    
     //in level one there are 5 enemies we put two to go left
 	//and three to go right by default
     b[1].setDirection(-1.0f);  // this one goes left

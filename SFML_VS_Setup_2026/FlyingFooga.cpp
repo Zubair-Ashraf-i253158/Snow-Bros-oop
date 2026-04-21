@@ -47,13 +47,9 @@ void FlyingFooga::update(Platform platforms[], int count)
             flyingE = false;
             flyTime = 0;
         }
-
-
-		
-	}
+    }
 	
 }
-
 void FlyingFooga::draw(sf::RenderWindow& window)
 {
 	if (zindaE)     // ager enemy zinda hai to hi draw karo warna nahi

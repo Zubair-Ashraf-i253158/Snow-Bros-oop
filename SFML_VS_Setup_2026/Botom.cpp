@@ -42,6 +42,7 @@ void Botom::update(Platform platforms[], int count )
 	//Now change direction if enemy hits the wallss haahahahahaha
 	//Zubair kia apkey toothpaste ma namak hy?   bilkul hai 
 	//SARA kaam ma kr raha hu and ya bas so raha ha :(
+	
 	// jhoot nahi ap to foootball khail rahay ho project kn karay ga :D
 	if (enemy.getPosition().x < 0)
 	{
