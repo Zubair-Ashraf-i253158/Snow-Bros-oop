@@ -7,7 +7,7 @@ Player::Player()
 	player.setPosition(400, 500);
 }
 
-void Player::update()s
+void Player::update()
 {
 	// Left
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
