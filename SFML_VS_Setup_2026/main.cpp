@@ -2,7 +2,7 @@
 #include"Player.h"
 #include"Botom.h"
 #include"FlyingFooga.h"
-
+#include"Tornado.h"
 int main()
 {
 	
@@ -21,6 +21,8 @@ int main()
 	//and three to go right by default
     b[1].setDirection(-1.0f);  // this one goes left
     b[2].setDirection(-1.0f);  // this one goes left
+    Tornado t[2] = { Tornado(250, 100), Tornado(550, 100) };
+
     
     // Create platforms
     Platform platforms[] = {
@@ -59,7 +61,11 @@ int main()
             f[i].update(platforms, count);
             f[i].draw(window);
         }
-
+        for (int i = 0; i < 2; i++)
+        {
+            t[i].update(platforms, count, player.getPosition());
+            t[i].draw(window);
+        }
         window.display();
     }
 }

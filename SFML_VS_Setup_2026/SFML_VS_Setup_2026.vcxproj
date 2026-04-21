@@ -137,6 +137,7 @@
     <ClCompile Include="FlyingFooga.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Tornado.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Botom.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="FlyingFooga.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Tornado.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

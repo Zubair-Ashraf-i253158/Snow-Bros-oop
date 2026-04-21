@@ -16,6 +16,9 @@ private:
 public:
 
 	Player();
+	sf::Vector2f getPosition() const {
+		return player.getPosition();
+	}
 	void update(Platform platforms[], int count);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
