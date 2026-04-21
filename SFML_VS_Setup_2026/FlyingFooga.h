@@ -3,12 +3,14 @@
 #include "Platform.h"
 #include "Botom.h"
 
-class FlyingFooga : public Enemy, public Botom
+class FlyingFooga :public Botom
 {
  private:
 	float flyE;    // fly strength
 	bool flyingE;     // is flying
-
+	float flyx; //fly ki speed horizonatal
+	float flyy; //fly ki speed vertical
+	float flyTime;//time jab tak enemy fly karega
 public:	
 	FlyingFooga(float x, float y);
 	void update(Platform platforms[], int count) override;

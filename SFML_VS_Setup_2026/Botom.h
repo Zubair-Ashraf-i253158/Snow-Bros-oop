@@ -4,12 +4,12 @@
 
 class Botom : public Enemy
 {	
-   private: 
+protected:
+
 	   float jumpE;    // jump strength
 	   bool groundE;     // fall speed
 
    public:
-
 	   Botom(float x, float y);
 	   void update(Platform platforms[],int count) override;
 	   void draw(sf::RenderWindow& window) override;

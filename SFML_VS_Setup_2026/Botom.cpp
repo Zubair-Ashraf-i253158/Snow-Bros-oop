@@ -5,8 +5,8 @@ Botom::Botom(float x, float y)
 	enemy.setSize(sf::Vector2f(30, 30));
 	enemy.setFillColor(sf::Color::Blue);
 	enemy.setPosition(x,y);
-	speedE = 2.0f;  //heaalth 2 means need two hits to kill
-	healthE = 100.0f;
+	speedE = 2.0f;  
+	healthE = 100.0f; //heaalth 2 means need two hits to kill
 	zindaE = true;
 	directionE = 1.0f; // Start moving right
 	jumpE = 0;
@@ -40,9 +40,9 @@ void Botom::update(Platform platforms[], int count )
 	}
 
 	//Now change direction if enemy hits the wallss haahahahahaha
-	//Zubair kia apkey toothpaste ma namak hy? 
+	//Zubair kia apkey toothpaste ma namak hy?   bilkul hai 
 	//SARA kaam ma kr raha hu and ya bas so raha ha :(
-	
+	// jhoot nahi ap to foootball khail rahay ho project kn karay ga :D
 	if (enemy.getPosition().x < 0)
 	{
 		enemy.setPosition(0, enemy.getPosition().y);

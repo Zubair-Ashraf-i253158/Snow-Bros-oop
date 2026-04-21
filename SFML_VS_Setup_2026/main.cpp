@@ -1,6 +1,7 @@
 ﻿#include <SFML/Graphics.hpp>
 #include"Player.h"
 #include"Botom.h"
+#include"FlyingFooga.h"
 
 int main()
 {
@@ -9,6 +10,7 @@ int main()
     window.setFramerateLimit(60);
 	
     Player player;
+    FlyingFooga f[2] = { FlyingFooga(150, 100),FlyingFooga(450, 100) };
     Botom b[5]= { Botom(200, 100), 
                   Botom(300, 100), 
                   Botom(400, 100), 
@@ -52,7 +54,11 @@ int main()
             b[i].update(platforms, count);
             b[i].draw(window);
         }
-		
+        for (int i = 0; i < 2; i++)
+        {
+            f[i].update(platforms, count);
+            f[i].draw(window);
+        }
 
         window.display();
     }
