@@ -1,5 +1,6 @@
 ﻿#include <SFML/Graphics.hpp>
 #include"Player.h"
+#include"Botom.h"
 
 int main()
 {
@@ -8,6 +9,16 @@ int main()
     window.setFramerateLimit(60);
 	
     Player player;
+    Botom b[5]= { Botom(200, 100), 
+                  Botom(300, 100), 
+                  Botom(400, 100), 
+                  Botom(500, 100), 
+                  Botom(600, 100)   };
+
+    //in level one there are 5 enemies we put two to go left
+	//and three to go right by default
+    b[1].setDirection(-1.0f);  // this one goes left
+    b[2].setDirection(-1.0f);  // this one goes left
     
     // Create platforms
     Platform platforms[] = {
@@ -34,6 +45,15 @@ int main()
         for (int i = 0; i < count; i++)
             platforms[i].draw(window);
 		window.draw(player);
+
+        /* Enemy display and Calls*/
+        for (int i = 0; i < 5; i++)
+        {
+            b[i].update(platforms, count);
+            b[i].draw(window);
+        }
+		
+
         window.display();
     }
 }

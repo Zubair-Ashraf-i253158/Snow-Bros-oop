@@ -1,6 +1,6 @@
 #pragma once
-#include"Platform.h"
 #include <SFML/Graphics.hpp>
+#include "Platform.h"
 
 class Enemy {
 
@@ -8,15 +8,14 @@ protected:
 	sf::Vector2f position;
 	float speedE;
 	float healthE;
-	float zindaE;
+	bool zindaE;
 	float directionE;
 
-private:
-		sf::RectangleShape enemy;
+	sf::RectangleShape enemy;
 
 public:
-
-	virtual void update() = 0;
+	//this is abstract class matlub ke is class ke object nahi ban sakta, iske sirf derived class ke object ban sakta hai
+	virtual void update(Platform platforms[], int count) = 0;
 	virtual void draw(sf::RenderWindow& window) = 0;
 
 	void setPosition(float x, float y) {
@@ -47,9 +46,11 @@ public:
 	}	
 
 	void damage(float amount) {
-		healthE -= amount;
+		healthE = healthE - amount;
 		if (healthE <= 0) {
 			zindaE = false;
 		}
 	}
 };
+
+

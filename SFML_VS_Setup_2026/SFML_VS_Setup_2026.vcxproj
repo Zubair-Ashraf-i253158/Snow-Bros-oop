@@ -133,12 +133,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Botom.cpp" />
+    <ClCompile Include="FlyingFooga.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Botom.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="FlyingFooga.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
