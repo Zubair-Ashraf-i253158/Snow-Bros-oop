@@ -1,4 +1,4 @@
-#include"Header.h"
+#include"Player.h"
 
 Player::Player()
 {
@@ -7,7 +7,7 @@ Player::Player()
 	player.setPosition(400, 500);
 }
 
-void Player::update()
+void Player::update()s
 {
 	// Left
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
