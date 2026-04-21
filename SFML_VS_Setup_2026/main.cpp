@@ -8,6 +8,7 @@ int main()
     window.setFramerateLimit(60);
 	
     Player player;
+    
     // Create platforms
     Platform platforms[] = {
         Platform(0, 540, 800, 20),    // ground

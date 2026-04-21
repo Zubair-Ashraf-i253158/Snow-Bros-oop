@@ -34,12 +34,13 @@ void Player::update(Platform platforms[], int count)
 	Ground = false; // har time fall
 	for (int i = 0; i < count; i++)
 	{
+		//FloatRect is builtin sfml that contains 4 values: left, top, width, height
 		sf::FloatRect pl_bndry = platforms[i].getBounds();//platform ki boundary
 		sf::FloatRect p_bndry = player.getGlobalBounds();//player ki boundary
 
 		// Check if player bottom is hitting platform top
-		bool side = p_bndry.left < pl_bndry.left + pl_bndry.width && p_bndry.left + p_bndry.width > pl_bndry.left;
-		bool top = p_bndry.top + p_bndry.height >= pl_bndry.top &&p_bndry.top + p_bndry.height <= pl_bndry.top + 10;
+		bool side =(p_bndry.left < pl_bndry.left + pl_bndry.width) && (p_bndry.left + p_bndry.width > pl_bndry.left);
+		bool top = (p_bndry.top + p_bndry.height >= pl_bndry.top) && (p_bndry.top + p_bndry.height <= pl_bndry.top + 10);
 
 		if (side && top)
 		{
