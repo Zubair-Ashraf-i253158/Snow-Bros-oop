@@ -22,6 +22,7 @@ void Mchild::update(Platform platforms[], int count)
 	enemy.move(0, jumpMC); // Apply vertical movement [jump anddd fall]
 	jumpMC = jumpMC + 0.3f; // this makes falling faster and faster by adding 0.3 to jumpMC every frame
 	groundMC = false; // har time fall
+	
 	for (int i = 0; i < count; i++)
 	{
 		sf::FloatRect pl_bndry = platforms[i].getBounds(); //platform ki boundary

@@ -56,9 +56,9 @@ void Mogera::update(Platform platforms[], int count, sf::Vector2f playerPos)
 		babies[i].update(platforms, count);
 	}
 
-		// health bar update karo
-	float percent = healthE / Health;
-	Hbar.setSize(sf::Vector2f(200.0f * percent, 20));
+		// health bar update karo   //abhii iska koi kaam nahi haaaaaa
+	//float percent = healthE / Health;//
+	//Hbar.setSize(sf::Vector2f(200.0f * percent, 20));
 }
 
 void Mogera::draw(sf::RenderWindow& window)

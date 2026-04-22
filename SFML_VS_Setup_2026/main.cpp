@@ -5,6 +5,7 @@
 #include"Tornado.h"
 #include "MOGERA.h"
 #include "MogeraBabies.h"
+#include "GamaKichi.h"
 int main()
 {
 	
@@ -29,8 +30,8 @@ int main()
                      Tornado(550, 100) };
     */
     //Boss Mogera
-	Mogera m(350, 50);
-
+	//Mogera m(350, 50);
+    Gama g(350, 50);
  
     //in level one there are 5 enemies we put two to go left
 	//and three to go right by default
@@ -83,8 +84,11 @@ int main()
             t[i].draw(window);
         }
         */
-		m.update(platforms, count, player.getPosition()); //MOGERA
-		m.draw(window);
+		//m.update(platforms, count, player.getPosition()); //MOGERA
+		//m.draw(window);
+
+        g.update(platforms, count);
+        g.draw(window);
 
         window.display();
     }

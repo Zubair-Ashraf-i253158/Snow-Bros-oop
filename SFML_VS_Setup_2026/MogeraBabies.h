@@ -8,7 +8,7 @@ class Mchild : public Enemy
 {
 	private:
 		float jumpMC;    //falling speed
-		bool groundMC;     //it is on the ground or not	
+		bool groundMC;    //it is on the ground or not	
 
    public:
 	   Mchild(float x=0.0f, float y=0.0f);
