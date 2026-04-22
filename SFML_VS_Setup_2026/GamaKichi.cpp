@@ -1,113 +1,138 @@
-#include"Enemy.h"
+#include "Enemy.h"
 #include "GamaKichi.h"
 
 Gama::Gama(float x, float y)
 {
-	enemy.setSize(sf::Vector2f(100, 100));
-	enemy.setFillColor(sf::Color(128,0,128));  //Purple
-	enemy.setPosition(x, y);
-	
-	MaxH =1000.0f; //gamay ki max health
-	healthE = MaxH; //gamay ki health
-	zindaE = true;
-	
-	directionE = 0.0f;    // Gama does not move it is stationary boss
-	rocketTime = 0.0f;      //time jis ke bad rocket nikle ga
-	attackP = 0; //gamay ke attack phase
-	
-	/* Front health bar */
-	Ghealthbar.setSize(sf::Vector2f(200, 20));
-	Ghealthbar.setPosition(300, 50); //set it to top centre of the screen
-	Ghealthbar.setFillColor(sf::Color(200, 200, 200)); // Ya grey colour ha for health bar
-	
-	/* Back health bar */
-	GhealthBack.setSize(sf::Vector2f(200, 20));
-	GhealthBack.setFillColor(sf::Color::Black); //Black color for the bar health bar background
-	GhealthBack.setPosition(300, 50); //set it to top centre of the screen
-	
-	
-	for (int i = 0; i < 5; i++)
-	{
-		rocket[i].setSize(sf::Vector2f(10, 10));   
-		rocket[i].setFillColor(sf::Color::Yellow);
-		rocketactive[i] = false;              //sab rockets initially inactive hain
-	}
-} 
+    
+    enemy.setSize(sf::Vector2f(100, 100));      // 100x100 ka bara boss
+    enemy.setFillColor(sf::Color(128, 0, 128)); // Purple colour
+    enemy.setPosition(x, y);                   
+
+    // Health setup
+    MaxH = 1000.0f;    // maximum health 1000
+    healthE = MaxH;    // shuru mein full health
+    zindaE = true;     
+
+    // Gama halta nahi hai isliye direction 0
+    directionE = 0.0f;
+
+    // Timer aur phase setup
+    rocketTime = 0.0f; // rocket fire karne ka timer
+    attackP = 0;       // shuru mein phase 1
+
+    
+    // Front Health Bar
+    
+    Ghealthbar.setSize(sf::Vector2f(200, 50));     
+    Ghealthbar.setPosition(300, 50);                // screen ke top centre mein
+    Ghealthbar.setFillColor(sf::Color(200, 200, 200)); // grey colour
+
+    
+    GhealthBack.setSize(sf::Vector2f(200, 50));    // same size
+    GhealthBack.setFillColor(sf::Color::Black);    // kala background
+    GhealthBack.setPosition(300, 50);              // same position
+
+   
+    // Rockets set
+    
+    for (int i = 0; i < 5; i++)
+    {
+        rocket[i].setSize(sf::Vector2f(15, 15));    
+        rocket[i].setFillColor(sf::Color::Yellow);  // yellow colour
+        rocketactive[i] = false;                    // shuru mein sab inactive
+    }
+}
 
 void Gama::update(Platform platforms[], int count)
 {
-	if (!zindaE)  // ager gama mar jaata hai to update function se return kar jao aur baaki code execute mat karo
-		return;
+    // ager gama mar gaya to kuch mat karo
+    if (!zindaE) return;
 
-	if (healthE > 666)
-	{
-		attackP = 0; // phase 1
-	}
-	else if (healthE > 333)
-	{
-		attackP = 1; // phase 2
-	}
-	else
-	{
-		attackP = 2; // phase 3
-	}
+   
+    // Attack Phase Check
+    // health ke hisaab se phase badalta hai
+   
+    if (healthE > 666)      
+       attackP = 0; // phase 1 slow fire
+    
+    else if (healthE > 333) 
+        attackP = 1; // phase 2 medium fire
+    
+    else                   
+        attackP = 2; // phase 3 fast fire
 
-	rocketTime++;
+    
+    rocketTime++;
 
-	if ((attackP == 0 && rocketTime > 120) ||
-		(attackP == 1 && rocketTime > 80) ||
-		(attackP == 2 && rocketTime > 40))
-	{
-		// har rocket ki position aur direction set karo
-		for (int i = 0; i < 5; i++)
-		{
-			RocketPosition(i);       // position set karo
-			rocketactive[i] = true;  // activate karo
-		}
+    
+    //Phase Ke Hisaab Se Fire Karo
+   
+    if ((attackP == 0 && rocketTime > 120) ||
+        (attackP == 1 && rocketTime > 80) ||
+        (attackP == 2 && rocketTime > 40))
+    {
+        // har rocket ko activate karo
+        for (int i = 0; i < 5; i++)
+        {
+            // sirf tab set karo jab rocket inactive ho
+            // warna rocket reset ho jata hai beech mein
+            if (!rocketactive[i])
+            {
+                RocketPosition(i);      // rocket ki starting position set karo
+                rocketactive[i] = true; // rocket ko active karo
+            }
+        }
 
-		// directions set karo - speedX speedY mein
-		speedX[0] = 0;   speedY[0] = -5; // upar
-		speedX[1] = 0;   speedY[1] = 5;  // neeche
-		speedX[2] = -5;  speedY[2] = 0;  // left
-		speedX[3] = 5;   speedY[3] = 0;  // right
-		speedX[4] = 4;   speedY[4] = -4; // diagonal
+       
+        // har rocket ko alag direction do
+        speedX[0] = 0;   speedY[0] = -5; // rocket 0 upar jaye ga
+        speedX[1] = 0;   speedY[1] = 5;  // rocket 1 neeche jaye ga
+        speedX[2] = -5;  speedY[2] = 0;  // rocket 2 left jaye ga
+        speedX[3] = 5;   speedY[3] = 0;  // rocket 3 right jaye ga
+        speedX[4] = 4;   speedY[4] = -4; // rocket 4 diagonal jaye ga
 
-		// rockets move karo
-		for (int i = 0; i < 5; i++)
-		{
-			if (rocketactive[i])
-			{
-				rocket[i].move(speedX[i], speedY[i]);
+        // timer reset karo agla fire ke liye
+        rocketTime = 0;
+    }
 
-				if (rocket[i].getPosition().x < 0 || rocket[i].getPosition().x > 800 || rocket[i].getPosition().y < 0 || rocket[i].getPosition().y > 600)
-					rocketactive[i] = false;
-			}
-		}
+    for (int i = 0; i < 5; i++)
+    {
+        if (rocketactive[i]) // sirf active rockets move karo
+        {
+            // rocket ko uski speed se move karo
+            rocket[i].move(speedX[i], speedY[i]);
 
-		// health bar update karo
-		float percent = healthE / MaxH;
-		Ghealthbar.setSize(sf::Vector2f(200.0f * percent, 20));
-	}
+            // ager rocket screen se bahar chala gaya to deactivate karo
+            if (rocket[i].getPosition().x < 0 ||    
+                rocket[i].getPosition().x > 800 || 
+                rocket[i].getPosition().y < 0 ||    
+                rocket[i].getPosition().y > 600)    
+                rocketactive[i] = false;
+        }
+    }
 
+    float percent = healthE / MaxH;                         
+    Ghealthbar.setSize(sf::Vector2f(200.0f * percent, 20)); // bar choti karo
 }
-	void Gama::draw(sf::RenderWindow & window)
-	{
-		// ager gama zinda hai to hi draw karo
-		if (!zindaE) return;
 
-		// gama draw karo
-		window.draw(enemy);
+void Gama::draw(sf::RenderWindow& window)
+{
+    // ager gama mar gaya to kuch mat draw karo
+    if (!zindaE) return;
 
-		// health bar background draw karo
-		window.draw(GhealthBack);
+    //Gama draw karo
+    window.draw(enemy);
 
-		//health bar draw karo
-		window.draw(Ghealthbar);
+    // health bar ka kala background draw karo
+    window.draw(GhealthBack);
 
-		//sare active rockets draw karo
-		for (int i = 0; i < 5; i++)
-		{
-			if (rocketactive[i])        // sirf active rockets draw karo
-				window.draw(rocket[i]);
-		}
-	}
+    // actual health bar draw karo upar se
+    window.draw(Ghealthbar);
+
+    // Step 4 - sare active rockets draw karo
+    for (int i = 0; i < 5; i++)
+    {
+        if (rocketactive[i])        // sirf active rockets draw karo
+            window.draw(rocket[i]);
+    }
+}
