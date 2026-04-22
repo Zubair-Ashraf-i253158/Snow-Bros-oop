@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Platform.h"
 
+
 class Enemy {
 
 protected:
@@ -16,6 +17,13 @@ protected:
 public:
 	//this is abstract class matlub ke is class ke object nahi ban sakta, iske sirf derived class ke object ban sakta hai
 	virtual void update(Platform platforms[], int count) = 0;
+	
+	virtual void update(Platform platforms[], int count, sf::Vector2f playerPos)
+	{
+		
+		update(platforms, count);
+	}
+	
 	virtual void draw(sf::RenderWindow& window) = 0;
 
 	void setPosition(float x, float y) {

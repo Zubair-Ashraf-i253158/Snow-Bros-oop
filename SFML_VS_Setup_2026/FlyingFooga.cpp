@@ -12,7 +12,7 @@ FlyingFooga::FlyingFooga(float x, float y) : Botom(x, y)
 	zindaE = true;
     groundE = false;
 	directionE = 1.0f; // Start moving right
-	flyE = -5.0f;    // fly strength
+	
 	flyingE = false;     // is flying
 	flyy = -2.0f; //fly ki speed vertical
 	flyx = 3.0f; //fly ki speed horizonatal

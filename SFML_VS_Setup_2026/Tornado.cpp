@@ -6,12 +6,12 @@ Tornado::Tornado(float x, float y) : FlyingFooga(x, y)
 {
 	enemy.setSize(sf::Vector2f(30, 30));
 	enemy.setFillColor(sf::Color::Yellow);
-	speedE = 2.0f;  //health 2 means need two hits to kill
-	healthE = 100.0f;
+	speedE = 2.0f;  
+	healthE = 100.0f; //health
 	zindaE = true;
 	groundE = false;
 	directionE = 1.0f; // Start moving right
-	flyE = -5.0f;    // fly strength
+	
 	flyingE = false;    // is flying
 	flyy = -2.0f;     //fly ki speed vertical
 	flyx = 3.0f;      //fly ki speed horizonatal
@@ -41,7 +41,7 @@ void Tornado::update(Platform platforms[], int count, sf::Vector2f p_pos)
         // PLAYER KO NISHANA
         float dx = p_pos.x - enemy.getPosition().x;
         float dy = p_pos.y - enemy.getPosition().y;
-        float dist = sqrt(dx * dx + dy * dy);
+		float dist = sqrt(dx * dx + dy * dy);        //calculating distance between player and tornado
         knifex = (dx / dist) * 5.0f; //speed ka sath 
         knifey = (dy / dist) * 5.0f;
     }
@@ -50,8 +50,8 @@ void Tornado::update(Platform platforms[], int count, sf::Vector2f p_pos)
     {
         knife.move(knifex, knifey);
         // knife boundaries cross
-        if (knife.getPosition().x < 0 || knife.getPosition().x > 800 ||
-            knife.getPosition().y < 0 || knife.getPosition().y > 600)
+			 //for left                                   for right                                  for top                                    for bottom 
+        if (knife.getPosition().x < 0     ||       knife.getPosition().x > 800 ||            knife.getPosition().y < 0    ||         knife.getPosition().y > 600)
             zindaK = false;
     }
 }

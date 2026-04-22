@@ -6,7 +6,7 @@
 class FlyingFooga :public Botom
 {
 protected:
-	float flyE;    // fly strength
+	
 	bool flyingE;     // is flying
 	float flyx; //fly ki speed horizonatal
 	float flyy; //fly ki speed vertical

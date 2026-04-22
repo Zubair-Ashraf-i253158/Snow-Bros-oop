@@ -6,7 +6,7 @@ Botom::Botom(float x, float y)
 	enemy.setFillColor(sf::Color::Blue);
 	enemy.setPosition(x,y);
 	speedE = 2.0f;  
-	healthE = 100.0f; //heaalth 2 means need two hits to kill
+	healthE = 100.0f; //heaalth 
 	zindaE = true;
 	directionE = 1.0f; // Start moving right
 	jumpE = 0;

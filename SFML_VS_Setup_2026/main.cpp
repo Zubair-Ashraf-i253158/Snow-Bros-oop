@@ -3,6 +3,8 @@
 #include"Botom.h"
 #include"FlyingFooga.h"
 #include"Tornado.h"
+#include "MOGERA.h"
+#include "MogeraBabies.h"
 int main()
 {
 	
@@ -10,7 +12,7 @@ int main()
     window.setFramerateLimit(60);
 	
     Player player;
-    
+   
     //ENEMY 1 Botom
     Botom b[5]= { Botom(200, 100), 
                   Botom(300, 100), 
@@ -27,13 +29,15 @@ int main()
                      Tornado(550, 100) };
     
     //Boss Mogera
+	Mogera m(350, 50);
 
-    
+ 
     //in level one there are 5 enemies we put two to go left
 	//and three to go right by default
+   
     b[1].setDirection(-1.0f);  // this one goes left
     b[2].setDirection(-1.0f);  // this one goes left
-    Tornado t[2] = { Tornado(250, 100), Tornado(550, 100) };
+    
 
     
     // Create platforms
@@ -62,22 +66,26 @@ int main()
             platforms[i].draw(window);
 		window.draw(player);
 
-        /* Enemy display and Calls*/
-        for (int i = 0; i < 5; i++)
+        // Enemy display and Calls
+        for (int i = 0; i < 5; i++) //BOTOM
         {
             b[i].update(platforms, count);
             b[i].draw(window);
         }
-        for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++)  //FOOGA
         {
             f[i].update(platforms, count);
             f[i].draw(window);
         }
-        for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++) //TORNADO
         {
             t[i].update(platforms, count, player.getPosition());
             t[i].draw(window);
         }
+        
+		m.update(platforms, count, player.getPosition()); //MOGERA
+		m.draw(window);
+
         window.display();
     }
 }
