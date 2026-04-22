@@ -9,10 +9,9 @@ Mchild::Mchild(float x, float y)
 	enemy.setFillColor(sf::Color::Cyan);
 	enemy.setPosition(x, y);
 	
-	speedE = 3.0f;  
+	speedE = 2.0f;  
 	healthE = 1.0f; //health 1 matlub player ki one hit kiya to baby mar jaayega 
 	zindaE = true;
-	directionE = 1.0f; // Start moving right
 	jumpMC = 0;
 	groundMC = false;	
 }

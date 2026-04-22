@@ -12,7 +12,7 @@ int main()
     window.setFramerateLimit(60);
 	
     Player player;
-   
+   /*
     //ENEMY 1 Botom
     Botom b[5]= { Botom(200, 100), 
                   Botom(300, 100), 
@@ -27,7 +27,7 @@ int main()
 	//ENEMY 3 Tornado
     Tornado t[2] = { Tornado(250, 100), 
                      Tornado(550, 100) };
-    
+    */
     //Boss Mogera
 	Mogera m(350, 50);
 
@@ -35,8 +35,8 @@ int main()
     //in level one there are 5 enemies we put two to go left
 	//and three to go right by default
    
-    b[1].setDirection(-1.0f);  // this one goes left
-    b[2].setDirection(-1.0f);  // this one goes left
+   // b[1].setDirection(-1.0f);  // this one goes left
+   // b[2].setDirection(-1.0f);  // this one goes left
     
 
     
@@ -65,7 +65,7 @@ int main()
         for (int i = 0; i < count; i++)
             platforms[i].draw(window);
 		window.draw(player);
-
+/*
         // Enemy display and Calls
         for (int i = 0; i < 5; i++) //BOTOM
         {
@@ -82,7 +82,7 @@ int main()
             t[i].update(platforms, count, player.getPosition());
             t[i].draw(window);
         }
-        
+        */
 		m.update(platforms, count, player.getPosition()); //MOGERA
 		m.draw(window);
 

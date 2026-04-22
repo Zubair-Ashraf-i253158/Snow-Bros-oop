@@ -33,23 +33,23 @@ void Mogera::update(Platform platforms[], int count, sf::Vector2f playerPos)
 		return;
 
 
-	if (timeB > 300 && babyCount < 10) // every 5 seconds baby phainkni hai jab tak 10 babies zinda hain
+	if (timeB > 120 && babyCount < 10) // every 2 seconds baby phainkni hai jab tak 10 babies zinda hain
 	{
 		babies[babyCount] = Mchild(enemy.getPosition().x + 40, enemy.getPosition().y + 30); //child constructor call karo aur uska position set karo to be near mogera
-		
+
+
+
+
+		// set direction toward player
+		if (playerPos.x < enemy.getPosition().x)
+			babies[babyCount].setDirection(-1.0f);  // player left mein hai
+		else
+			babies[babyCount].setDirection(1.0f);   // player right mein hai
+
+
+		babyCount++;
+		timeB = 0;
 	}
-	
-
-	// set direction toward player
-	if (playerPos.x < enemy.getPosition().x)
-		babies[babyCount].setDirection(-1.0f);  // player left mein hai
-	else
-		babies[babyCount].setDirection(1.0f);   // player right mein hai
-	
-
-	babyCount++;
-	timeB = 0;
-
 
 	for (int i = 0; i < babyCount; i++)
 	{
