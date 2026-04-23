@@ -5,8 +5,8 @@
 
 Mchild::Mchild(float x, float y)
 {
-	enemy.setSize(sf::Vector2f(15, 15));
-	enemy.setFillColor(sf::Color::Cyan);
+	//enemy.setSize(sf::Vector2f(15, 15));
+	//enemy.setFillColor(sf::Color::Cyan);
 	enemy.setPosition(x, y);
 	
 	speedE = 2.0f;  

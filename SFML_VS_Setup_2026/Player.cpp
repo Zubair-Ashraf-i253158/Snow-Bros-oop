@@ -2,19 +2,76 @@
 
 Player::Player()
 {
-	player.setSize(sf::Vector2f(30, 30));
-	player.setFillColor(sf::Color::Red);
-	player.setPosition(400, 500);
+	if (!playerTexture.loadFromFile("assets/playerSprites.png"))
+	{
+		sf::RectangleShape PLAYER;
+		PLAYER.setSize(sf::Vector2f(50, 50));	
+		PLAYER.setFillColor(sf::Color::Red);
+		
+				
+	}
+	playerSprite.setTexture(playerTexture);
+	playerSprite.setTextureRect(sf::IntRect(0, 0, 50, 50)); // pehla frame
+	playerSprite.setPosition(400, 400);
 }
-
 void Player::update(Platform platforms[], int count)
 {
+	animTimer++;
+	
+
+	
 	// Left
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		player.move(-movement, 0);
+	{
+		facingRight = false;
+		playerSprite.move(-movement, 0);
+	}
 	// Right
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		player.move(movement, 0);
+	{
+		facingRight = true;
+		playerSprite.move(movement, 0);
+	}
+	// flip left/right
+	if (!facingRight)
+	{
+		playerSprite.setScale(-1.0f, 1.0f);
+		playerSprite.setOrigin(60, 0); // origin fix for flip
+	}
+	else
+	{
+		playerSprite.setScale(1.0f, 1.0f);
+		playerSprite.setOrigin(0, 0);
+	}
+	// walking
+	bool moving = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+
+	if (moving)
+	{
+		animTimer++;
+		if (animTimer > 8) // changing frame 
+		{
+			animFrame = (animFrame + 1) % 4;
+			animTimer = 0;
+		}
+	}
+	else
+	{
+		animFrame = 0; // idle 
+		animTimer = 0;
+	}
+
+	// now set the frame
+	if (!Ground)
+		playerSprite.setTextureRect(sf::IntRect(0, 64, 60, 64)); // jump frame
+	else if (moving)
+		playerSprite.setTextureRect(sf::IntRect(animFrame * 60, 0, 60, 64)); // walk
+	else
+		playerSprite.setTextureRect(sf::IntRect(0, 0, 60, 64)); // idle
+	
+
+	
 	// Jump
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && Ground)
 	{
@@ -22,13 +79,13 @@ void Player::update(Platform platforms[], int count)
 		Ground = false;
 	}
 	// Left wall
-	if (player.getPosition().x < 0)
-		player.setPosition(0, player.getPosition().y);
+	if (playerSprite.getPosition().x < 0)
+		playerSprite.setPosition(0, playerSprite.getPosition().y);
 	// Right wall
-	if (player.getPosition().x > 770)  // 800 - 30 (player width)
-		player.setPosition(770, player.getPosition().y);
+	if (playerSprite.getPosition().x > 770)  // 800 - 30 (player width)
+		playerSprite.setPosition(770, playerSprite.getPosition().y);
 	// Up / Down
-	player.move(0, jumpSpeed);
+	playerSprite.move(0, jumpSpeed);
 	jumpSpeed += gravity;
 	// Ground
 	Ground = false; // har time fall
@@ -36,7 +93,7 @@ void Player::update(Platform platforms[], int count)
 	{
 		//FloatRect is builtin sfml that contains 4 values: left, top, width, height
 		sf::FloatRect pl_bndry = platforms[i].getBounds();//platform ki boundary
-		sf::FloatRect p_bndry = player.getGlobalBounds();//player ki boundary
+		sf::FloatRect p_bndry = playerSprite.getGlobalBounds();//player ki boundary
 
 		// Check if player bottom is hitting platform top
 		bool side =(p_bndry.left < pl_bndry.left + pl_bndry.width) && (p_bndry.left + p_bndry.width > pl_bndry.left);
@@ -44,7 +101,7 @@ void Player::update(Platform platforms[], int count)
 
 		if (side && top)
 		{
-			player.setPosition(player.getPosition().x, pl_bndry.top - p_bndry.height);
+			playerSprite.setPosition(playerSprite.getPosition().x, pl_bndry.top - p_bndry.height);
 			jumpSpeed = 0;
 			Ground = true;
 		}
@@ -52,5 +109,6 @@ void Player::update(Platform platforms[], int count)
 }
  void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
-	target.draw(player, states);
+	target.draw(playerSprite, states);
+	
 }
