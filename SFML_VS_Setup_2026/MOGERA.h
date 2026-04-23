@@ -6,7 +6,7 @@
 #include "MogeraBabies.h"
 
 //khud asan tornado bana kr zubair bhai ne boss merey mathey mardia 
-
+//rona nahi -Call karu bacha :D
 
 class Mogera : public Enemy
 {

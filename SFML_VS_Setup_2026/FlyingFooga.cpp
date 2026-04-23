@@ -5,8 +5,8 @@
 
 FlyingFooga::FlyingFooga(float x, float y) : Botom(x, y)
 {
-	enemy.setSize(sf::Vector2f(30, 30));
-	enemy.setFillColor(sf::Color::Yellow);
+	//enemy.setSize(sf::Vector2f(30, 30));
+	//enemy.setFillColor(sf::Color::Yellow);
 	speedE = 2.0f;  //health 2 means need two hits to kill
 	healthE = 100.0f;
 	zindaE = true;

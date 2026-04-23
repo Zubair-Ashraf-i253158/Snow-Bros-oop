@@ -2,9 +2,10 @@
 
 Botom::Botom(float x, float y)
 {
-	enemy.setSize(sf::Vector2f(30, 30));
-	enemy.setFillColor(sf::Color::Blue);
-	enemy.setPosition(x,y);
+	enemyTexture.loadFromFile("assets/Botom_Blue.png");
+	enemy.setTexture(enemyTexture);
+	enemy.setTextureRect(sf::IntRect(11, 137, 88, 89)); 
+	enemy.setPosition(x, y);
 	speedE = 2.0f;  
 	healthE = 100.0f; //heaalth 
 	zindaE = true;
@@ -38,7 +39,7 @@ void Botom::update(Platform platforms[], int count )
 			groundE = true;
 		}
 	}
-
+	
 	//Now change direction if enemy hits the wallss haahahahahaha
 	//Zubair kia apkey toothpaste ma namak hy?   bilkul hai 
 	//SARA kaam ma kr raha hu and ya bas so raha ha :(

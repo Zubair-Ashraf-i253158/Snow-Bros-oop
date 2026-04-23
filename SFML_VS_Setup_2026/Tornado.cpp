@@ -4,8 +4,8 @@
 //suiiiiiiiiiiiii
 Tornado::Tornado(float x, float y) : FlyingFooga(x, y)
 {
-	enemy.setSize(sf::Vector2f(30, 30));
-	enemy.setFillColor(sf::Color::Yellow);
+	//enemy.setSize(sf::Vector2f(30, 30));
+	//enemy.setFillColor(sf::Color::Yellow);
 	speedE = 2.0f;  
 	healthE = 100.0f; //health
 	zindaE = true;
@@ -16,7 +16,7 @@ Tornado::Tornado(float x, float y) : FlyingFooga(x, y)
 	flyy = -2.0f;     //fly ki speed vertical
 	flyx = 3.0f;      //fly ki speed horizonatal
 	flyTime = 0.0f;  //time jab tak enemy fly karega
-	enemy.setFillColor(sf::Color::White);
+	//enemy.setFillColor(sf::Color::White);
 	//knife 
     knifeTime = 0.0f;
     zindaK = false;

@@ -4,8 +4,8 @@
 Gama::Gama(float x, float y)
 {
     
-    enemy.setSize(sf::Vector2f(100, 100));      // 100x100 ka bara boss
-    enemy.setFillColor(sf::Color(128, 0, 128)); // Purple colour
+    //enemy.setSize(sf::Vector2f(100, 100));      // 100x100 ka bara boss
+    //enemy.setFillColor(sf::Color(128, 0, 128)); // Purple colour
     enemy.setPosition(x, y);                   
 
     // Health setup

@@ -6,6 +6,7 @@
 #include "MOGERA.h"
 #include "MogeraBabies.h"
 #include "GamaKichi.h"
+#include "Platform.h"
 int main()
 {
 	
@@ -13,14 +14,14 @@ int main()
     window.setFramerateLimit(60);
 	
     Player player;
-    /*
+    
     //ENEMY 1 Botom
     Botom b[5]= { Botom(200, 50), 
                   Botom(300, 50), 
                   Botom(400, 50), 
                   Botom(500, 50), 
                   Botom(600, 50)   };
-
+    /*
     //ENEMY 2 FlyingFooga
     FlyingFooga f[2] = { FlyingFooga(150, 100),
                          FlyingFooga(450, 100) };
@@ -30,27 +31,38 @@ int main()
                      Tornado(550, 100) };
     */
     //Boss Mogera
-	Mogera m(350, 50);
-   //Gama g(350, 50);
+//	Mogera m(350, 50);
+  // Gama g(350, 50);
  
     //in level one there are 5 enemies we put two to go left
 	//and three to go right by default
    
-    // b[1].setDirection(-1.0f);  // this one goes left
-     //b[2].setDirection(-1.0f);  // this one goes left
+    b[1].setDirection(-1.0f);  // this one goes left
+     b[2].setDirection(-1.0f);  // this one goes left
     
 
-    
+    sf::Texture bgTexture;
+    bgTexture.loadFromFile("assets/lvl1.png");
+    sf::Sprite background(bgTexture);
+    background.setScale(
+        800.0f / bgTexture.getSize().x,
+        600.0f / bgTexture.getSize().y
+    );
     // Create platforms
     Platform platforms[] = {
-    Platform(0, 540, 800, 20),    // ground 
-    Platform(0, 420, 220, 15),    // left platform
-    Platform(580, 420, 220, 15),  // right platform
-    Platform(290, 300, 220, 15),  // middle platform
-    Platform(0, 180, 220, 15),    // top left
-    Platform(580, 180, 220, 15),  // top right
+		Platform(0, 524, 800, 10),//round floor
+        Platform(0, 450, 190, 10),    // Bottom Left
+        Platform(310, 450, 180, 10),  // Bottom Middle
+        Platform(610, 450, 190, 10),  // Bottom Right
+        Platform(160, 370, 485, 12),//middle row
+        Platform(0, 290, 340, 10),   // Upper Left
+        Platform(200, 160, 390, 8),  // Upper Middle
+        Platform(460, 290, 340, 10),  // Upper Right
+        Platform(100, 200, 125, 10),     // Top Left
+        Platform(570, 200, 125, 10)    // Top Right
     };
-    int count = 6;
+
+    int count = 10;
     
     while (window.isOpen())
     {
@@ -65,17 +77,21 @@ int main()
         
         // Draw
         window.clear();
+		window.draw(background);//BACKGROUND
         for (int i = 0; i < count; i++)
+        {
+            
             platforms[i].draw(window);
+        }
 		window.draw(player);
-        /*
+		
         // Enemy display and Calls
         for (int i = 0; i < 5; i++) //BOTOM
         {
             b[i].update(platforms, count);
             b[i].draw(window);
         }
-        
+        /*
 		for (int i = 0; i < 2; i++)  //FOOGA
         {
             f[i].update(platforms, count);
@@ -87,11 +103,11 @@ int main()
             t[i].draw(window);
         }
         */
-		m.update(platforms, count, player.getPosition()); //MOGERA
-		m.draw(window);
+		//m.update(platforms, count, player.getPosition()); //MOGERA
+		//m.draw(window);
 
-        //g.update(platforms, count);
-        //g.draw(window);
+       // g.update(platforms, count);
+       // g.draw(window);
 
         window.display();
     }

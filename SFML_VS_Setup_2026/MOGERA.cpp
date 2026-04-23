@@ -6,8 +6,8 @@
 
 Mogera::Mogera(float x, float y)
 {
-	enemy.setSize(sf::Vector2f(80, 80));
-	enemy.setFillColor(sf::Color::Magenta);
+	//enemy.setSize(sf::Vector2f(80, 80));
+	//enemy.setFillColor(sf::Color::Magenta);
 	enemy.setPosition(x, y);
 	
 	Health = 500.0f; //mogera ki health

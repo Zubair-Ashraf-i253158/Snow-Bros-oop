@@ -12,7 +12,8 @@ protected:
 	bool zindaE;
 	float directionE;
 
-	sf::RectangleShape enemy;
+	sf::Texture enemyTexture;
+    sf::Sprite enemy;
 
 public:
 	//this is abstract class matlub ke is class ke object nahi ban sakta, iske sirf derived class ke object ban sakta hai

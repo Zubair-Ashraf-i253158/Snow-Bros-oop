@@ -8,6 +8,8 @@ protected:
 
 	   float jumpE;    // jump strength
 	   bool groundE;     // fall speed
+	   int animFrame = 0;
+	   int animTimer = 0;
 
    public:
 	   Botom(float x, float y);
