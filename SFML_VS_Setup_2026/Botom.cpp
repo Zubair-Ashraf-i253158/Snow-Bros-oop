@@ -2,9 +2,14 @@
 
 Botom::Botom(float x, float y)
 {
-	enemyTexture.loadFromFile("assets/Botom_Blue.png");
+	enemyTexture.loadFromFile("assets/enemy.png");
 	enemy.setTexture(enemyTexture);
-	enemy.setTextureRect(sf::IntRect(11, 137, 88, 89)); 
+	enemy.setScale(
+		60.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
+		64.0f / enemyTexture.getSize().y   // auto fit to 64px tall
+	);
+	enemy.setPosition(400, 400);
+
 	enemy.setPosition(x, y);
 	speedE = 2.0f;  
 	healthE = 100.0f; //heaalth 
@@ -28,9 +33,9 @@ void Botom::update(Platform platforms[], int count )
 		sf::FloatRect e_bndry = enemy.getGlobalBounds();    //enemy ki boundary
 		
 		// Check if enemy bottom is hitting platform top
-		
+
 		bool side =(e_bndry.left < pl_bndry.left + pl_bndry.width) && (e_bndry.left + e_bndry.width > pl_bndry.left);
-		bool top = (e_bndry.top + e_bndry.height >= pl_bndry.top) && (e_bndry.top + e_bndry.height <= pl_bndry.top + 20);
+		bool top = (e_bndry.top + e_bndry.height >= pl_bndry.top) && (e_bndry.top + e_bndry.height <= pl_bndry.top + 30);
 		
 		if (side && top)
 		{

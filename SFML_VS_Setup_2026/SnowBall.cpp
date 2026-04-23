@@ -2,7 +2,7 @@
 
 SnowBall::SnowBall()
 {
-	ball.setSize(sf::Vector2f(10, 10)); // snowball size
+	ball.setRadius(15); // snowball size
 	ball.setFillColor(sf::Color::White); // snowball color
 	active = false; // fire karne se pehle inactive raho
 	speed = 5.0f; // snowball speed

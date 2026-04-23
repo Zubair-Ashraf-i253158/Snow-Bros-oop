@@ -5,16 +5,19 @@
 Player::Player()
 {
     // texture load karo file se
-    if (!playerTexture.loadFromFile("assets/playerSprites.png"))
+    if (!playerTexture.loadFromFile("assets/player2.png"))
     {
         // agar texture load na ho to red rectangle banao
         sf::RectangleShape PLAYER;
-        PLAYER.setSize(sf::Vector2f(50, 50));
+        PLAYER.setSize(sf::Vector2f(60, 64));
         PLAYER.setFillColor(sf::Color::Red);
     }
 
     playerSprite.setTexture(playerTexture);
-    playerSprite.setTextureRect(sf::IntRect(0, 0, 50, 50));
+    playerSprite.setScale(
+        60.0f / playerTexture.getSize().x,  // auto fit to 60px wide
+        64.0f / playerTexture.getSize().y   // auto fit to 64px tall
+    );
     playerSprite.setPosition(400, 400);
 }
 
@@ -37,15 +40,18 @@ void Player::update(Platform platforms[], int count)
 
     // Sprite Flip Karo
     // left ja raha hai to sprite ulta karo
+    float scaleX = 60.0f / playerTexture.getSize().x;
+    float scaleY = 64.0f / playerTexture.getSize().y;
+
     if (!facingRight)
     {
-        playerSprite.setScale(-1.0f, 1.0f); // horizontally flip karo
-        playerSprite.setOrigin(60, 0);      // origin fix karo flip ke liye
+        playerSprite.setScale(-scaleX, scaleY);
+        playerSprite.setOrigin(103, 0);
     }
     else
     {
-        playerSprite.setScale(1.0f, 1.0f);  // normal scale
-        playerSprite.setOrigin(0, 0);       // normal origin
+        playerSprite.setScale(scaleX, scaleY);
+        playerSprite.setOrigin(0, 0);
     }
 
     
@@ -53,7 +59,7 @@ void Player::update(Platform platforms[], int count)
    
     bool moving = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
 
-    if (moving)
+  /* if (moving)
     {
         animTimer++;
         if (animTimer > 8) // har 8 frame bad animation frame badlo
@@ -70,19 +76,19 @@ void Player::update(Platform platforms[], int count)
 
      //Texture Frame Set Karo
     // jump, walk, idle ke alag alag frames
-    
+
     if (!Ground)
-        // jump frame y=64 par hai spritesheet mein
-        playerSprite.setTextureRect(sf::IntRect(0, 64, 60, 64));
-    
+        // jump frame
+        playerSprite.setTextureRect(sf::IntRect(0, 450, 103, 150));
+
     else if (moving)
         // walk frames - x badlta rehta hai animation ke liye
-        playerSprite.setTextureRect(sf::IntRect(animFrame * 60, 0, 60, 64));
-    
+        playerSprite.setTextureRect(sf::IntRect(animFrame * 103, 0, 103, 150));
+
     else
         // idle frame - bilkul pehla frame
-        playerSprite.setTextureRect(sf::IntRect(0, 0, 60, 64));
-
+        playerSprite.setTextureRect(sf::IntRect(0, 0, 103, 150));
+        */
    
     // Jump
     // up arrow press karo aur ground par ho to jump karo
@@ -119,7 +125,7 @@ void Player::update(Platform platforms[], int count)
         bool side = (p_bndry.left < pl_bndry.left + pl_bndry.width) && (p_bndry.left + p_bndry.width > pl_bndry.left);
 
         // player ka neeche wala hissa platform ke upar wale hisse se mile
-        bool top = (p_bndry.top + p_bndry.height >= pl_bndry.top) && (p_bndry.top + p_bndry.height <= pl_bndry.top + 10);
+        bool top = (p_bndry.top + p_bndry.height >= pl_bndry.top) && (p_bndry.top + p_bndry.height <= pl_bndry.top + 25);
 
         if (side && top)
         {

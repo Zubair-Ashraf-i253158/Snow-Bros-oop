@@ -5,7 +5,7 @@
 class SnowBall
 {
 private:
-	sf::RectangleShape ball; // snowball shape
+	sf::CircleShape ball; // snowball shape
 	bool active; // is snowball active
 	float directionX; // snowball horizontal direction
 	float directionY; // snowball vertical direction

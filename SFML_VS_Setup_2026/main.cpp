@@ -42,7 +42,7 @@ int main()
     
 
     sf::Texture bgTexture;
-    bgTexture.loadFromFile("assets/lvl1.png");
+    bgTexture.loadFromFile("assets/Level1.png");
     sf::Sprite background(bgTexture);
     background.setScale( 800.0f / bgTexture.getSize().x , 600.0f / bgTexture.getSize().y); //we resisse the pic according to window size
     // Create platforms
