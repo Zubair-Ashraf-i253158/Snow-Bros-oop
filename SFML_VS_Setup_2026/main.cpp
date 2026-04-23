@@ -14,7 +14,7 @@ int main()
     window.setFramerateLimit(60);
 	
     Player player;
-    /*
+   
     //ENEMY 1 Botom
     Botom b[5]= { Botom(200, 50), 
                   Botom(300, 50), 
@@ -31,23 +31,20 @@ int main()
                      Tornado(550, 100) };
     */
     //Boss Mogera
-	Mogera m(350, 50);
+	//Mogera m(350, 50);
    //Gama g(350, 50);
  
     //in level one there are 5 enemies we put two to go left
 	//and three to go right by default
    
-    // b[1].setDirection(-1.0f);  // this one goes left
-     //b[2].setDirection(-1.0f);  // this one goes left
+     b[1].setDirection(-1.0f);  // this one goes left
+     b[2].setDirection(-1.0f);  // this one goes left
     
 
     sf::Texture bgTexture;
     bgTexture.loadFromFile("assets/lvl1.png");
     sf::Sprite background(bgTexture);
-    background.setScale(
-        800.0f / bgTexture.getSize().x,
-        600.0f / bgTexture.getSize().y
-    );
+    background.setScale( 800.0f / bgTexture.getSize().x , 600.0f / bgTexture.getSize().y); //we resisse the pic according to window size
     // Create platforms
     Platform platforms[] = {
 		Platform(0, 524, 800, 10),//round floor
@@ -84,7 +81,7 @@ int main()
             platforms[i].draw(window);
         }
 		window.draw(player);
-        /*
+        
         // Enemy display and Calls
         for (int i = 0; i < 5; i++) //BOTOM
         {

@@ -140,6 +140,7 @@
     <ClCompile Include="MOGERA.cpp" />
     <ClCompile Include="MogeraBabies.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SnowBall.cpp" />
     <ClCompile Include="Tornado.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="MogeraBabies.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SnowBall.h" />
     <ClInclude Include="Tornado.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
