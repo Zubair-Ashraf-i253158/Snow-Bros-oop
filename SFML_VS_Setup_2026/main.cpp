@@ -7,6 +7,7 @@
 #include "MogeraBabies.h"
 #include "GamaKichi.h"
 #include "Platform.h"
+#include "Collision.h"
 int main()
 {
 	
@@ -25,7 +26,7 @@ int main()
     //ENEMY 2 FlyingFooga
     FlyingFooga f[2] = { FlyingFooga(150, 100),
                          FlyingFooga(450, 100) };
-
+    
 	//ENEMY 3 Tornado
     Tornado t[2] = { Tornado(250, 100), 
                      Tornado(550, 100) };
@@ -42,7 +43,7 @@ int main()
     
 
     sf::Texture bgTexture;
-    bgTexture.loadFromFile("assets/Level1.png");
+    bgTexture.loadFromFile("assets/Zlevel1.png");
     sf::Sprite background(bgTexture);
     background.setScale( 800.0f / bgTexture.getSize().x , 600.0f / bgTexture.getSize().y); //we resisse the pic according to window size
     // Create platforms
@@ -94,6 +95,8 @@ int main()
             f[i].update(platforms, count);
             f[i].draw(window);
         }
+
+        
 		for (int i = 0; i < 2; i++) //TORNADO
         {
             t[i].update(platforms, count, player.getPosition());
@@ -106,6 +109,12 @@ int main()
        // g.update(platforms, count);
        // g.draw(window);
 
+
+
+        Collision::BotomCollision(player, b, 5);        // botom collision
+        //Collision::FlyingFoogaCollision(player, f, 2);  // fooga collision
+        //Collision::TornadoCollision(player, t, 2);      // tornado collision
+        
         window.display();
     }
 }

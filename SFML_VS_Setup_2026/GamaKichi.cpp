@@ -9,8 +9,8 @@ Gama::Gama(float x, float y)
     enemy.setPosition(x, y);                   
 
     // Health setup
-    MaxH = 1000.0f;    // maximum health 1000
-    healthE = MaxH;    // shuru mein full health
+    MaxH = 20.0f;    // maximum health 20
+    healthE = 20.0f;    // shuru mein full health
     zindaE = true;     
 
     // Gama halta nahi hai isliye direction 0

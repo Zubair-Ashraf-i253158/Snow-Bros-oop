@@ -10,7 +10,7 @@ Mogera::Mogera(float x, float y)
 	//enemy.setFillColor(sf::Color::Magenta);
 	enemy.setPosition(x, y);
 	
-	Health = 500.0f; //mogera ki health
+	Health = 10.0f; //mogera ki health
 	zindaE = true;
 	directionE = 0.0f;    // Mogera does not move it is stationary boss
 	timeB = 0.0f;      //time jis ke bad baby phainkni hai

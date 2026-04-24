@@ -15,6 +15,11 @@ protected:
 	sf::Texture enemyTexture;
     sf::Sprite enemy;
 
+	/*hitting and collision code*/
+
+	bool cover = false; //enemy snow ma band naahi ha
+
+
 public:
 	//this is abstract class matlub ke is class ke object nahi ban sakta, iske sirf derived class ke object ban sakta hai
 	virtual void update(Platform platforms[], int count) = 0;
@@ -39,12 +44,26 @@ public:
 	void setDirection(float direction) {
 		directionE = direction;
 	}
-	void setZinda(bool zinda) {
+	void setZinda(bool zinda) {  
 		zindaE = zinda;
 	}
 	
-	bool getZinda() const {
+	bool getZinda() const {    //return ka zinda ha ya mar gaya
 		return zindaE;
+	}
+
+	bool getCover() const {      //return ka cover ha ya nahi
+		return cover;
+	}
+
+	void damage(float howmuch) {
+		
+		healthE =healthE - howmuch;
+		
+		if (healthE <= 0) 
+		{
+			zindaE = false;
+		}
 	}
 
 	sf::FloatRect getBounds() const {
@@ -54,12 +73,6 @@ public:
 		return enemy.getPosition();
 	}	
 
-	void damage(float amount) {
-		healthE = healthE - amount;
-		if (healthE <= 0) {
-			zindaE = false;
-		}
-	}
 };
 
 

@@ -2,12 +2,14 @@
 //ab lag gai na chot bola tha projecvt kar la football khailnay ka shoq tha :)
 //Messi ban rha tha 
 //suiiiiiiiiiiiii
+
 Tornado::Tornado(float x, float y) : FlyingFooga(x, y)
 {
 	//enemy.setSize(sf::Vector2f(30, 30));
 	//enemy.setFillColor(sf::Color::Yellow);
-	speedE = 2.0f;  
-	healthE = 100.0f; //health
+	
+    speedE = 2.0f;  
+	healthE = 3.0f; //health
 	zindaE = true;
 	groundE = false;
 	directionE = 1.0f; // Start moving right
@@ -29,9 +31,9 @@ void Tornado::update(Platform platforms[], int count, sf::Vector2f p_pos)
 {
     // tornado random speed sa udta ha
     if (!flyingE)
-        flyx = (rand() % 5) + 2; 
+        flyx = (rand() % 5) + 2;
     knifeTime++;
-    FlyingFooga::update(platforms, count); 
+    FlyingFooga::update(platforms, count);
     if (knifeTime > 200) // knife phainknay ka time
     {
         zindaK = true;
@@ -41,7 +43,7 @@ void Tornado::update(Platform platforms[], int count, sf::Vector2f p_pos)
         // PLAYER KO NISHANA
         float dx = p_pos.x - enemy.getPosition().x;
         float dy = p_pos.y - enemy.getPosition().y;
-		float dist = sqrt(dx * dx + dy * dy);        //calculating distance between player and tornado
+        float dist = sqrt(dx * dx + dy * dy);        //calculating distance between player and tornado
         knifex = (dx / dist) * 5.0f; //speed ka sath 
         knifey = (dy / dist) * 5.0f;
     }
@@ -50,11 +52,28 @@ void Tornado::update(Platform platforms[], int count, sf::Vector2f p_pos)
     {
         knife.move(knifex, knifey);
         // knife boundaries cross
-			 //for left                                   for right                                  for top                                    for bottom 
-        if (knife.getPosition().x < 0     ||       knife.getPosition().x > 800 ||            knife.getPosition().y < 0    ||         knife.getPosition().y > 600)
+             //for left                                   for right                                  for top                                    for bottom 
+        if (knife.getPosition().x < 0 || knife.getPosition().x > 800 || knife.getPosition().y < 0 || knife.getPosition().y > 600)
             zindaK = false;
     }
 }
+    /*Knife active needed for collision*/
+
+    void Tornado::setK_Act(bool a)
+    {
+        zindaK = a;
+	}
+    bool Tornado::getK_Act() const
+    {
+        return zindaK;
+    }
+    sf::FloatRect Tornado::getK_Bounds() const
+    {
+        return knife.getGlobalBounds();
+    }
+
+
+
 void Tornado::draw(sf::RenderWindow& window)
 {
     if (zindaE)

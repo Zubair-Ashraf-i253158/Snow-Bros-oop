@@ -7,9 +7,10 @@ class Player : public sf::Drawable
 {	
 private:
 
+	/* Snowball */
 	SnowBall ball[10]; // player ka snowball
 	int ballcount = 10;
-	bool fire;     // kya player fire kar raha hai ya nahi
+	bool fire=false;     // kya player fire kar raha hai ya nahi
 
 	sf::Texture playerTexture;
 	sf::Sprite playerSprite;
@@ -26,6 +27,12 @@ private:
 	bool facingRight = true;
 	bool jmp = false;
 
+	/*Life Health and Collosion code  */
+	int lives = 2;
+	bool hit = false; // player hit hua hai ya nahi
+	int hitTimer = 0; // hit ke baad invincibility time
+
+
 public:
 
 	Player();
@@ -34,4 +41,18 @@ public:
 	}
 	void update(Platform platforms[], int count);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+	/*Life Health and Collosion code  */
+	
+	void lifedown();   //life kam ho ge is fun maa
+	bool gethit();    //getter for hit status
+	int getlives() const; //getter for lives count
+
+	sf::FloatRect getBounds() const;   //it give four things left, top, width, height of player boundary 
+	int getballcount() const;
+
+	sf::FloatRect getBallBounds(int index) const; // it gives the boundary of the snowball at the given index	
+	bool getBallActive(int i) const;
+	void setBallActive(int i, bool a);
+
 };

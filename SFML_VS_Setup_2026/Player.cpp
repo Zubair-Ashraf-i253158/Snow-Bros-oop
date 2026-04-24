@@ -135,23 +135,96 @@ void Player::update(Platform platforms[], int count)
             Ground = true; // ab ground par hai
         }
     }
-
-    //fire
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && fire)
+    /*=================== SNOW BALL CODE ==========================*/
+    // Space press karo to ek naya ball shoot karo
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !fire)
     {
-        fire = true; // fire start karo
-        for(int i=0 ; i<ballcount ; i++)
+        // dhundo ek inactive ball
+        for (int i = 0; i < ballcount; i++)
         {
-            ball[i].setfire(playerSprite.getPosition().x + 30, playerSprite.getPosition().y + 30); // snowball ko player ke thoda aage set karo
-            ball[i].shoot(facingRight ? 1.0f : -1.0f);
+            if (!ball[i].act()) // agar ye ball inactive hai
+            {
+                // is ball ko shoot karo             right side se                               left side se                                        // hand level
+                ball[i].setfire(  facingRight ?   playerSprite.getPosition().x + 35     :     playerSprite.getPosition().x + 95  , playerSprite.getPosition().y + 30);
+               
+				ball[i].shoot(facingRight ? 1.0f : -1.0f);  //using tenary for choosing direction pf ma para tha and socha tha kabi kaam nahi ai ge :}
+                fire = true; // ek ball shoot ho gaya
+                break;       // loop band karo ek hi ball chahiye
+            }
         }
-
     }
+
+    // Space chhod do to dobara shoot kar sako
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        fire = false;
+
+    // sare active balls update karo
     for (int i = 0; i < ballcount; i++)
-    {
         ball[i].update();
+
+
+
+
+
+    if (hit)
+    {
+        hitTimer++;
+        if (hitTimer > 120) // 2 second baad normal
+        {
+            hit = false;
+            hitTimer = 0;
+        }
     }
 }
+
+/*=================== Collision And HIT And Kill CODE ==========================*/
+
+void Player::lifedown()
+{
+    if (!hit) // agar player hit nahi hua hai to hi life down karo
+    {
+        lives--; // life kam karo
+        hit = true; // ab player hit ho gaya hai
+        hitTimer = 0; // hit timer reset karo
+    }
+}
+
+bool Player::gethit() // getter for hit status
+{
+    return hit;
+}
+
+int Player::getlives() const // getter for lives count
+{
+    return lives;
+}
+
+sf::FloatRect Player::getBounds() const
+{
+    return playerSprite.getGlobalBounds(); // player ki boundary do
+}
+
+sf::FloatRect Player::getBallBounds(int index) const
+{
+    return ball[index].getBounds(); // ball ki boundary do
+}
+
+int Player::getballcount() const
+{
+    return ballcount; // total balls ki count do
+}
+
+
+void Player::setBallActive(int i, bool a)
+{
+    ball[i].setact(a); // ball active status set karo
+}
+bool Player::getBallActive(int i) const
+{
+    return ball[i].act(); // ball active hai ya nahi
+}
+
+
 
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -16,6 +16,10 @@ public:
 	void setfire(float x, float y);
 	void shoot(float dirX); // shoot the snowball in a direction
 	void update(); // update the snowball position
-	void draw(sf::RenderTarget& target) const; // draw the snowball
+	
+	void setact(bool active);             // setter
+	bool act() const;                   //getter
+	
+ void draw(sf::RenderTarget& target) const; // draw the snowball
 	sf::FloatRect getBounds() const; // get the bounding box of the snowball
 };

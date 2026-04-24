@@ -1,7 +1,8 @@
 #include "Botom.h"
+#include"Collision.h"
 
 Botom::Botom(float x, float y)
-{
+{ 
 	enemyTexture.loadFromFile("assets/enemy.png");
 	enemy.setTexture(enemyTexture);
 	enemy.setScale(
@@ -12,11 +13,11 @@ Botom::Botom(float x, float y)
 
 	enemy.setPosition(x, y);
 	speedE = 2.0f;  
-	healthE = 100.0f; //heaalth 
+	healthE = 2.0f; //heaalth 
 	zindaE = true;
 	directionE = 1.0f; // Start moving right
 	jumpE = 0;
-	groundE = false;	
+	groundE = false;            
 }
 
 void Botom::update(Platform platforms[], int count )
