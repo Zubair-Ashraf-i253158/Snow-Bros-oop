@@ -38,8 +38,9 @@ int main()
     //in level one there are 5 enemies we put two to go left
 	//and three to go right by default
    
-     b[1].setDirection(-1.0f);  // this one goes left
-     b[2].setDirection(-1.0f);  // this one goes left
+     b[1].setdirection(-1.0f);  // this one goes left
+     b[2].setdirection(-1.0f);  // this one goes left
+     Enemy* enemy[5] = { &b[0], &b[1], &b[2], &b[3], &b[4] };//direct bottom ki array  is lia nahi dia takay enemy ma sab enemy store ho 
     
 
     sf::Texture bgTexture;
@@ -50,8 +51,8 @@ int main()
     Platform platforms[] = {
 		Platform(0, 524, 800, 10),//round floor
         Platform(0, 450, 190, 10),    // Bottom Left
-        Platform(310, 450, 180, 10),  // Bottom Middle
-        Platform(610, 450, 190, 10),  // Bottom Right
+        Platform(320, 450, 180, 10),  // Bottom Middle
+        Platform(620, 450, 180, 10),  // Bottom Right
         Platform(160, 370, 485, 12),//middle row
         Platform(0, 290, 340, 10),   // Upper Left
         Platform(200, 160, 390, 8),  // Upper Middle
@@ -71,7 +72,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-		player.update(platforms, count);
+        player.update(platforms, count, enemy, 5);
         
         // Draw
         window.clear();

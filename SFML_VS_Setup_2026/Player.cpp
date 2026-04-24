@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "SnowBall.h"
 
- 
+#include"Botom.h"
 Player::Player()
 {
     // texture load karo file se
@@ -21,9 +21,9 @@ Player::Player()
     playerSprite.setPosition(400, 400);
 }
 
-void Player::update(Platform platforms[], int count)
+void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
 {
-    
+
     // Left arrow se player left jaye
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
@@ -46,7 +46,7 @@ void Player::update(Platform platforms[], int count)
     if (!facingRight)
     {
         playerSprite.setScale(-scaleX, scaleY);
-        playerSprite.setOrigin(103, 0);
+        playerSprite.setOrigin(60, 0);
     }
     else
     {
@@ -54,52 +54,52 @@ void Player::update(Platform platforms[], int count)
         playerSprite.setOrigin(0, 0);
     }
 
-    
+
     // check karo player chal raha hai ya nahi
-   
+
     bool moving = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
 
-  /* if (moving)
-    {
-        animTimer++;
-        if (animTimer > 8) // har 8 frame bad animation frame badlo
-        {
-            animFrame = (animFrame + 1) % 4; // 4 frames hain walking ke
-            animTimer = 0;                   // timer reset karo
-        }
-    }
-    else
-    {
-        animFrame = 0; // ruka hua hai to pehla frame
-        animTimer = 0; // timer reset karo
-    }
+    /* if (moving)
+      {
+          animTimer++;
+          if (animTimer > 8) // har 8 frame bad animation frame badlo
+          {
+              animFrame = (animFrame + 1) % 4; // 4 frames hain walking ke
+              animTimer = 0;                   // timer reset karo
+          }
+      }
+      else
+      {
+          animFrame = 0; // ruka hua hai to pehla frame
+          animTimer = 0; // timer reset karo
+      }
 
-     //Texture Frame Set Karo
-    // jump, walk, idle ke alag alag frames
+       //Texture Frame Set Karo
+      // jump, walk, idle ke alag alag frames
 
-    if (!Ground)
-        // jump frame
-        playerSprite.setTextureRect(sf::IntRect(0, 450, 103, 150));
+      if (!Ground)
+          // jump frame
+          playerSprite.setTextureRect(sf::IntRect(0, 450, 103, 150));
 
-    else if (moving)
-        // walk frames - x badlta rehta hai animation ke liye
-        playerSprite.setTextureRect(sf::IntRect(animFrame * 103, 0, 103, 150));
+      else if (moving)
+          // walk frames - x badlta rehta hai animation ke liye
+          playerSprite.setTextureRect(sf::IntRect(animFrame * 103, 0, 103, 150));
 
-    else
-        // idle frame - bilkul pehla frame
-        playerSprite.setTextureRect(sf::IntRect(0, 0, 103, 150));
-        */
-   
-    // Jump
-    // up arrow press karo aur ground par ho to jump karo
-    
+      else
+          // idle frame - bilkul pehla frame
+          playerSprite.setTextureRect(sf::IntRect(0, 0, 103, 150));
+          */
+
+          // Jump
+          // up arrow press karo aur ground par ho to jump karo
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && Ground)
     {
         jumpSpeed = jump; // upar ki taraf speed do
         Ground = false;   // ab hawa mein hai
     }
 
-    
+
     // player screen se bahar na jaye
     if (playerSprite.getPosition().x < 0)
         playerSprite.setPosition(0, playerSprite.getPosition().y);
@@ -107,13 +107,13 @@ void Player::update(Platform platforms[], int count)
     if (playerSprite.getPosition().x > 770) // 800 - 30
         playerSprite.setPosition(770, playerSprite.getPosition().y);
 
-   
+
     playerSprite.move(0, jumpSpeed); // vertical movement apply karo
     jumpSpeed += gravity;            // gravity se speed badho
 
-    
+
     // player platform par land kare
-    Ground = false; 
+    Ground = false;
 
     for (int i = 0; i < count; i++)
     {
@@ -130,7 +130,7 @@ void Player::update(Platform platforms[], int count)
         if (side && top)
         {
             // player ko platform ke upar rakh do
-            playerSprite.setPosition(playerSprite.getPosition().x , pl_bndry.top - p_bndry.height);  
+            playerSprite.setPosition(playerSprite.getPosition().x, pl_bndry.top - p_bndry.height);
             jumpSpeed = 0;
             Ground = true; // ab ground par hai
         }
@@ -145,9 +145,9 @@ void Player::update(Platform platforms[], int count)
             if (!ball[i].act()) // agar ye ball inactive hai
             {
                 // is ball ko shoot karo             right side se                               left side se                                        // hand level
-                ball[i].setfire(  facingRight ?   playerSprite.getPosition().x + 35     :     playerSprite.getPosition().x + 95  , playerSprite.getPosition().y + 30);
-               
-				ball[i].shoot(facingRight ? 1.0f : -1.0f);  //using tenary for choosing direction pf ma para tha and socha tha kabi kaam nahi ai ge :}
+                ball[i].setfire(facingRight ? playerSprite.getPosition().x + 35 : playerSprite.getPosition().x + 95, playerSprite.getPosition().y + 30);
+
+                ball[i].shoot(facingRight ? 1.0f : -1.0f);  //using tenary for choosing direction pf ma para tha and socha tha kabi kaam nahi ai ge :}
                 fire = true; // ek ball shoot ho gaya
                 break;       // loop band karo ek hi ball chahiye
             }
@@ -163,19 +163,63 @@ void Player::update(Platform platforms[], int count)
         ball[i].update();
 
 
-
-
-
-    if (hit)
+    for (int i = 0; i < ecount; i++)
     {
-        hitTimer++;
-        if (hitTimer > 120) // 2 second baad normal
+        if (!enemy[i]->getZinda()) continue;
+        for (int j = 0; j < ballcount; j++)
         {
-            hit = false;
-            hitTimer = 0;
+            if (ball[j].act() && enemy[i]->getBounds().intersects(ball[j].getBounds()))
+            {
+                enemy[i]->hitByBall();
+                ball[j].setact(false);
+            }
+        }
+    }
+
+    // full snow ma pack ha to kick karo
+    for (int i = 0; i < ecount; i++)
+    {
+        if (enemy[i]->getState() == 2 && playerSprite.getGlobalBounds().intersects(enemy[i]->getBounds()))
+        {
+            float kik = playerSprite.getPosition().x < enemy[i]->getPosition().x ? 1.0f : -1.0f;
+            enemy[i]->kick(kik);
+        }
+    }
+
+	// chain ban jati ha . rolling snowball kisi ko hit kare to wo bhi mar jaaye
+    for (int i = 0; i < ecount; i++)
+    {
+        if (enemy[i]->getState() == 3)
+        {
+            for (int j = 0; j < ecount; j++)
+            {
+				if (i != j && enemy[j]->getZinda() && enemy[i]->getBounds().intersects(enemy[j]->getBounds()))//kisi aur ko hit karay to wo bhi mar jaaye
+                    enemy[j]->setZinda(false);
+            }
+        }
+    }
+
+	// player kisi enemy se takra jaye to life down karo
+    for (int i = 0; i < ecount; i++)
+    {
+        if (enemy[i]->getZinda() && enemy[i]->getState() == 0 &&
+            playerSprite.getGlobalBounds().intersects(enemy[i]->getBounds()))
+            lifedown();
+        if (hit)
+        {
+            hitTimer++;
+            if (hitTimer > 120) // 2 second baad normal
+            {
+
+                lives--;
+                playerSprite.setPosition(400, 400);
+                hit = false;
+                hitTimer = 0;
+            }
         }
     }
 }
+
 
 /*=================== Collision And HIT And Kill CODE ==========================*/
 
@@ -183,9 +227,20 @@ void Player::lifedown()
 {
     if (!hit) // agar player hit nahi hua hai to hi life down karo
     {
-        lives--; // life kam karo
+        // life kam karo
         hit = true; // ab player hit ho gaya hai
         hitTimer = 0; // hit timer reset karo
+        if (lives==0)
+            {
+			
+            
+                // game over screen draw karo
+			exit(0);
+            // game over loic yaha dalna ha abdullah 
+            // for now, bas player ko center par reset kar dete hain
+          //  playerSprite.setPosition(200, 400);
+           // lives = 2; // life reset karo
+		}
     }
 }
 

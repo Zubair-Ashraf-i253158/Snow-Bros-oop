@@ -27,11 +27,24 @@ bool SnowBall::act() const      //getter
 {
 	return active; // batao ki snowball active hai ya nahi
 }
+int x = 1;
 
 void SnowBall::update()
 {
+	
 	if (active)
 	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1))
+		{
+			ball.setOutlineThickness(0);
+			++x; // x variable ko increment karo (debug ke liye)
+			if (x % 2 == 0)
+			{
+				ball.setOutlineColor(sf::Color::Red); // debug project ke liye snowball ka outline red karo jab F1 press ho
+				ball.setOutlineThickness(2); // outline thickness set karo
+				
+			}
+		}
 		ball.move(directionX * speed, 0); // move horizontally
 
 		if (directionX > 0 && ball.getPosition().x > 800) // right boundary check
@@ -43,6 +56,7 @@ void SnowBall::update()
 
 void SnowBall::draw(sf::RenderTarget& target) const
 {
+	
 	if (active)
 		target.draw(ball);
 }
