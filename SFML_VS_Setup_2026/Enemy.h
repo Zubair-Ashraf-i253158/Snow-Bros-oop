@@ -11,12 +11,16 @@ protected:
 	float healthE;
 	bool zindaE;
 	float directionE;
+	
 	sf::CircleShape snowcover;
 	sf::Texture enemyTexture;
     sf::Sprite enemy;
+	
+	/*Freezing by ball*/
 	int state = 0;
 	int meltTime = 0;
 	float roll = 1.0f;
+	
 	/*hitting and collision code*/
 
 	bool cover = false; //enemy snow ma band naahi ha
@@ -25,9 +29,15 @@ protected:
 public:
 	//this is abstract class matlub ke is class ke object nahi ban sakta, iske sirf derived class ke object ban sakta hai
 	virtual void update(Platform platforms[], int count) = 0;
-	//state 0 ka meaning ha normal, 1 ka meaning ha half encased, 2 ka meaning ha fully encased, 3 ka meaning ha rolling, 4 ka meaning ha melting
-
-	void hitByBall()
+	
+	/*SNOWBALL FREEZING FUNCTIONS*/
+	//state 
+	// 0 ka meaning ha normal,
+	// 1 ka meaning ha half encased, 
+	// 2 ka meaning ha fully encased, 
+	// 3 ka meaning ha rolling, 
+	// 4 ka meaning ha melting
+    void hitByBall()
 	{
 		if (state == 0 || state == 1)
 		{
@@ -41,10 +51,19 @@ public:
 
 	void kick(float kik)
 	{
-		if (state == 2) { state = 3; roll = kik; }
+		if (state == 2) 
+		{ 
+			state = 3; 
+			roll = kik; //kik direction de ga ka kis direction ma roll hona ha
+		}
 	}
 
-	int getState() const { return state; }
+	int getState() const 
+	{ 
+		return state; 
+	}
+
+	//PLatform
 	virtual void update(Platform platforms[], int count, sf::Vector2f playerPos)
 	{
 		

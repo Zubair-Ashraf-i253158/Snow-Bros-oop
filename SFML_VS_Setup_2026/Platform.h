@@ -6,6 +6,7 @@ private:
 
 	sf::RectangleShape platform;
 public:
+	Platform() : platform() {}
 	Platform(float x, float y, float width, float height)
 	{
 		platform.setSize(sf::Vector2f(width, height));

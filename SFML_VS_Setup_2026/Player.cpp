@@ -165,7 +165,9 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
 
     for (int i = 0; i < ecount; i++)
     {
-        if (!enemy[i]->getZinda()) continue;
+        if (!enemy[i]->getZinda()) 
+            continue;
+        
         for (int j = 0; j < ballcount; j++)
         {
             if (ball[j].act() && enemy[i]->getBounds().intersects(ball[j].getBounds()))
@@ -178,10 +180,11 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
 
     // full snow ma pack ha to kick karo
     for (int i = 0; i < ecount; i++)
-    {
-        if (enemy[i]->getState() == 2 && playerSprite.getGlobalBounds().intersects(enemy[i]->getBounds()))
+	{          //state 2 matlub stuck                        Playeris touching the enemy and enemy is in stuck state
+        if (   enemy[i]->getState() == 2          &&       playerSprite.getGlobalBounds().intersects(enemy[i]->getBounds()))
         {
-            float kik = playerSprite.getPosition().x < enemy[i]->getPosition().x ? 1.0f : -1.0f;
+			float kik = playerSprite.getPosition().x   <   enemy[i]->getPosition().x ? 1.0f : -1.0f; //player ke left side hai to right kick karo aur vice versa
+                                                                                                  
             enemy[i]->kick(kik);
         }
     }
@@ -189,11 +192,13 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
 	// chain ban jati ha . rolling snowball kisi ko hit kare to wo bhi mar jaaye
     for (int i = 0; i < ecount; i++)
     {
-        if (enemy[i]->getState() == 3)
+		if (enemy[i]->getState() == 3) // enemies that are rooling or kicked by player
         {
             for (int j = 0; j < ecount; j++)
             {
-				if (i != j && enemy[j]->getZinda() && enemy[i]->getBounds().intersects(enemy[j]->getBounds()))//kisi aur ko hit karay to wo bhi mar jaaye
+				//     diff enemy hona chye		 hit hone wala zinda hona chahiye          hit hone wala aur rolling enemy ke bounds intersect kar rahe ho
+				if (   i != j          &&        enemy[j]->getZinda()      &&        enemy[i]->getBounds().intersects(enemy[j]->getBounds()    )     )//kisi aur ko hit karay to wo bhi mar jaaye
+                   
                     enemy[j]->setZinda(false);
             }
         }
@@ -202,17 +207,18 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
 	// player kisi enemy se takra jaye to life down karo
     for (int i = 0; i < ecount; i++)
     {
-        if (enemy[i]->getZinda() && enemy[i]->getState() == 0 &&
-            playerSprite.getGlobalBounds().intersects(enemy[i]->getBounds()))
+		//     enemy zinda hona chahiye          enemy normal state me hona chahiye         player aur enemy ke bounds intersect kar rahe ho
+        if (enemy[i]->getZinda()         &&        enemy[i]->getState() == 0       &&       playerSprite.getGlobalBounds().intersects(enemy[i]->getBounds()))
+        {
             lifedown();
+        }
+
         if (hit)
         {
             hitTimer++;
             if (hitTimer > 120) // 2 second baad normal
             {
-
-                lives--;
-                playerSprite.setPosition(400, 400);
+                playerSprite.setPosition(400, 460);
                 hit = false;
                 hitTimer = 0;
             }
@@ -230,16 +236,17 @@ void Player::lifedown()
         // life kam karo
         hit = true; // ab player hit ho gaya hai
         hitTimer = 0; // hit timer reset karo
-        if (lives==0)
+        lives--;
+        if (lives<=0)
             {
 			
             
-                // game over screen draw karo
+            // game over screen draw karo
 			exit(0);
             // game over loic yaha dalna ha abdullah 
             // for now, bas player ko center par reset kar dete hain
-          //  playerSprite.setPosition(200, 400);
-           // lives = 2; // life reset karo
+            //  playerSprite.setPosition(200, 400);
+            // lives = 2; // life reset karo
 		}
     }
 }

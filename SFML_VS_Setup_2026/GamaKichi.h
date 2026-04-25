@@ -64,6 +64,7 @@ private:
 	}
 
 public:
+	Gama() : Gama(0, 0) {}
 	Gama(float x, float y);
 	void update(Platform platforms[], int count) override;
 	void draw(sf::RenderWindow& window) override;

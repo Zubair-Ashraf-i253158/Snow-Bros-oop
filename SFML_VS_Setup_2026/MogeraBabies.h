@@ -11,7 +11,8 @@ class Mchild : public Enemy
 		bool groundMC;    //it is on the ground or not	
 
    public:
-	   Mchild(float x=0.0f, float y=0.0f);
+	   Mchild() : Mchild(0, 0) {}
+	   Mchild(float x, float y);
 	   void update(Platform platforms[], int count) override;
 	   void draw(sf::RenderWindow& window) override;
 };

@@ -12,6 +12,8 @@ protected:
 	float flyy; //fly ki speed vertical
 	float flyTime;//time jab tak enemy fly karega
 public:	
+	FlyingFooga() : FlyingFooga(0, 0) {}
+	//FlyingFooga() : Botom() {}
 	FlyingFooga(float x, float y);
 	void update(Platform platforms[], int count) override;
 	void draw(sf::RenderWindow& window) override;

@@ -21,6 +21,7 @@ protected:
 	float timeB; //time jis ke bad baby phainkni hai
 
 public:
+	Mogera() : Mogera(0, 0) {}
 	Mogera(float x, float y);
 	
 	// base class ka update override karo - ZARURI HAI

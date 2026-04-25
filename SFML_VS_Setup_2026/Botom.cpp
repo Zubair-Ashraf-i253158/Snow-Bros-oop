@@ -9,16 +9,20 @@ Botom::Botom(float x, float y)
 		60.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
 		64.0f / enemyTexture.getSize().y   // auto fit to 64px tall
 	);
-	enemy.setPosition(400, 400);
+	
+    enemy.setPosition(400, 400);
+    
     snowcover.setFillColor(sf::Color::White);
 	enemy.setPosition(x, y);
-	speedE = 2.0f;  
+	
+    speedE = 2.0f;  
 	healthE = 2.0f; //heaalth 
 	zindaE = true;
 	directionE = 1.0f; // Start moving right
 	jumpE = 0;
 	groundE = false;            
 }
+
 void Botom::update(Platform platforms[], int count)
 {
     if (state == 0 ) // normal ya half encased can walk
@@ -27,44 +31,81 @@ void Botom::update(Platform platforms[], int count)
         enemy.move(0, jumpE);
         jumpE += 0.3f;
         groundE = false;
+        
         for (int i = 0; i < count; i++)
         {
             sf::FloatRect pl = platforms[i].getBounds();
             sf::FloatRect eb = enemy.getGlobalBounds();
+           
             bool side = (eb.left < pl.left + pl.width) && (eb.left + eb.width > pl.left);
             bool top = (eb.top + eb.height >= pl.top) && (eb.top + eb.height <= pl.top + 30);
-            if (side && top) { enemy.setPosition(enemy.getPosition().x, pl.top - eb.height); jumpE = 0; groundE = true; }
+            
+            if (side && top) 
+            { 
+                enemy.setPosition(enemy.getPosition().x, pl.top - eb.height);
+                jumpE = 0; 
+                groundE = true; 
+            }
         }
-        if (enemy.getPosition().x < 0) { enemy.setPosition(0, enemy.getPosition().y); directionE = 1.0f; }
-        else if (enemy.getPosition().x > 770) { enemy.setPosition(770, enemy.getPosition().y); directionE = -1.0f; }
+        if (enemy.getPosition().x < 0) 
+        { 
+            enemy.setPosition(0, enemy.getPosition().y);
+            directionE = 1.0f; 
+        }
+        else if (enemy.getPosition().x > 770)
+        {
+            enemy.setPosition(770, enemy.getPosition().y); 
+            directionE = -1.0f;
+        }
     }
+   
     else if (state == 2 || state == 1) // full snow ma cover ha to still rahay 
     {
         enemy.move(0, jumpE);
         jumpE += 0.3f;
+       
         for (int i = 0; i < count; i++)
         {
             sf::FloatRect pl = platforms[i].getBounds();
             sf::FloatRect eb = enemy.getGlobalBounds();
+           
             bool side = (eb.left < pl.left + pl.width) && (eb.left + eb.width > pl.left);
             bool top = (eb.top + eb.height >= pl.top) && (eb.top + eb.height <= pl.top + 30);
-            if (side && top) { enemy.setPosition(enemy.getPosition().x, pl.top - eb.height); jumpE = 0; }
+            
+            if (side && top) 
+            {
+                enemy.setPosition(enemy.getPosition().x, pl.top - eb.height);
+                jumpE = 0;
+            }
         }
         meltTime++;
-        if (meltTime > 300) { state = 4; meltTime = 0; } //snow melt hona shuru 
+        if (meltTime > 300)
+        { 
+            state = 4; 
+            meltTime = 0; 
+        } //snow melt hona shuru 
     }
+    
     else if (state == 3) // rolling ,fast move karay and wall ka sath takrai to mar jai
     {
         enemy.move(roll * 5.0f, 0);
         enemy.move(0, jumpE);
         jumpE += 0.3f;
+        
         for (int i = 0; i < count; i++)
         {
+            
             sf::FloatRect pl = platforms[i].getBounds();
             sf::FloatRect eb = enemy.getGlobalBounds();
+            
             bool side = (eb.left < pl.left + pl.width) && (eb.left + eb.width > pl.left);
             bool top = (eb.top + eb.height >= pl.top) && (eb.top + eb.height <= pl.top + 30);
-            if (side && top) { enemy.setPosition(enemy.getPosition().x, pl.top - eb.height); jumpE = 0; }
+            
+            if (side && top) 
+            {
+                enemy.setPosition(enemy.getPosition().x, pl.top - eb.height); 
+                jumpE = 0; 
+            }
         }
         if (enemy.getPosition().x <= 0 || enemy.getPosition().x >= 770)
 			zindaE = false; // wall hit karay to mar jai
@@ -72,13 +113,20 @@ void Botom::update(Platform platforms[], int count)
     else if (state == 4) // melt hona shuru 
     {
         meltTime++;
-        if (meltTime > 200) { state = 0; meltTime = 0; healthE = 2.0f; }
+        if (meltTime > 200) 
+        {
+            state = 0;
+            meltTime = 0; 
+            healthE = 2.0f; 
+        }
     }
 }
 
 void Botom::draw(sf::RenderWindow& window)
 {
-    if (!zindaE) return;
+    if (!zindaE) 
+        return;
+    
     window.draw(enemy); // pehle enemy draw karo
     sf::FloatRect e = enemy.getGlobalBounds();
 

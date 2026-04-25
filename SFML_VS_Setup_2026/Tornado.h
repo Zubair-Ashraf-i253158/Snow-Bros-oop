@@ -12,6 +12,7 @@ private:
 
 public:
 
+    Tornado() : FlyingFooga() {}
     Tornado(float x, float y);
 	void update(Platform platforms[], int count, sf::Vector2f p_pos); // player position takay nishana lagay
     void draw(sf::RenderWindow& window) override;

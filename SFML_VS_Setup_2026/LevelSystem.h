@@ -1,0 +1,92 @@
+#pragma once
+#include "Platform.h"
+#include "Player.h"
+#include "Botom.h"
+#include "FlyingFooga.h"
+#include "Tornado.h"
+#include "MOGERA.h"
+#include "MogeraBabies.h"
+#include "GamaKichi.h"
+#include "Collision.h"
+#include <SFML/Graphics.hpp>
+
+
+//zubair bahi asey banatey hien level ,to bas 4 ghantey me 2 pictures he dal sakhta ha 
+class Level
+{
+private:
+    
+	int currentLevel;  // this tell which level is currently active, start from 0 and increase by 1 for each level
+
+    sf::Texture bgTexture;
+    sf::Sprite background;
+
+   
+    Platform platforms[20];  // ek background ma max 20 platforms ho sakhtey hien
+    int platformCount;
+
+    
+    Botom b[5];
+    int bCount;
+
+    FlyingFooga f[2];
+    int fCount;
+
+    Tornado t[2];
+    int tCount;
+
+    Mogera m;
+    Gama g; 
+
+public:
+    
+    Level();
+
+    /* Fun For Levels */
+    void loadLevel(int levelNum);            // level load karo
+    void update(Player& player);             // enemies update karo
+    void draw(sf::RenderWindow& window);     // draw karo
+    bool isComplete();                       // sare enemies mare?
+    void nextLevel();                        // agla level load karo
+
+    // getters 
+    Platform* getPlatforms()
+    {
+        return platforms; 
+    }
+    int getPlatformCount() 
+    {
+        return platformCount; 
+    }
+    int getCurrentLevel() 
+    {
+        return currentLevel; 
+    }
+
+    // getters for collision
+    Botom* getBotoms()        // b[] array ka pehla address do
+    { return b; }
+    
+    int getBotomCount()         // kitne botom hain
+    { return bCount; }
+    
+    FlyingFooga* getFoogas()
+    { return f; }
+    
+    int getFoogaCount()
+    { return fCount; }
+    
+    Tornado* getTornados()
+    { return t; }
+    
+    int getTornadoCount() 
+    { return tCount; }
+    
+    Mogera& getMogera()
+    { return m; }
+    
+    Gama& getGama()
+    { return g; }
+    
+   
+};
