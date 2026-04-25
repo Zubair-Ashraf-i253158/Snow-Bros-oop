@@ -12,7 +12,7 @@ public:
     
     // Botom Collision Check
     
-    static void BotomCollision(Player& player, Botom b[], int bCount)
+    static void BotomCollision(Player& player, Botom b[], int ecount)
     {
     
         // Snowball hits Botom
@@ -22,7 +22,7 @@ public:
             if (!player.getBallActive(i))
                 continue; // inactive ball skip karo
 
-            for (int j = 0; j < bCount; j++)
+            for (int j = 0; j < ecount; j++)
             {
                 if (b[j].getZinda() && !b[j].getCover()) // zinda aur cover be nahi ha
                 {
@@ -39,7 +39,7 @@ public:
         // Player touches Botom
         if (!player.gethit()) // sirf tab check karo jab player hurt na ho
         {
-            for (int j = 0; j < bCount; j++)
+            for (int j = 0; j < ecount; j++)
             {
                 if (b[j].getZinda() && !b[j].getCover()) // zinda aur non encased
                 {

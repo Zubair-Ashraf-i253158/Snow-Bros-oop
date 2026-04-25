@@ -2,7 +2,8 @@
 #include"Platform.h"
 #include <SFML/Graphics.hpp>
 #include "SnowBall.h"
-
+#include "Botom.h"
+#include "Enemy.h"
 class Player : public sf::Drawable
 {	
 private:
@@ -39,7 +40,8 @@ public:
 	sf::Vector2f getPosition() const {
 		return playerSprite.getPosition();
 	}
-	void update(Platform platforms[], int count);
+	//void update(Platform platforms[], int count);
+	void update(Platform platforms[], int count, Enemy* enemy[], int ecount);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	/*Life Health and Collosion code  */

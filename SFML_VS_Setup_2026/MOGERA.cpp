@@ -42,9 +42,9 @@ void Mogera::update(Platform platforms[], int count, sf::Vector2f playerPos)
 
 		// set direction toward player
 		if (playerPos.x < enemy.getPosition().x)
-			babies[babyCount].setDirection(-1.0f);  // player left mein hai
+			babies[babyCount].setdirection(-1.0f);  // player left mein hai
 		else
-			babies[babyCount].setDirection(1.0f);   // player right mein hai
+			babies[babyCount].setdirection(1.0f);   // player right mein hai
 
 
 		babyCount++;

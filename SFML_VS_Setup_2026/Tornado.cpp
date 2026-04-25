@@ -7,7 +7,12 @@ Tornado::Tornado(float x, float y) : FlyingFooga(x, y)
 {
 	//enemy.setSize(sf::Vector2f(30, 30));
 	//enemy.setFillColor(sf::Color::Yellow);
-	
+    enemyTexture.loadFromFile("assets/tor.png");
+    enemy.setTexture(enemyTexture);
+    enemy.setScale(
+        80.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
+        84.0f / enemyTexture.getSize().y   // auto fit to 64px tall
+    );
     speedE = 2.0f;  
 	healthE = 3.0f; //health
 	zindaE = true;
