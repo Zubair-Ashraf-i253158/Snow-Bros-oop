@@ -14,6 +14,7 @@ Mchild::Mchild(float x, float y)
 	zindaE = true;
 	jumpMC = 0;
 	groundMC = false;	
+	
 }
 
 void Mchild::update(Platform platforms[], int count)
@@ -53,6 +54,8 @@ void Mchild::update(Platform platforms[], int count)
 
 void Mchild::draw(sf::RenderWindow& window)
 {
-	if (zindaE)     // ager baby zinda hai to hi draw karo warna nahi
-		window.draw(enemy);
+	Botom::draw(window); 
+	//inheritance ha to is lyie botom ka draw function call kar raha hu taki
+	// tornado bhi draw ho jai aur uska flying behavior bhi work kare
+
 }

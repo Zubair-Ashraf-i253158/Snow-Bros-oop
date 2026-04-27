@@ -8,6 +8,7 @@
 #include "MogeraBabies.h"
 #include "GamaKichi.h"
 #include "Collision.h"
+#include "InvisibleEnemy.h"
 #include <SFML/Graphics.hpp>
 
 Level::Level() : m(0.0,0.0), g(0.0,0.0)  // boss default position
@@ -30,6 +31,7 @@ void Level::loadLevel(int levelNum)
     bCount = 0;
     fCount = 0;
     tCount = 0;
+	invCount = 0;
     platformCount = 0;
    
     // LEVEL 1 
@@ -38,7 +40,7 @@ void Level::loadLevel(int levelNum)
     if (levelNum == 1)
     {
         // background load karo
-        bgTexture.loadFromFile("assets/Zlevel1.png");
+        bgTexture.loadFromFile("assets/lvl1.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,
@@ -60,6 +62,15 @@ void Level::loadLevel(int levelNum)
 
         // enemies set karo
         bCount = 5;
+       
+        //invCount = 5;
+
+        //inV[0] = Invisible(150, 50);
+        //inV[1] = Invisible(350, 50);
+        //inV[2] = Invisible(550, 50);
+        //inV[3] = Invisible(250, 50);
+        //inV[4] = Invisible(450, 50);
+        
         b[0] = Botom(200, 50);
         b[1] = Botom(300, 50);
         b[2] = Botom(400, 50);
@@ -67,6 +78,12 @@ void Level::loadLevel(int levelNum)
         b[4] = Botom(600, 50);
         b[1].setdirection(-1.0f); // left
         b[2].setdirection(-1.0f); // left
+        fCount = 2;
+        f[0] = FlyingFooga(200, 50);
+        f[1] = FlyingFooga(500, 50);
+        f[1].setdirection(-1.0f);
+
+        
     }
 
     
@@ -81,33 +98,53 @@ void Level::loadLevel(int levelNum)
             800.0f / bgTexture.getSize().x,
             600.0f / bgTexture.getSize().y
         );
-
-        // level 2 ka alag design
-        platformCount = 8;
-        platforms[0] = Platform(0, 560, 800, 10);
-
-        platforms[1] = Platform(0, 470, 300, 10);
-        platforms[2] = Platform(500, 470, 300, 10);
-
-        platforms[3] = Platform(0, 400, 320, 10);
-        platforms[4] = Platform(480, 400, 320, 10);
-
-        platforms[5] = Platform(160, 330, 500, 10);
-
-        platforms[6] = Platform(140, 240, 220, 10);
-        platforms[7] = Platform(420, 240, 260, 10);
        
+        platformCount = 9;
+
+        // ground
+        platforms[0] = Platform(0, 569, 800, 10);
+
+        // bottom row 
+        platforms[1] = Platform(100, 483, 247, 10);    // bottom left
+        platforms[2] = Platform(460, 483, 243, 10);  // bottom right
+
+        // middle 
+        platforms[3] = Platform(0, 397, 347, 10);    // mid left
+
+        // middle
+        platforms[4] = Platform(455, 399, 350, 10);  // mid right
+
+        // middle upper  
+        platforms[5] = Platform(150, 310, 47, 10);    // upper left
+
+        // upper long 
+        platforms[6] = Platform(354, 310, 307, 10);  // upper long
+
+        // top platforms
+        platforms[7] = Platform(106, 223, 436, 10);   // top left
+        platforms[8] = Platform(255, 137, 437, 10); // top right
         // enemies
         bCount = 3;
         b[0] = Botom(100, 50);
         b[1] = Botom(400, 50);
         b[2] = Botom(600, 50);
         b[1].setdirection(-1.0f);
+        /*Testing specail enemy
 
+        invCount=5;
+
+        inV[0] = Invisible(150, 50);
+        inV[1] = Invisible(350, 50);
+        inV[2] = Invisible(550, 50);
+        inV[3] = Invisible(250, 50);
+        inV[4] = Invisible(450, 50);
+
+        */
+       /*
         fCount = 2;
         f[0] = FlyingFooga(200, 50);
         f[1] = FlyingFooga(500, 50);
-        f[1].setdirection(-1.0f);
+        f[1].setdirection(-1.0f);*/
     }
 
     
@@ -116,32 +153,40 @@ void Level::loadLevel(int levelNum)
     
     else if (levelNum == 3)
     {
-        bgTexture.loadFromFile("assets/level3.png");
+        bgTexture.loadFromFile("assets/level 3.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,
             600.0f / bgTexture.getSize().y
         );
 
+       
+
         platformCount = 11;
-        platforms[0] = Platform(0, 560, 800, 10);
 
-        platforms[1] = Platform(180, 500, 440, 10);
+        // ground
+        platforms[0] = Platform(0, 567, 800, 10);
 
-        platforms[2] = Platform(0, 440, 120, 10);
-        platforms[3] = Platform(0, 380, 120, 10);
+        // bottom long platform - center
+        platforms[1] = Platform(210, 490, 387, 10);
 
-        platforms[4] = Platform(680, 440, 120, 10);
-        platforms[5] = Platform(680, 380, 120, 10);
+        // left side two stacked platforms
+        platforms[2] = Platform(0, 400, 110, 10);
+        platforms[3] = Platform(0, 310, 110, 10);
 
-        platforms[6] = Platform(160, 400, 200, 10);
-        platforms[7] = Platform(440, 400, 200, 10);
+        // right side two stacked platforms
+        platforms[4] = Platform(700, 400, 130, 10);
+        platforms[5] = Platform(700, 310, 130, 10);
 
-        platforms[8] = Platform(200, 330, 120, 10);
-        platforms[9] = Platform(480, 330, 120, 10);
+        // middle two floating blocks (the eye blocks)
+        platforms[6] = Platform(215, 310, 140, 10);
+        platforms[7] = Platform(455, 310, 140, 10);
+        // top two floating blocks 
+        platforms[8] = Platform(0, 225, 205, 10);
+        platforms[9] = Platform(600, 225, 210, 10);
+        // top long platform
 
-        platforms[10] = Platform(220, 180, 360, 10);
-
+        platforms[10] = Platform(167, 140, 470, 10);
         bCount = 3;
         b[0] = Botom(100, 50);
         b[1] = Botom(400, 50);
@@ -498,6 +543,10 @@ void Level::update(Player& player)
     for (int i = 0; i < tCount; i++)
         t[i].update(platforms, platformCount, player.getPosition());
 
+	//invisible update karo
+    for (int i = 0; i < invCount; i++)
+        inV[i].update(platforms, platformCount, player.getPosition());
+    
     // sirf level 5 par mogera update karo
     if (currentLevel == 5)
         m.update(platforms, platformCount, player.getPosition());
@@ -531,6 +580,11 @@ void Level::draw(sf::RenderWindow& window)
     // tornado draw karo
     for (int i = 0; i < tCount; i++)
         t[i].draw(window);
+	
+    // invisible draw karo
+    for (int i = 0; i < invCount; i++)
+        inV[i].draw(window);
+
 
     // sirf level 5 par mogera draw karo
     if (currentLevel == 5)
@@ -560,6 +614,11 @@ bool Level::isComplete()
     // tornado check karo
     for (int i = 0; i < tCount; i++)
         if (t[i].getZinda())
+            return false;
+
+    // invisible enemies check karo
+    for (int i = 0; i < invCount; i++)
+        if (inV[i].getZinda()) 
             return false;
 
     // sirf level 5 par mogera check karo

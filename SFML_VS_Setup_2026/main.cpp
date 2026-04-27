@@ -41,6 +41,10 @@ int main()
         // Tornado enemies array mein daalo
         for (int i = 0; i < level.getTornadoCount(); i++)
             enemies[ecount++] = &level.getTornados()[i];
+		
+        // Invisible enemies array mein daalo
+        for (int i = 0; i < level.getInvCount(); i++)
+        enemies[ecount++] = &level.getInvisibles()[i];
 
         // Level 5 par sirf Mogera hai - use bhi daalo
         if (level.getCurrentLevel() == 5)

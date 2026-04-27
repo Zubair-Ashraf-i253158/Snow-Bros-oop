@@ -11,7 +11,9 @@
 class Mogera : public Enemy
 {
 protected:
-	Mchild babies[10]; //mogera ke 10 babies hongee;
+
+	//AS the mogera and mogera child have composition relationship, mogera class ke andar hi mogera child ka object ha
+	Mchild babies[50]; //mogera ke 50 babies hongee;
 	int babyCount; //mogera ke kitne babies zinda hain
 	
 	sf::RectangleShape Hbar; //health bar

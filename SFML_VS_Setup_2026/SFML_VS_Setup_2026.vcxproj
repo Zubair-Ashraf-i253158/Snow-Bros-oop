@@ -136,6 +136,7 @@
     <ClCompile Include="Botom.cpp" />
     <ClCompile Include="FlyingFooga.cpp" />
     <ClCompile Include="GamaKichi.cpp" />
+    <ClCompile Include="InvisibleEnemy.cpp" />
     <ClCompile Include="LevelSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MOGERA.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FlyingFooga.h" />
     <ClInclude Include="GamaKichi.h" />
+    <ClInclude Include="InvisibleEnemy.h" />
     <ClInclude Include="LevelSystem.h" />
     <ClInclude Include="MOGERA.h" />
     <ClInclude Include="MogeraBabies.h" />

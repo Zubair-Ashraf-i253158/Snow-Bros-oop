@@ -117,22 +117,62 @@ void Gama::update(Platform platforms[], int count)
 
 void Gama::draw(sf::RenderWindow& window)
 {
-    // ager gama mar gaya to kuch mat draw karo
-    if (!zindaE) return;
+   if (!zindaE)
+       return; 
 
-    //Gama draw karo
-    window.draw(enemy);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
+        {
+            window.draw(enemy); //NORMAL enemy sprite ko pehle 
+            window.draw(GhealthBack); // health bar background 
+            window.draw(Ghealthbar); // health bar 
 
-    // health bar ka kala background draw karo
-    window.draw(GhealthBack);
+            
+            sf::RectangleShape box;
 
-    // actual health bar draw karo upar se
-    window.draw(Ghealthbar);
+            //enemy sprite ke height aur width ke hisab se box ka size set karo
+            box.setSize(sf::Vector2f( enemy.getGlobalBounds().width  ,  enemy.getGlobalBounds().height));
 
-    // Step 4 - sare active rockets draw karo
-    for (int i = 0; i < 5; i++)
-    {
-        if (rocketactive[i])        // sirf active rockets draw karo
-            window.draw(rocket[i]);
-    }
+            box.setPosition(enemy.getPosition()); //enemy sprite ke position par box set karo
+            box.setFillColor(sf::Color::Transparent); //box transparent
+            box.setOutlineColor(sf::Color::Red); //red color 
+            box.setOutlineThickness(5); //box outline thickness
+
+            window.draw(box); 
+
+
+            //ROCKETS
+            for (int i = 0; i < 5; i++) 
+            {
+                if (rocketactive[i]) //rocket active
+                {
+                    window.draw(rocket[i]); //rocket sprite
+
+                    //rocket hitbox
+                    sf::RectangleShape rBox;
+
+                   
+                    rBox.setSize(sf::Vector2f( rocket[i].getGlobalBounds().width , rocket[i].getGlobalBounds().height));
+
+                    rBox.setPosition(rocket[i].getPosition()); 
+                    rBox.setFillColor(sf::Color::Transparent);
+                    rBox.setOutlineColor(sf::Color::Yellow); // yellow 
+                    rBox.setOutlineThickness(5);
+
+                    window.draw(rBox); //rocket hitbox draw karo
+                }
+            }
+        }
+        else
+        {
+            window.draw(enemy); //NORMAL enemy draw karo
+            window.draw(GhealthBack); 
+            window.draw(Ghealthbar); 
+
+            // rockets draw karo
+            for (int i = 0; i < 5; i++)
+            {
+                if (rocketactive[i])
+                    window.draw(rocket[i]); // rocket sprite draw karo
+            }
+        }
 }

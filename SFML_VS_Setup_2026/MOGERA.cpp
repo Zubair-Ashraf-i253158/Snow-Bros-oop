@@ -33,7 +33,7 @@ void Mogera::update(Platform platforms[], int count, sf::Vector2f playerPos)
 		return;
 
 
-	if (timeB > 120 && babyCount < 10) // every 2 seconds baby phainkni hai jab tak 10 babies zinda hain
+	if (timeB > 120 && babyCount < 50) // every 2 seconds baby phainkni hai jab tak 50 babies zinda hain
 	{
 		babies[babyCount] = Mchild(enemy.getPosition().x + 40, enemy.getPosition().y + 30); //child constructor call karo aur uska position set karo to be near mogera
 
@@ -63,15 +63,42 @@ void Mogera::update(Platform platforms[], int count, sf::Vector2f playerPos)
 
 void Mogera::draw(sf::RenderWindow& window)
 {
-	if (zindaE)     // ager mogera zinda hai to hi draw karo warna nahi
+	if (zindaE) 
 	{
-		window.draw(enemy);
-		window.draw(HbarBack);
-		window.draw(Hbar);
-	}
-	for (int i = 0; i < babyCount; i++)
-	{
-		babies[i].draw(window);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) 
+		{
+			window.draw(enemy); //NORMAL enemy sprite ko pehle draw karo
+			window.draw(HbarBack); // health bar background draw karo
+			window.draw(Hbar); // health bar draw karo
 
+			// MOGERA HITBOX 
+			sf::RectangleShape box;
+
+			// enemy sprite ke height aur width ke hisab se box ka size set karo
+			box.setSize(sf::Vector2f(
+				enemy.getGlobalBounds().width,
+				enemy.getGlobalBounds().height
+			));
+
+			box.setPosition(enemy.getPosition()); // enemy sprite ke position par box set karo
+			box.setFillColor(sf::Color::Transparent); // box transparent
+			box.setOutlineColor(sf::Color::Red); // red color enemy ke liye
+			box.setOutlineThickness(5); // box ka outline thickness
+
+			window.draw(box); // hitbox ko sprite ke upar draw karo
+		}
+		else
+		{
+			window.draw(enemy); 
+			window.draw(HbarBack); 
+			window.draw(Hbar); 
+		}
+	}
+
+	// sari zinda babies draw karo
+	for (int i = 0; i < babyCount; i++) 
+	{
+		if (babies[i].getZinda()) 
+			babies[i].draw(window); // baby sprite draw karo
 	}
 }

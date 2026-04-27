@@ -2,9 +2,10 @@
 
 #include "Enemy.h"
 #include "Platform.h"
+#include "Botom.h"
 
 
-class Mchild : public Enemy
+class Mchild : public Botom
 {
 	private:
 		float jumpMC;    //falling speed

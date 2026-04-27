@@ -27,6 +27,43 @@ protected:
 
 
 public:
+	Enemy() = default;
+
+	Enemy(const Enemy& other) {
+		position = other.position;
+		speedE = other.speedE;
+		healthE = other.healthE;
+		zindaE = other.zindaE;
+		directionE = other.directionE;
+		snowcover = other.snowcover;
+		enemyTexture = other.enemyTexture;
+		enemy = other.enemy;
+		enemy.setTexture(enemyTexture);
+		state = other.state;
+		meltTime = other.meltTime;
+		roll = other.roll;
+		cover = other.cover;
+	}
+
+	Enemy& operator=(const Enemy& other) {
+		if (this != &other) {
+			position = other.position;
+			speedE = other.speedE;
+			healthE = other.healthE;
+			zindaE = other.zindaE;
+			directionE = other.directionE;
+			snowcover = other.snowcover;
+			enemyTexture = other.enemyTexture;
+			enemy = other.enemy;
+			enemy.setTexture(enemyTexture);
+			state = other.state;
+			meltTime = other.meltTime;
+			roll = other.roll;
+			cover = other.cover;
+		}
+		return *this;
+	}
+
 	//this is abstract class matlub ke is class ke object nahi ban sakta, iske sirf derived class ke object ban sakta hai
 	virtual void update(Platform platforms[], int count) = 0;
 	

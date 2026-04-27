@@ -81,10 +81,28 @@ void Tornado::update(Platform platforms[], int count, sf::Vector2f p_pos)
 
 void Tornado::draw(sf::RenderWindow& window)
 {
-    if (zindaE)
+	Botom::draw(window);  //inheritance ha to is lyie botom ka draw function call kar raha hu taki tornado bhi draw ho jai aur uska flying behavior bhi work kare
+
+    // sirf knife extra draw karo
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
     {
-        window.draw(enemy);
-		if (zindaK)
+        // knife hitbox yellow mein
+        if (zindaK)
+        {
+            sf::RectangleShape knifeBox;
+            knifeBox.setSize(sf::Vector2f( knife.getGlobalBounds().width  ,  knife.getGlobalBounds().height));
+           
+            knifeBox.setPosition(knife.getPosition());
+            knifeBox.setFillColor(sf::Color::Transparent);
+            knifeBox.setOutlineColor(sf::Color::Yellow);
+            knifeBox.setOutlineThickness(5);
+            window.draw(knifeBox);
+        }
+    }
+    else
+    {
+        // normal knife draw karo
+        if (zindaK)
             window.draw(knife);
     }
 }

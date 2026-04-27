@@ -3,12 +3,22 @@
 
 Botom::Botom(float x, float y)
 { 
-	enemyTexture.loadFromFile("assets/enemy.png");
-	enemy.setTexture(enemyTexture);
-	enemy.setScale(
-		60.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
-		64.0f / enemyTexture.getSize().y   // auto fit to 64px tall
-	);
+    // texture load karo agar nahi mila to rectangle use karo
+    if (!enemyTexture.loadFromFile("assets/enemy.png"))
+    {
+        // texture nahi mila to phr rectangle use karo
+        // sprite transparent
+        enemy.setColor(sf::Color::Transparent);
+    }
+    else
+    {
+        // texture mil gaya to sprite set karo
+        enemy.setTexture(enemyTexture);
+        enemy.setScale(
+            60.0f / enemyTexture.getSize().x,
+            64.0f / enemyTexture.getSize().y
+        );
+    }
 	
     enemy.setPosition(400, 400);
     
@@ -123,7 +133,7 @@ void Botom::update(Platform platforms[], int count)
 }
 
 void Botom::draw(sf::RenderWindow& window)
-{
+{ /*
     if (!zindaE) 
         return;
     
@@ -154,5 +164,95 @@ void Botom::draw(sf::RenderWindow& window)
         snow.setRadius(e.width / 2 * meltPercent);
         snow.setPosition(e.left ,e.top);
         window.draw(snow);
+    }*/
+
+    /*SAME CODE JUST ADDING HITBOX THING */
+   
+    if (!zindaE) 
+        return; 
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) 
+    {
+        window.draw(enemy); //NORMAL enemy sprite
+        sf::RectangleShape box;// ENEMY HITBOX 
+
+        // enemy sprite ke height aur width ke hisab se box ka size set karo
+        box.setSize(sf::Vector2f( enemy.getGlobalBounds().width, enemy.getGlobalBounds().height));
+
+        box.setPosition(enemy.getPosition()); // enemy sprite ke position par box set karo
+        box.setFillColor(sf::Color::Transparent); // box transparent 
+        box.setOutlineColor(sf::Color::Red); // red color enemy ke liye
+        box.setOutlineThickness(5); // box ka outline thickness
+
+        window.draw(box); // hitbox ko sprite ke upar draw karo
+
+
+        // SNOW EFFECT
+        sf::FloatRect e = enemy.getGlobalBounds(); // enemy ka bounds store karo
+
+        if (state == 1) // half snow
+        {
+            sf::CircleShape snow;
+
+            snow.setFillColor(sf::Color(255, 255, 255, 180)); // halka transparent snow
+            snow.setRadius(e.width / 3); // half snow
+            snow.setPosition(e.left, e.top + e.height / 2); // niche side par position
+
+            window.draw(snow); // snow draw karo
+        }
+        else if (state == 2 || state == 3) // full snow
+        {
+            sf::CircleShape snow;
+
+            snow.setFillColor(sf::Color(255, 255, 255, 220)); // zyada visible snow
+            snow.setRadius(e.width / 2); // full size snow
+            snow.setPosition(e.left, e.top); // upar se cover 
+
+            window.draw(snow); // snow draw karo
+        }
+        else if (state == 4) // melting
+        {
+            sf::CircleShape snow;   
+
+            float meltPercent = 1.0f - (meltTime / 200.0f); // melt hone ka percent calculate karo
+
+            snow.setFillColor(sf::Color(255, 255, 255, 150)); // halka fade snow
+            snow.setRadius(e.width / 2 * meltPercent); // dheere dheere size kam ho
+            snow.setPosition(e.left, e.top);
+
+            window.draw(snow); // melting snow draw karo
+        }
+    }
+    else
+    {
+        window.draw(enemy); //NORMAL enemy draw karo
+
+        sf::FloatRect e = enemy.getGlobalBounds(); // enemy bounds
+
+        if (state == 1) // half snow
+        {
+            sf::CircleShape snow;
+            snow.setFillColor(sf::Color(255, 255, 255, 180));
+            snow.setRadius(e.width / 3);
+            snow.setPosition(e.left, e.top + e.height / 2);
+            window.draw(snow);
+        }
+        else if (state == 2 || state == 3) // full snow
+        {
+            sf::CircleShape snow;
+            snow.setFillColor(sf::Color(255, 255, 255, 220));
+            snow.setRadius(e.width / 2);
+            snow.setPosition(e.left, e.top);
+            window.draw(snow);
+        }
+        else if (state == 4) // melting
+        {
+            sf::CircleShape snow;
+            float meltPercent = 1.0f - (meltTime / 200.0f);
+            snow.setFillColor(sf::Color(255, 255, 255, 150));
+            snow.setRadius(e.width / 2 * meltPercent);
+            snow.setPosition(e.left, e.top);
+            window.draw(snow);
+        }
     }
 }

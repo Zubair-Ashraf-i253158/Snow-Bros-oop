@@ -8,10 +8,12 @@
 #include "MogeraBabies.h"
 #include "GamaKichi.h"
 #include "Collision.h"
+#include "InvisibleEnemy.h"
 #include <SFML/Graphics.hpp>
 
 
-//zubair bahi asey banatey hien level ,to bas 4 ghantey me 2 pictures he dal sakhta ha 
+//zubair bahi asey banatey hien level ,to bas 4 ghantey me 2 pictures he dal sakhta ha//
+// bhai expository ka pura kaam kia ha mana , abhi is ka bhi kr raha
 class Level
 {
 private:
@@ -34,6 +36,9 @@ private:
 
     Tornado t[2];
     int tCount;
+
+    Invisible inV[5];   // 5 invisible enemies
+    int invCount;
 
     Mogera m;
     Gama g; 
@@ -88,5 +93,10 @@ public:
     Gama& getGama()
     { return g; }
     
+    Invisible* getInvisibles() 
+    { return inV; }
+    
+    int getInvCount() 
+    { return invCount; }
    
 };
