@@ -52,7 +52,7 @@ public:
 			healthE = other.healthE;
 			zindaE = other.zindaE;
 			directionE = other.directionE;
-			snowcover = other.snowcover;
+		//	snowcover = other.snowcover;
 			enemyTexture = other.enemyTexture;
 			enemy = other.enemy;
 			enemy.setTexture(enemyTexture);
