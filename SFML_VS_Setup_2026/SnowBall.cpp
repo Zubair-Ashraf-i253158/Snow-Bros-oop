@@ -34,7 +34,7 @@ void SnowBall::update()
 	
 	if (active)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1))
 		{
 			ball.setOutlineThickness(0);
 			++x; // x variable ko increment karo (debug ke liye)
