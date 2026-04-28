@@ -30,11 +30,7 @@ Botom::Botom(float x, float y)
 	zindaE = true;
 	directionE = 1.0f; // Start moving right
 	jumpE = 0;
-	groundE = false;    
-
-    //Botom also jump randomly so
-    jumpT = 0;
-    jumpD = 320;
+	groundE = false;            
 }
 
 void Botom::update(Platform platforms[], int count)
@@ -46,7 +42,6 @@ void Botom::update(Platform platforms[], int count)
         jumpE += 0.3f;
         groundE = false;
         
-
         for (int i = 0; i < count; i++)
         {
             sf::FloatRect pl = platforms[i].getBounds();
@@ -62,19 +57,6 @@ void Botom::update(Platform platforms[], int count)
                 groundE = true; 
             }
         }
-        
-        jumpT++;   //increasing time
-        if (jumpT >= jumpD && groundE) // if time to jump and on ground
-        {
-            jumpE = -8.0f; // jump strength
-            jumpT = 0; // reset timer
-			groundE = false; // in air now
-		}
-
-
-
-
-
         if (enemy.getPosition().x < 0) 
         { 
             enemy.setPosition(0, enemy.getPosition().y);
