@@ -61,14 +61,14 @@ void Level::loadLevel(int levelNum)
         platforms[9] = Platform(570, 200, 125, 10);  //top right
 
         //enemies set karo
-        bCount = 6;
+        bCount = 5;
         
         b[0] = Botom(50,450);
         b[1] = Botom(50, 400);
         b[2] = Botom(700,400);
         b[3] = Botom(500,300);
         b[4] = Botom(600, 50);
-        b[5] = Botom(600,50);
+       
         b[1].setdirection(-1.0f); //left
         b[2].setdirection(-1.0f); //left
         
@@ -222,7 +222,7 @@ void Level::loadLevel(int levelNum)
 
         // sirf mogera hai
        
-        m = Mogera(360, 150);
+        m = Mogera(360,150);
         
     }
 
