@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "SnowBall.h"
+#include"HUD.h"
 
 #include"Botom.h"
 Player::Player()
@@ -135,7 +136,7 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
             Ground = true; // ab ground par hai
         }
     }
-    /*=================== SNOW BALL CODE ==========================*/
+    /*===================SNOW BALL CODE==========================*/
     // Space press karo to ek naya ball shoot karo
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !fire)
     {
@@ -285,6 +286,8 @@ bool Player::getBallActive(int i) const
 {
     return ball[i].act(); // ball active hai ya nahi
 }
+
+
 
 
 
