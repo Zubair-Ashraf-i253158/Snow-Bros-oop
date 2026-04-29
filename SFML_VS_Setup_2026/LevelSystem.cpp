@@ -600,3 +600,4 @@ void Level::nextLevel()
     }
     loadLevel(currentLevel);
 }
+

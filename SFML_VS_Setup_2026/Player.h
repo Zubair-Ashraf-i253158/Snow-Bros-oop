@@ -4,6 +4,7 @@
 #include "SnowBall.h"
 #include "Botom.h"
 #include "Enemy.h"
+#include "HUD.h"
 class Player : public sf::Drawable
 {	
 private:
@@ -32,7 +33,10 @@ private:
 	int lives = 2;
 	bool hit = false; // player hit hua hai ya nahi
 	int hitTimer = 0; // hit ke baad invincibility time
-
+	
+	//for hud 
+	int score = 0; // player ka score
+	int gems = 0; // player ke paas gems
 
 public:
 
@@ -56,5 +60,25 @@ public:
 	sf::FloatRect getBallBounds(int index) const; // it gives the boundary of the snowball at the given index	
 	bool getBallActive(int i) const;
 	void setBallActive(int i, bool a);
+
+
+
+
+	/*======GETTERS FOR HUD ======*/
+	int getScore() const
+	{
+		return score; // current score do
+	}
+
+	int getLive() const
+	{
+		return lives; // current lives do
+	}
+
+	int getGem() const
+	{
+		return gems; // current gems do
+	}
+
 
 };
