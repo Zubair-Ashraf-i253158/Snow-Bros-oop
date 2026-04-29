@@ -9,6 +9,7 @@
 #include "GamaKichi.h"
 #include "Collision.h"
 #include "InvisibleEnemy.h"
+#include "HUD.h"
 #include <SFML/Graphics.hpp>
 
 
@@ -99,4 +100,15 @@ public:
     int getInvCount() 
     { return invCount; }
    
+
+
+
+
+    //HUD GETTER FOR LEVEL
+
+    int getLevel() const
+    {
+        return currentLevel; // current level do
+    }
+
 };

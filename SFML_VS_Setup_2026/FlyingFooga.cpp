@@ -53,7 +53,7 @@ void FlyingFooga::update(Platform platforms[], int count)
             flyx = -flyx;
         if (enemy.getPosition().y < 10) // top boundary
             flyy = -flyy;
-        if (enemy.getPosition().y > 500) // bottom boundary - ground se upar rakho
+        if (enemy.getPosition().y > 500) //bottom boundary ground se upar rakho
         {
             flyy = -2.0f; // force upward
             enemy.setPosition(enemy.getPosition().x, 500); // ground se neeche na jaye
@@ -63,7 +63,7 @@ void FlyingFooga::update(Platform platforms[], int count)
         {
             flyingE = false;
             flyTime = 0;
-            jumpE = 0; // IMPORTANT - reset jumpE landing par
+            jumpE = 0; // IMPORTANT reset jumpE landing par
         }
     }
 }

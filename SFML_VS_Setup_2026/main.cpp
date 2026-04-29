@@ -1,5 +1,6 @@
 ﻿#include "LevelSystem.h"
 #include "Collision.h"
+#include"HUD.h"
 #include <SFML/Graphics.hpp>
 
 int main()
@@ -9,7 +10,8 @@ int main()
 
     Player player;
     Level level;
-
+    HUD h;
+	
     while (window.isOpen())
     {
         sf::Event event;
@@ -65,7 +67,7 @@ int main()
         // player encased enemy ko kick karta hai
         // rolling snowball chain kill karta hai
         // player enemy ko touch kare to life down
-        
+       
         player.update(  level.getPlatforms()  , level.getPlatformCount()     ,    enemies   ,       ecount   );
 
         level.update(player);
@@ -73,13 +75,17 @@ int main()
         // level complete check
         if (level.isComplete())
             level.nextLevel();
-
        
+       //Display hud 
+	   //player se score, lives, level and gems ki value leke update karo hud ko
+        h.update(player.getScore(), player.getLive(), level.getLevel(), player.getGem());
 
         // draw
         window.clear();
-        level.draw(window);
-        window.draw(player);
+        
+		level.draw(window); //level ka draw function background, platforms, enemies sab draw karega
+        h.draw(window);   //HUD draw karo
+		window.draw(player);  //player draw karo
        
         window.display();
     }
