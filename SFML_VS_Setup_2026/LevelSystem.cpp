@@ -11,13 +11,13 @@
 #include "InvisibleEnemy.h"
 #include <SFML/Graphics.hpp>
 
-Level::Level() : m(0.0,0.0), g(0.0,0.0)  // boss default position
+Level::Level() : m(0.0, 0.0), g(0.0, 0.0)  // boss default position
 {
     currentLevel = 1;
     bCount = 0;
     fCount = 0;
     tCount = 0;
-   
+
     platformCount = 0;
     loadLevel(1); // level 1 se shuru karo
 }
@@ -31,12 +31,12 @@ void Level::loadLevel(int levelNum)
     bCount = 0;
     fCount = 0;
     tCount = 0;
-	invCount = 0;
+    invCount = 0;
     platformCount = 0;
-   
+
     //LEVEL 1 
     //Sirf Botom enemies
-    
+
     if (levelNum == 1)
     {
         //background load karo
@@ -62,19 +62,19 @@ void Level::loadLevel(int levelNum)
 
         //enemies set karo
         bCount = 6;
-        
-        b[0] = Botom(50,450);
+
+        b[0] = Botom(50, 450);
         b[1] = Botom(50, 400);
-        b[2] = Botom(700,400);
-        b[3] = Botom(500,300);
+        b[2] = Botom(700, 400);
+        b[3] = Botom(500, 300);
         b[4] = Botom(600, 50);
-        b[5] = Botom(600,50);
+        b[5] = Botom(600, 50);
         b[1].setdirection(-1.0f); //left
         b[2].setdirection(-1.0f); //left
-        
-     }
 
-    
+    }
+
+
     //LEVEL 2 
     //Botom and FlyingFooga
 
@@ -86,10 +86,10 @@ void Level::loadLevel(int levelNum)
             800.0f / bgTexture.getSize().x,
             600.0f / bgTexture.getSize().y
         );
-       
+
         platformCount = 9;
 
-        
+
         platforms[0] = Platform(0, 569, 800, 10);
         platforms[1] = Platform(100, 483, 247, 10);    //bottom left
         platforms[2] = Platform(460, 483, 243, 10);  //bottom right
@@ -100,23 +100,23 @@ void Level::loadLevel(int levelNum)
         platforms[7] = Platform(106, 223, 436, 10);   //top left
         platforms[8] = Platform(255, 137, 437, 10); //top right
         //enemies
-       
+
         bCount = 3;             //BOTOM
         b[0] = Botom(100, 50);
         b[1] = Botom(400, 50);
         b[2] = Botom(600, 50);
         b[1].setdirection(-1.0f);
-       
+
         fCount = 2;             //FLY FOOGA
         f[0] = FlyingFooga(200, 50);
         f[1] = FlyingFooga(500, 50);
         f[1].setdirection(-1.0f);
     }
 
-    
+
     //LEVEL 3
     //Botom , FlyingFooga and Tornado
-    
+
     else if (levelNum == 3)
     {
         bgTexture.loadFromFile("assets/level 3.png");
@@ -126,7 +126,7 @@ void Level::loadLevel(int levelNum)
             600.0f / bgTexture.getSize().y
         );
 
-       
+
 
         platformCount = 11;
 
@@ -142,7 +142,7 @@ void Level::loadLevel(int levelNum)
         platforms[8] = Platform(0, 225, 205, 10);
         platforms[9] = Platform(600, 225, 210, 10);
         platforms[10] = Platform(167, 140, 470, 10);
-       
+
         bCount = 2;
         b[0] = Botom(100, 50);
         b[1] = Botom(400, 50);
@@ -158,10 +158,10 @@ void Level::loadLevel(int levelNum)
         t[1].setdirection(-1.0f);
     }
 
-    
+
     //LEVEL 4
     //Special enemy
-    
+
     else if (levelNum == 4)
     {
         bgTexture.loadFromFile("assets/Zlevel4.png");
@@ -190,13 +190,13 @@ void Level::loadLevel(int levelNum)
         inV[0] = Invisible(150, 50);
         inV[1] = Invisible(350, 50);
 
-   
+
     }
 
-    
+
     //LEVEL 5
     //Boss Mogera
-    
+
     else if (levelNum == 5)
     {
         bgTexture.loadFromFile("assets/Level5.png");
@@ -221,19 +221,19 @@ void Level::loadLevel(int levelNum)
         platforms[5] = Platform(0, 260, 400, 10);
 
         // sirf mogera hai
-       
+
         m = Mogera(360, 150);
-        
+
     }
 
-    
+
     // LEVEL 6 
     // Green Color Variants
-    
-   
+
+
     else if (levelNum == 6)
     {
-       
+
         bgTexture.loadFromFile("assets/Zlevel6.png");
         background.setTexture(bgTexture);
         background.setScale(
@@ -255,17 +255,17 @@ void Level::loadLevel(int levelNum)
 
         //Green variants 
         //faster speed
-       
+
         bCount = 2;
         b[0] = Botom(200, 50);
         b[1] = Botom(300, 50);
         b[1].setdirection(-1.0f);
-        
+
         for (int i = 0; i < bCount; i++)
         {
             b[i].setSpeed(3.0f * 1.25f);  //1.25x faster
             b[i].setHealth(3.0f);          //+1 hit to encase
-           // b[i].setColor(sf::Color::Green); //green colour
+            // b[i].setColor(sf::Color::Green); //green colour
         }
 
         fCount = 2;
@@ -275,8 +275,8 @@ void Level::loadLevel(int levelNum)
         {
             f[i].setSpeed(2.0f * 1.25f);
             f[i].setHealth(3.0f);
-           // f[i].setColor(sf::Color::Green);   //Zubair idr error a raaha kiu ka sprite ka shyd setColor nahi hota
-                                               // jab hitbox wala system ho ga to phr if else laga de ga sprite and box
+            // f[i].setColor(sf::Color::Green);   //Zubair idr error a raaha kiu ka sprite ka shyd setColor nahi hota
+                                                // jab hitbox wala system ho ga to phr if else laga de ga sprite and box
         }
 
         tCount = 2;
@@ -286,16 +286,16 @@ void Level::loadLevel(int levelNum)
         {
             t[i].setSpeed(2.0f * 1.25f);
             t[i].setHealth(4.0f);
-           // t[i].setColor(sf::Color::Green);
+            // t[i].setColor(sf::Color::Green);
         }
     }
 
-   
+
     //LEVEL 7
     //Blue Color Variants
-   
+
     else if (levelNum == 7)
-    { 
+    {
         bgTexture.loadFromFile("assets/Zlevel7.png");
         background.setTexture(bgTexture);
         background.setScale(
@@ -319,12 +319,12 @@ void Level::loadLevel(int levelNum)
         b[0] = Botom(100, 50);
         b[1] = Botom(300, 50);
         b[1].setdirection(-1.0f);
-       
+
         for (int i = 0; i < bCount; i++)
         {
             b[i].setSpeed(3.0f * 1.5f);   //1.5x faster
             b[i].setHealth(4.0f);          //+2 hits
-           // b[i].setColor(sf::Color::Blue);
+            // b[i].setColor(sf::Color::Blue);
         }
 
         fCount = 2;
@@ -334,7 +334,7 @@ void Level::loadLevel(int levelNum)
         {
             f[i].setSpeed(2.0f * 1.5f);
             f[i].setHealth(4.0f);
-           // f[i].setColor(sf::Color::Blue);
+            // f[i].setColor(sf::Color::Blue);
         }
 
         tCount = 2;
@@ -344,16 +344,16 @@ void Level::loadLevel(int levelNum)
         {
             t[i].setSpeed(2.0f * 1.5f);
             t[i].setHealth(5.0f);
-          //  t[i].setColor(sf::Color::Blue);
-        } 
+            //  t[i].setColor(sf::Color::Blue);
+        }
     }
 
-    
+
     //LEVEL 8
     //Purple Color Variants
 
     else if (levelNum == 8)
-    { 
+    {
         bgTexture.loadFromFile("assets/Zlevel8.png");
         background.setTexture(bgTexture);
         background.setScale(
@@ -377,12 +377,12 @@ void Level::loadLevel(int levelNum)
         b[0] = Botom(100, 50);
         b[1] = Botom(250, 50);
         b[1].setdirection(-1.0f);
-       
+
         for (int i = 0; i < bCount; i++)
         {
             b[i].setSpeed(3.0f * 1.75f);      //1.75x faster
             b[i].setHealth(5.0f);              //+3 hits
-           // b[i].setColor(sf::Color(128, 0, 128)); //purple
+            // b[i].setColor(sf::Color(128, 0, 128)); //purple
         }
 
         fCount = 2;
@@ -392,7 +392,7 @@ void Level::loadLevel(int levelNum)
         {
             f[i].setSpeed(2.0f * 1.75f);
             f[i].setHealth(5.0f);
-           // f[i].setColor(sf::Color(128, 0, 128));
+            // f[i].setColor(sf::Color(128, 0, 128));
         }
 
         tCount = 2;
@@ -402,16 +402,16 @@ void Level::loadLevel(int levelNum)
         {
             t[i].setSpeed(2.0f * 1.75f);
             t[i].setHealth(6.0f);
-           // t[i].setColor(sf::Color(128, 0, 128));
-        } 
+            // t[i].setColor(sf::Color(128, 0, 128));
+        }
     }
 
-    
+
     //LEVEL 9 
     //All Variants Mixed
-    
+
     else if (levelNum == 9)
-    { 
+    {
         bgTexture.loadFromFile("assets/Zlevel9.png");
         background.setTexture(bgTexture);
         background.setScale(
@@ -431,12 +431,12 @@ void Level::loadLevel(int levelNum)
         platforms[8] = Platform(650, 190, 150, 10);
         platforms[9] = Platform(300, 120, 200, 10);
 
-       bCount = 5;
+        bCount = 5;
         b[0] = Botom(100, 50);
         b[1] = Botom(250, 50);
         b[1].setdirection(-1.0f);
-       
-        
+
+
         //faster speed
         for (int i = 0; i < bCount; i++)
             b[i].setSpeed(4.0f);
@@ -449,13 +449,13 @@ void Level::loadLevel(int levelNum)
         tCount = 2;
         t[0] = Tornado(300, 50);
         t[1] = Tornado(500, 50);
-	
+
     }
 
-   
+
     //LEVEL 10 
     //Boss Gamakichi
-    
+
     else if (levelNum == 10)
     {
         bgTexture.loadFromFile("assets/Zlevel10boss.png");
@@ -473,7 +473,7 @@ void Level::loadLevel(int levelNum)
 
 
         g = Gama(350, 150);
-        
+
     }
 }
 
@@ -494,10 +494,10 @@ void Level::update(Player& player)
     for (int i = 0; i < tCount; i++)
         t[i].update(platforms, platformCount, player.getPosition());
 
-	//invisible update karo
+    //invisible update karo
     for (int i = 0; i < invCount; i++)
         inV[i].update(platforms, platformCount, player.getPosition());
-    
+
     // sirf level 5 par mogera update karo
     if (currentLevel == 5)
         m.update(platforms, platformCount, player.getPosition());
@@ -531,7 +531,7 @@ void Level::draw(sf::RenderWindow& window)
     // tornado draw karo
     for (int i = 0; i < tCount; i++)
         t[i].draw(window);
-	
+
     // invisible draw karo
     for (int i = 0; i < invCount; i++)
         inV[i].draw(window);
@@ -554,12 +554,12 @@ bool Level::isComplete()
 {
     // botom check karo
     for (int i = 0; i < bCount; i++)
-        if (b[i].getZinda()) 
+        if (b[i].getZinda())
             return false;
 
     // flyingfooga check karo
     for (int i = 0; i < fCount; i++)
-        if (f[i].getZinda()) 
+        if (f[i].getZinda())
             return false;
 
     // tornado check karo
@@ -569,15 +569,15 @@ bool Level::isComplete()
 
     // invisible enemies check karo
     for (int i = 0; i < invCount; i++)
-        if (inV[i].getZinda()) 
+        if (inV[i].getZinda())
             return false;
 
     // sirf level 5 par mogera check karo
-    if (currentLevel == 5 && m.getZinda()) 
+    if (currentLevel == 5 && m.getZinda())
         return false;
 
     // sirf level 10 par gama check karo
-    if (currentLevel == 10 && g.getZinda()) 
+    if (currentLevel == 10 && g.getZinda())
         return false;
 
 
@@ -591,7 +591,7 @@ bool Level::isComplete()
 void Level::nextLevel()
 {
     currentLevel++;
-    
+
     if (currentLevel > 10)
     {
         // game complete!
