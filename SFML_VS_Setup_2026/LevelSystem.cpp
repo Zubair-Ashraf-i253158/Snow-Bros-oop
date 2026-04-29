@@ -61,7 +61,7 @@ void Level::loadLevel(int levelNum)
         platforms[9] = Platform(570, 200, 125, 10);  //top right
 
         //enemies set karo
-        bCount = 5;
+        bCount = 6;
         
         b[0] = Botom(50,450);
         b[1] = Botom(50, 400);
@@ -69,7 +69,7 @@ void Level::loadLevel(int levelNum)
         b[3] = Botom(500,300);
         b[4] = Botom(600, 50);
         b[5] = Botom(600,50);
-      //  b[1].setdirection(-1.0f); //left
+        b[1].setdirection(-1.0f); //left
         b[2].setdirection(-1.0f); //left
         
      }
