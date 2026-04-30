@@ -1,6 +1,10 @@
 ﻿#include "LevelSystem.h"
 #include "Collision.h"
-#include"HUD.h"
+#include "HUD.h"
+#include "SplashScreen.h"
+#include "LoginScreen.h"
+#include "SignupScreen.h"
+#include "AuthSystem.h"
 #include <SFML/Graphics.hpp>
 
 int main()
@@ -11,82 +15,78 @@ int main()
     Player player;
     Level level;
     HUD h;
-	
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-            if (event.type == sf::Event::Closed)
-                window.close();
+    SplashScreen splash;
+    LoginScreen loginScreen;
+    SignupScreen signupScreen;
+    AuthSystem auth;
 
-         // ENEMY ARRAY BANAO
-          // hum Enemy* (base class pointer) use kar rahe hain
-         // kyunki Botom, FlyingFooga, Tornado sab Enemy se inherit karte hain
-         // iska faida ye hai ke ek hi array mein sab enemy types aa jaate hain
-         // ye POLYMORPHISM hai 
-         //
-         // Enemy* matlab mujhe nahi pata ye Botom hai ya Tornado
-         // bas itna pata hai ke ye Enemy hai
-        
-        Enemy* enemies[20]; // max 20 enemies ek waqt mein
-        int ecount = 0;     // abhi kitne enemies hain
+    int gameState = 0; // 0=splash 1=login 2=signup 3=playing
+        while (window.isOpen())
+        {
+            sf::Event event;
+            bool hasEvent = false;
 
-        // Botom enemies array mein daalo
-        // & matlab address do anddd copy mat banao
-        for (int i = 0; i < level.getBotomCount(); i++)
-            enemies[ecount++] = &level.getBotoms()[i]; 
+            while (window.pollEvent(event))
+            {
+                hasEvent = true;
+                if (event.type == sf::Event::Closed)
+                    window.close();
+            }
 
-        // FlyingFooga enemies array mein daalo
-        for (int i = 0; i < level.getFoogaCount(); i++)
-            enemies[ecount++] = &level.getFoogas()[i];
+            window.clear();
 
-        // Tornado enemies array mein daalo
-        for (int i = 0; i < level.getTornadoCount(); i++)
-            enemies[ecount++] = &level.getTornados()[i];
-		
-        // Invisible enemies array mein daalo
-        for (int i = 0; i < level.getInvCount(); i++)
-        enemies[ecount++] = &level.getInvisibles()[i];
+            if (gameState == 0) // splash
+            {
+                if (hasEvent && splash.update(event) == 1)
+                    gameState = 1;
+                splash.draw(window);
+            }
+            else if (gameState == 1) // login
+            {
+                if (hasEvent)
+                {
+                    int result = loginScreen.update(event, auth);
+                    if (result == 3) gameState = 3;
+                    if (result == 2) gameState = 2;
+                }
+                loginScreen.draw(window);
+            }
+            else if (gameState == 2) // signup
+            {
+                if (hasEvent)
+                {
+                    int result = signupScreen.update(event, auth);
+                    if (result == 1) gameState = 1;
+                }
+                signupScreen.draw(window);
+            }
+        else if (gameState == 3) // playing
+        {
+            Enemy* enemies[20];
+            int ecount = 0;
+            for (int i = 0; i < level.getBotomCount(); i++)
+                enemies[ecount++] = &level.getBotoms()[i];
+            for (int i = 0; i < level.getFoogaCount(); i++)
+                enemies[ecount++] = &level.getFoogas()[i];
+            for (int i = 0; i < level.getTornadoCount(); i++)
+                enemies[ecount++] = &level.getTornados()[i];
+            for (int i = 0; i < level.getInvCount(); i++)
+                enemies[ecount++] = &level.getInvisibles()[i];
+            if (level.getCurrentLevel() == 5)
+                enemies[ecount++] = &level.getMogera();
+            if (level.getCurrentLevel() == 10)
+                enemies[ecount++] = &level.getGama();
 
-        // Level 5 par sirf Mogera hai - use bhi daalo
-        if (level.getCurrentLevel() == 5)
-            enemies[ecount++] = &level.getMogera();
+            player.update(level.getPlatforms(), level.getPlatformCount(), enemies, ecount);
+            level.update(player);
+            if (level.isComplete()) level.nextLevel();
+            h.update(player.getScore(), player.getLive(), level.getLevel(), player.getGem());
 
-        // Level 10 par sirf Gamakichi hai - use bhi daalo
-        if (level.getCurrentLevel() == 10)
-            enemies[ecount++] = &level.getGama();
+            level.draw(window);
+            h.draw(window);
+            window.draw(player);
+        }
 
-       
-        
-        // player update mein ye sab hota hai
-        // player movement (left right jump)
-        // gravity apply hoti hai
-        // platform collision check hoti hai
-        // snowball throw hoti hai
-        // snowball enemy ko hit karta hai
-        // player encased enemy ko kick karta hai
-        // rolling snowball chain kill karta hai
-        // player enemy ko touch kare to life down
-       
-        player.update(  level.getPlatforms()  , level.getPlatformCount()     ,    enemies   ,       ecount   );
-
-        level.update(player);
-
-        // level complete check
-        if (level.isComplete())
-            level.nextLevel();
-       
-       //Display hud 
-	   //player se score, lives, level and gems ki value leke update karo hud ko
-        h.update(player.getScore(), player.getLive(), level.getLevel(), player.getGem());
-
-        // draw
-        window.clear();
-        
-		level.draw(window); //level ka draw function background, platforms, enemies sab draw karega
-        h.draw(window);   //HUD draw karo
-		window.draw(player);  //player draw karo
-       
         window.display();
     }
 }
