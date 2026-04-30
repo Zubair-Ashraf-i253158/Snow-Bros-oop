@@ -357,7 +357,7 @@ void Level::loadLevel(int levelNum)
 
     else if (levelNum == 8)
     {
-        bgTexture.loadFromFile("assets/Zlevel8.png");
+        bgTexture.loadFromFile("assets/lvl8.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,

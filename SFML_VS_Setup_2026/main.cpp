@@ -5,8 +5,9 @@
 #include "LoginScreen.h"
 #include "SignupScreen.h"
 #include "AuthSystem.h"
+#include"LevelSelect.h"
+#include "MainMenu.h"
 #include <SFML/Graphics.hpp>
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Snow Bros");
@@ -20,47 +21,70 @@ int main()
     SignupScreen signupScreen;
     AuthSystem auth;
 
-    int gameState = 0; // 0=splash 1=login 2=signup 3=playing
-        while (window.isOpen())
+
+    MainMenu mainMenu;
+    LevelSelect levelSelect;
+    int gameState = 0; // 0=splash 1=login 2=signup 3=main menu 4=level select 5=playing
+    while (window.isOpen())
+    {
+        sf::Event event;
+        event.type = sf::Event::Count; // default - koi event nahi
+
+        sf::Event tempEvent;
+        while (window.pollEvent(tempEvent))
         {
-            sf::Event event;
-            bool hasEvent = false;
+            if (tempEvent.type == sf::Event::Closed)
+                window.close();
+            event = tempEvent; // last event save karo
+        }
 
-            while (window.pollEvent(event))
-            {
-                hasEvent = true;
-                if (event.type == sf::Event::Closed)
-                    window.close();
-            }
+        window.clear();
 
-            window.clear();
-
-            if (gameState == 0) // splash
+        if (gameState == 0) // splash
+        {
+            if (event.type == sf::Event::KeyPressed ||
+                event.type == sf::Event::MouseButtonPressed)
+                gameState = 1;
+            splash.draw(window);
+        }
+        else if (gameState == 1) // login
+        {
+            int result = loginScreen.update(event, auth);
+            if (result == 3) gameState = 3; // go to main menu
+            if (result == 2) gameState = 2;
+            loginScreen.draw(window);
+        }
+        else if (gameState == 2) // signup
+        {
+            int result = signupScreen.update(event, auth);
+            if (result == 1) gameState = 1;
+            signupScreen.draw(window);
+        }
+        else if (gameState == 3) // main menu
+        {
+            int result = mainMenu.update(event);
+            if (result == 1) // story mode - level 1 se start
             {
-                if (hasEvent && splash.update(event) == 1)
-                    gameState = 1;
-                splash.draw(window);
+                level.loadLevel(1);
+                gameState = 5;
             }
-            else if (gameState == 1) // login
+            if (result == 2) gameState = 4; // level select
+            if (result == 3) { /* shop - baad mein */ }
+            if (result == 4) { /* leaderboard - baad mein */ }
+            if (result == 5) gameState = 1; // logout - back to login
+            mainMenu.draw(window);
+        }
+        else if (gameState == 4) // level select
+        {
+            int lvl = levelSelect.update(event);
+            if (lvl > 0)
             {
-                if (hasEvent)
-                {
-                    int result = loginScreen.update(event, auth);
-                    if (result == 3) gameState = 3;
-                    if (result == 2) gameState = 2;
-                }
-                loginScreen.draw(window);
+                level.loadLevel(lvl);
+                gameState = 5;
             }
-            else if (gameState == 2) // signup
-            {
-                if (hasEvent)
-                {
-                    int result = signupScreen.update(event, auth);
-                    if (result == 1) gameState = 1;
-                }
-                signupScreen.draw(window);
-            }
-        else if (gameState == 3) // playing
+            levelSelect.draw(window);
+        }
+        else if (gameState == 5) // playing
         {
             Enemy* enemies[20];
             int ecount = 0;
@@ -86,7 +110,6 @@ int main()
             h.draw(window);
             window.draw(player);
         }
-
         window.display();
     }
 }

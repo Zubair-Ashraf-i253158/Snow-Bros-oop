@@ -154,8 +154,10 @@
     <ClInclude Include="GamaKichi.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InvisibleEnemy.h" />
+    <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="LevelSystem.h" />
     <ClInclude Include="LoginScreen.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MOGERA.h" />
     <ClInclude Include="MogeraBabies.h" />
     <ClInclude Include="Platform.h" />

@@ -19,18 +19,18 @@ private:
 
 public:
     std::string getUser() { return loggedInUser; }
-
     bool signup(std::string username, std::string password)
     {
-        // check karo user already exist karta hai
-        std::ifstream checkFile("data/users.txt");
-        std::string u, p;
+        // check if already exists
+        std::ifstream checkFile("users.txt"); // data/ hatao
+        std::string u;
+        int p;
         while (checkFile >> u >> p)
-            if (u == username) return false; // already exists
+            if (u == username) return false;
         checkFile.close();
 
         // save karo
-        std::ofstream file("data/users.txt", std::ios::app);
+        std::ofstream file("users.txt", std::ios::app); // data/ hatao
         file << username << " " << hashPassword(password) << "\n";
         file.close();
         loggedInUser = username;
@@ -39,7 +39,7 @@ public:
 
     bool login(std::string username, std::string password)
     {
-        std::ifstream file("data/users.txt");
+        std::ifstream file("users.txt"); // data/ hatao
         std::string u;
         int p;
         while (file >> u >> p)

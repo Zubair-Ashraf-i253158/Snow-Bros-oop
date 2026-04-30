@@ -18,20 +18,21 @@ public:
 
         title.setFont(font);
         title.setString("SNOW BROS");
-        title.setCharacterSize(80);
         title.setFillColor(sf::Color::Cyan);
-        title.setPosition(180, 180);
+        title.setCharacterSize(60);          // size kam karo
+        title.setPosition(150, 200);         // center mein
 
         pressKey.setFont(font);
         pressKey.setString("Press Any Key to Start");
-        pressKey.setCharacterSize(30);
+        pressKey.setCharacterSize(25);
         pressKey.setFillColor(sf::Color::White);
-        pressKey.setPosition(220, 400);
+        pressKey.setPosition(170, 380);      // theek position
     }
 
-    int update(sf::Event event) // returns 1 if should go to login
+    int update(sf::Event& event)  // & lagao - reference
     {
-        if (event.type == sf::Event::KeyPressed)
+        if (event.type == sf::Event::KeyPressed ||
+            event.type == sf::Event::MouseButtonPressed)
             return 1;
         return 0;
     }
