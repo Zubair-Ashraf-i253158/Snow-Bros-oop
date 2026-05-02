@@ -11,14 +11,26 @@ int main()
     Player player;
     Level level;
     HUD h;
-	
+	Player player2; //multiplayer
+    bool multiPl = false;
+  
+    player.setPos(500, 400);      // player 1 position
+    player2.setPlayer2(true);     // player 2 keys set karo
+    player2.setPos(200, 400);
+
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
+        {
             if (event.type == sf::Event::Closed)
                 window.close();
-
+            // M press karo to multiplayer toggle karo
+            
+        }
+        if (event.type == sf::Event::KeyPressed &&
+            event.key.code == sf::Keyboard::M)
+            multiPl = !multiPl;
          // ENEMY ARRAY BANAO
           // hum Enemy* (base class pointer) use kar rahe hain
          // kyunki Botom, FlyingFooga, Tornado sab Enemy se inherit karte hain
@@ -67,8 +79,9 @@ int main()
         // player encased enemy ko kick karta hai
         // rolling snowball chain kill karta hai
         // player enemy ko touch kare to life down
-       
         player.update(  level.getPlatforms()  , level.getPlatformCount()     ,    enemies   ,       ecount   );
+        if (multiPl)
+            player2.update(level.getPlatforms(), level.getPlatformCount(), enemies, ecount);
 
         level.update(player);
 
@@ -78,7 +91,8 @@ int main()
        
        //Display hud 
 	   //player se score, lives, level and gems ki value leke update karo hud ko
-        h.update(player.getScore(), player.getLive(), level.getLevel(), player.getGem());
+        h.update(player.getScore(), player.getLive(), level.getLevel(), player.getGem(),
+            player2.getScore(), player2.getLive(), player2.getGem(), multiPl);
 
         // draw
         window.clear();
@@ -86,7 +100,12 @@ int main()
 		level.draw(window); //level ka draw function background, platforms, enemies sab draw karega
         h.draw(window);   //HUD draw karo
 		window.draw(player);  //player draw karo
-       
+        if (multiPl)
+            window.draw(player2); //player 2 draw karo
+        bool p1Dead = player.getDead();
+        bool p2Dead = !multiPl || player2.getDead();
+        if (p1Dead && p2Dead)
+			exit(0); //game over jab dono players mar jaaye to
         window.display();
     }
 }

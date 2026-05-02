@@ -26,20 +26,27 @@ Player::Player()
 
 void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
 {
+    if (isdead) return;
 
     //Left arrow se player left jaye
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        facingRight = false;              //player left dekh raha hai to false
-        playerSprite.move(-movement, 0); //left move karo
+        facingRight = false; playerSprite.move(-movement, 0);
+    }
+    else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        facingRight = false; playerSprite.move(-movement, 0);
+    }
+    // Right arrow se player right jaye
+    if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        facingRight = true; playerSprite.move(movement, 0);
+    }
+    else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    {
+        facingRight = true; playerSprite.move(movement, 0);
     }
 
-    // Right arrow se player right jaye
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        facingRight = true;              // player right dekh raha hai to true
-        playerSprite.move(movement, 0); // right move karo
-    }
 
     //Sprite Flip Karo
     //left ja raha hai to sprite ulta karo
@@ -110,12 +117,17 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
           // Jump
           // up arrow press karo aur ground par ho to jump karo
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && Ground)
+    if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && Ground)
     {
-        jumpSpeed = jump; // upar ki taraf speed do
-        Ground = false;   // ab hawa mein hai
+        jumpSpeed = jump; 
+        Ground = false;
     }
-
+    else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::W) && Ground)
+    {
+        jumpSpeed = jump;
+        Ground = false;
+    }
+    
 
     // player screen se bahar na jaye
     if (playerSprite.getPosition().x < 0)
@@ -154,7 +166,7 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
     }
     /*===================SNOW BALL CODE==========================*/
     // Space press karo to ek naya ball shoot karo
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !fire)
+    if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !fire)
     {
         //dhundo ek inactive ball
         for (int i = 0; i < ballcount; i++)
@@ -170,11 +182,27 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
             }
         }
     }
+    else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::F) && !fire)
+    { 
+        for (int i = 0; i < ballcount; i++)
+        {
+            if (!ball[i].act()) // agar ye ball inactive hai
+            {
+                // is ball ko shoot karo             right side se                               left side se                                        // hand level
+                ball[i].setfire(facingRight ? playerSprite.getPosition().x + 35 : playerSprite.getPosition().x + 30, playerSprite.getPosition().y + 30);
+
+                ball[i].shoot(facingRight ? 1.0f : -1.0f);  //using tenary for choosing direction pf ma para tha and socha tha kabi kaam nahi ai ge :}
+                fire = true; // ek ball shoot ho gaya
+                break;       // loop band karo ek hi ball chahiye
+            }
+        }
+    }
 
     // Space chhod do to dobara shoot kar sako
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if (!isPlayer2 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         fire = false;
-
+    if (isPlayer2 && !sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+        fire = false;
     // sare active balls update karo
     for (int i = 0; i < ballcount; i++)
         ball[i].update();
@@ -256,10 +284,10 @@ void Player::lifedown()
         lives--;
         if (lives<=0)
             {
-			
+			isdead = true; //player mar gaya hai
             
             // game over screen draw karo
-			exit(0);
+			//exit(0);
             // game over loic yaha dalna ha abdullah 
             // for now, bas player ko center par reset kar dete hain
             //  playerSprite.setPosition(200, 400);
