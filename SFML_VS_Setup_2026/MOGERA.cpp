@@ -10,8 +10,8 @@ Mogera::Mogera(float x, float y)
 
 	enemy.setTexture(enemyTexture);
 	enemy.setScale(
-		80.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
-		84.0f / enemyTexture.getSize().y   // auto fit to 64px 
+		90.0f / enemyTexture.getSize().x,  // auto fit to 90px wide
+		94.0f / enemyTexture.getSize().y   // auto fit to 94px tall
 	);
 
 	enemy.setPosition(x, y);

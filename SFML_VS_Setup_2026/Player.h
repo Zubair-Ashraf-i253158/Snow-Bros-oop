@@ -13,8 +13,8 @@ private:
 	SnowBall ball[10]; // player ka snowball
 	int ballcount = 10;
 	bool fire=false;     // kya player fire kar raha hai ya nahi
-
-	sf::Texture playerTexture;
+	sf::Texture playerTexture;   //idle
+	sf::Texture jumpTexture;     //jump
 	sf::Sprite playerSprite;
 	
 	float movement = 3.0f;     // left right speed
@@ -23,7 +23,7 @@ private:
 	float jumpSpeed = 0.0f;     // current up/down speed
 	bool Ground = true;
 	
-	// Required override from sf::Drawable
+	
 	int animFrame = 0;    // knsa fram ha abhi
 	int animTimer = 0;    // time jab frame change hona chahiye
 	bool facingRight = true;

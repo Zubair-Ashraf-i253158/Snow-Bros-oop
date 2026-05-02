@@ -9,8 +9,8 @@ Mchild::Mchild(float x, float y)
 
 	enemy.setTexture(enemyTexture);
 	enemy.setScale(
-		80.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
-		84.0f / enemyTexture.getSize().y   // auto fit to 64px 
+		50.0f / enemyTexture.getSize().x,  // auto fit to 50px wide
+		54.0f / enemyTexture.getSize().y   // auto fit to 54px tall
 	);
 
 	enemy.setPosition(x, y);

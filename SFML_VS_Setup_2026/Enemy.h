@@ -99,7 +99,15 @@ public:
 	{ 
 		return state; 
 	}
-
+	void setVariantTexture(std::string path)
+	{
+		enemyTexture.loadFromFile(path);
+		enemy.setTexture(enemyTexture);
+		enemy.setScale(
+			60.0f / enemyTexture.getSize().x,
+			64.0f / enemyTexture.getSize().y
+		);
+	}
 	//PLatform
 	virtual void update(Platform platforms[], int count, sf::Vector2f playerPos)
 	{

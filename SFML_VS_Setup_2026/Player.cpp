@@ -6,18 +6,20 @@
 Player::Player()
 {
     // texture load karo file se
-    if (!playerTexture.loadFromFile("assets/player2.png"))
+    if (!playerTexture.loadFromFile("assets/NARUTO.png"))
     {
-        // agar texture load na ho to red rectangle banao
+        //agar texture load na ho to red rectangle banao
         sf::RectangleShape PLAYER;
         PLAYER.setSize(sf::Vector2f(60, 64));
         PLAYER.setFillColor(sf::Color::Red);
     }
+    playerTexture.loadFromFile("assets/NARUTO.png");
+    jumpTexture.loadFromFile("assets/JUMP.png");
 
-    playerSprite.setTexture(playerTexture);
+    playerSprite.setTexture(playerTexture); // default idle
     playerSprite.setScale(
-        60.0f / playerTexture.getSize().x,  // auto fit to 60px wide
-        64.0f / playerTexture.getSize().y   // auto fit to 64px tall
+        60.0f / playerTexture.getSize().x,
+        64.0f / playerTexture.getSize().y
     );
     playerSprite.setPosition(400, 400);
 }
@@ -25,11 +27,11 @@ Player::Player()
 void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
 {
 
-    // Left arrow se player left jaye
+    //Left arrow se player left jaye
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        facingRight = false;              // player left dekh raha hai to false
-        playerSprite.move(-movement, 0); // left move karo
+        facingRight = false;              //player left dekh raha hai to false
+        playerSprite.move(-movement, 0); //left move karo
     }
 
     // Right arrow se player right jaye
@@ -39,15 +41,15 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
         playerSprite.move(movement, 0); // right move karo
     }
 
-    // Sprite Flip Karo
-    // left ja raha hai to sprite ulta karo
+    //Sprite Flip Karo
+    //left ja raha hai to sprite ulta karo
     float scaleX = 60.0f / playerTexture.getSize().x;
     float scaleY = 64.0f / playerTexture.getSize().y;
 
     if (!facingRight)
     {
         playerSprite.setScale(-scaleX, scaleY);
-        playerSprite.setOrigin(60, 0);
+        playerSprite.setOrigin(playerSprite.getLocalBounds().width, 0);
     }
     else
     {
@@ -59,6 +61,20 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
     // check karo player chal raha hai ya nahi
 
     bool moving = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+    if (!Ground) // jumping
+    {
+        playerSprite.setTexture(jumpTexture);
+        scaleX = 60.0f / jumpTexture.getSize().x;
+        scaleY = 64.0f / jumpTexture.getSize().y;
+    }
+    else // idle or walking
+    {
+        playerSprite.setTexture(playerTexture);
+        scaleX = 60.0f / playerTexture.getSize().x;
+        scaleY = 64.0f / playerTexture.getSize().y;
+    }
+
+
 
     /* if (moving)
       {
@@ -140,7 +156,7 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
     // Space press karo to ek naya ball shoot karo
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !fire)
     {
-        // dhundo ek inactive ball
+        //dhundo ek inactive ball
         for (int i = 0; i < ballcount; i++)
         {
             if (!ball[i].act()) // agar ye ball inactive hai
@@ -190,14 +206,14 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
         }
     }
 
-	// chain ban jati ha . rolling snowball kisi ko hit kare to wo bhi mar jaaye
+	//chain ban jati ha . rolling snowball kisi ko hit kare to wo bhi mar jaaye
     for (int i = 0; i < ecount; i++)
     {
 		if (enemy[i]->getState() == 3) // enemies that are rooling or kicked by player
         {
             for (int j = 0; j < ecount; j++)
             {
-				//     diff enemy hona chye		 hit hone wala zinda hona chahiye          hit hone wala aur rolling enemy ke bounds intersect kar rahe ho
+				// diff enemy hona chye		 hit hone wala zinda hona chahiye          hit hone wala aur rolling enemy ke bounds intersect kar rahe ho
 				if (   i != j          &&        enemy[j]->getZinda()      &&        enemy[i]->getBounds().intersects(enemy[j]->getBounds()    )     )//kisi aur ko hit karay to wo bhi mar jaaye
                    
                     enemy[j]->setZinda(false);
