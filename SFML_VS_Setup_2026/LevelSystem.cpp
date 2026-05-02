@@ -71,7 +71,7 @@ void Level::loadLevel(int levelNum)
        
         b[1].setdirection(-1.0f); //left
         b[2].setdirection(-1.0f); //left
-
+       
     }
 
 
@@ -164,7 +164,7 @@ void Level::loadLevel(int levelNum)
 
     else if (levelNum == 4)
     {
-        bgTexture.loadFromFile("assets/Zlevel4.png");
+        bgTexture.loadFromFile("assets/lvl4.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,
@@ -172,17 +172,16 @@ void Level::loadLevel(int levelNum)
         );
 
         platformCount = 10;
-        platforms[0] = Platform(0, 524, 800, 10);
-        platforms[1] = Platform(0, 430, 130, 10);
-        platforms[2] = Platform(670, 430, 130, 10);
-        platforms[3] = Platform(300, 400, 200, 10);
-        platforms[4] = Platform(130, 330, 180, 10);
-        platforms[5] = Platform(490, 330, 180, 10);
-        platforms[6] = Platform(300, 260, 200, 10);
-        platforms[7] = Platform(0, 190, 150, 10);
-        platforms[8] = Platform(650, 190, 150, 10);
-        platforms[9] = Platform(300, 120, 200, 10);
-
+        platforms[0] = Platform(0, 567, 800, 10);   // ground
+        platforms[1] = Platform(207, 480, 420, 10);   // bottom long left
+        platforms[2] = Platform(307, 400, 300, 10); // mid right
+        platforms[3] = Platform(207, 310, 300, 10); // mid long
+        platforms[4] = Platform(307, 230, 300, 10); // upper right
+        platforms[5] = Platform(107, 230, 90, 70);   // upper left small
+        platforms[6] = Platform(159, 140, 338, 10); // top long
+        platforms[7] = Platform(107, 397, 90, 70);   // bottom left small
+        platforms[8] = Platform(607, 310, 90, 70);   // bottom right small
+        platforms[9] = Platform(607, 140, 90, 70);   // upper right small
 
         //CUSTOMIZED ENEMy
         invCount = 2;
@@ -199,27 +198,21 @@ void Level::loadLevel(int levelNum)
 
     else if (levelNum == 5)
     {
-        bgTexture.loadFromFile("assets/Level5.png");
+        bgTexture.loadFromFile("assets/lvl5boss.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,
             600.0f / bgTexture.getSize().y
         );
+        platformCount = 6; //boss
 
-        // open platforms for boss fight
-        platformCount = 6;
-        platforms[0] = Platform(0, 560, 800, 10);
-
-        platforms[1] = Platform(0, 500, 380, 10);
-
-        platforms[2] = Platform(420, 440, 380, 10);
-
-        platforms[3] = Platform(0, 380, 500, 10);
-
-        platforms[4] = Platform(300, 320, 500, 10);
-
-        platforms[5] = Platform(0, 260, 400, 10);
-
+        //Ground
+        platforms[0] = Platform(0, 567, 800, 40);
+        platforms[1] = Platform(215, 470, 220, 15);//lowest
+        platforms[2] = Platform(0, 397, 335, 15);   //left
+        platforms[3] = Platform(560, 354, 240, 15); //right
+        platforms[4] = Platform(166, 307, 270, 15); //center
+        platforms[5] = Platform(0, 211, 330, 15);   //top
         // sirf mogera hai
        
         m = Mogera(360,150);
@@ -234,26 +227,25 @@ void Level::loadLevel(int levelNum)
     else if (levelNum == 6)
     {
 
-        bgTexture.loadFromFile("assets/Zlevel6.png");
+        bgTexture.loadFromFile("assets/lvl5.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,
             600.0f / bgTexture.getSize().y
         );
 
-        platformCount = 10;
-        platforms[0] = Platform(0, 524, 800, 10);
-        platforms[1] = Platform(0, 450, 190, 10);
-        platforms[2] = Platform(320, 450, 180, 10);
-        platforms[3] = Platform(620, 450, 180, 10);
-        platforms[4] = Platform(160, 370, 485, 12);
-        platforms[5] = Platform(0, 290, 340, 10);
-        platforms[6] = Platform(200, 160, 390, 8);
-        platforms[7] = Platform(460, 290, 340, 10);
-        platforms[8] = Platform(100, 200, 125, 10);
-        platforms[9] = Platform(570, 200, 125, 10);
-
-        //Green variants 
+        platformCount = 11;
+        platforms[0] = Platform(0, 579, 800, 10);//ground
+        platforms[1] = Platform(117, 494, 230, 10);//first two platforms
+        platforms[2] = Platform(465, 494, 230, 10);
+        platforms[3] = Platform(0, 405, 200, 10);//small left
+        platforms[4] = Platform(620, 405, 200, 10);//small right
+        platforms[5] = Platform(117, 320, 200, 10);//mid two platforms 
+        platforms[6] = Platform(492, 320, 200, 10);
+        platforms[7] = Platform(0, 230, 200, 10);//top right
+        platforms[8] = Platform(610, 230, 200, 10);//top left 
+        platforms[9] = Platform(110, 140, 580, 10);//top
+        platforms[10] = Platform(350, 150, 100, 355);//top sa nichay vertical
         //faster speed
 
         bCount = 2;
@@ -291,6 +283,13 @@ void Level::loadLevel(int levelNum)
             t[i].setHealth(4.0f);
             // t[i].setColor(sf::Color::Green);
         }
+        //new variants
+        for (int i = 0; i < bCount; i++)
+            b[i].setVariantTexture("assets/enemy 5.png");
+        for (int i = 0; i < fCount; i++)
+            f[i].setVariantTexture("assets/ff 6.png");
+        for (int i = 0; i < tCount; i++)
+            t[i].setVariantTexture("assets/tor 6.png");
     }
 
 
@@ -299,24 +298,30 @@ void Level::loadLevel(int levelNum)
 
     else if (levelNum == 7)
     {
-        bgTexture.loadFromFile("assets/Zlevel7.png");
+        //background load karo
+        bgTexture.loadFromFile("assets/lvl 7.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,
             600.0f / bgTexture.getSize().y
         );
+        platformCount = 15;
 
-        platformCount = 10;
-        platforms[0] = Platform(0, 524, 800, 10);
-        platforms[1] = Platform(100, 440, 150, 10);
-        platforms[2] = Platform(550, 440, 150, 10);
-        platforms[3] = Platform(300, 380, 200, 10);
-        platforms[4] = Platform(0, 300, 200, 10);
-        platforms[5] = Platform(600, 300, 200, 10);
-        platforms[6] = Platform(250, 240, 300, 10);
-        platforms[7] = Platform(0, 160, 150, 10);
-        platforms[8] = Platform(650, 160, 150, 10);
-        platforms[9] = Platform(300, 100, 200, 10);
+        platforms[0] = Platform(0, 571, 800, 15); // ground
+        platforms[1] = Platform(0, 440, 145, 22);    //bottom small  left
+        platforms[2] = Platform(655, 440, 145, 15);  //bottom small right
+        platforms[3] = Platform(145, 480, 165, 22);  //bottom left 
+        platforms[4] = Platform(490, 480, 165, 15);  //bottom right
+        platforms[5] = Platform(110, 310, 80, 22);  //mid left 
+        platforms[6] = Platform(160, 350, 145, 22);  //mid left
+        platforms[7] = Platform(510, 310, 130, 22);  //mid right
+        platforms[8] = Platform(640, 350, 160, 12);  //mid right
+        platforms[9] = Platform(160, 225, 180, 12);  //top low
+        platforms[10] = Platform(375, 184, 150, 12); //top middle
+        platforms[11] = Platform(505, 145, 180, 12); //top
+        platforms[12] = Platform(0, 145, 240, 12);   //top left small
+        platforms[13] = Platform(620, 225, 180, 12); //top right high
+        platforms[14] = Platform(315, 390, 170, 72);   //clock
 
         bCount = 5;
         b[0] = Botom(100, 50);
@@ -349,6 +354,15 @@ void Level::loadLevel(int levelNum)
             t[i].setHealth(5.0f);
             //  t[i].setColor(sf::Color::Blue);
         }
+
+
+        //new variants
+        for (int i = 0; i < bCount; i++)
+            b[i].setVariantTexture("assets/enemy 5.png");
+        for (int i = 0; i < fCount; i++)
+            f[i].setVariantTexture("assets/ff 6.png");
+        for (int i = 0; i < tCount; i++)
+            t[i].setVariantTexture("assets/tor 6.png");
     }
 
 
@@ -410,6 +424,13 @@ void Level::loadLevel(int levelNum)
             t[i].setHealth(6.0f);
             // t[i].setColor(sf::Color(128, 0, 128));
         }
+        //new extreme variants
+        for (int i = 0; i < bCount; i++)
+            b[i].setVariantTexture("assets/enemy 8.png");
+        for (int i = 0; i < fCount; i++)
+            f[i].setVariantTexture("assets/ff 8.png");
+        for (int i = 0; i < tCount; i++)
+            t[i].setVariantTexture("assets/tor 8.png");
     }
 
 
@@ -418,7 +439,7 @@ void Level::loadLevel(int levelNum)
 
     else if (levelNum == 9)
     {
-        bgTexture.loadFromFile("assets/Zlevel9.png");
+        bgTexture.loadFromFile("assets/lvl9.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,
@@ -436,7 +457,7 @@ void Level::loadLevel(int levelNum)
         platforms[7] = Platform(0, 190, 150, 10);
         platforms[8] = Platform(650, 190, 150, 10);
         platforms[9] = Platform(300, 120, 200, 10);
-
+       
         bCount = 5;
         b[0] = Botom(100, 50);
         b[1] = Botom(250, 50);
@@ -455,6 +476,13 @@ void Level::loadLevel(int levelNum)
         tCount = 2;
         t[0] = Tornado(300, 50);
         t[1] = Tornado(500, 50);
+        //new extreme variants
+        for (int i = 0; i < bCount; i++)
+            b[i].setVariantTexture("assets/enemy 8.png");
+        for (int i = 0; i < fCount; i++)
+            f[i].setVariantTexture("assets/ff 8.png");
+        for (int i = 0; i < tCount; i++)
+            t[i].setVariantTexture("assets/tor 8.png");
 
     }
 
@@ -464,7 +492,7 @@ void Level::loadLevel(int levelNum)
 
     else if (levelNum == 10)
     {
-        bgTexture.loadFromFile("assets/Zlevel10boss.png");
+        bgTexture.loadFromFile("assets/lvlten.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,

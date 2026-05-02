@@ -3,12 +3,14 @@
 
 Gama::Gama(float x, float y)
 {
-    
-    //enemy.setSize(sf::Vector2f(100, 100));      // 100x100 ka bara boss
-    //enemy.setFillColor(sf::Color(128, 0, 128)); // Purple colour
-    enemy.setPosition(x, y);                   
 
-    // Health setup
+    enemyTexture.loadFromFile("assets/gamakichi.png");
+    enemy.setTexture(enemyTexture);
+    enemy.setScale(
+       90.0f / enemyTexture.getSize().x,  // auto fit to 90px wide
+        94.0f / enemyTexture.getSize().y   // auto fit to 94px tall
+    );
+    enemy.setPosition(x, y);                   
     MaxH = 20.0f;    // maximum health 20
     healthE = 20.0f;    // shuru mein full health
     zindaE = true;     

@@ -6,9 +6,16 @@
 
 Mogera::Mogera(float x, float y)
 {
-	//enemy.setSize(sf::Vector2f(80, 80));
-	//enemy.setFillColor(sf::Color::Magenta);
+	enemyTexture.loadFromFile("assets/mogeraa.png");
+
+	enemy.setTexture(enemyTexture);
+	enemy.setScale(
+		90.0f / enemyTexture.getSize().x,  // auto fit to 90px wide
+		94.0f / enemyTexture.getSize().y   // auto fit to 94px tall
+	);
+
 	enemy.setPosition(x, y);
+
 	
 	Health = 10.0f; //mogera ki health
 	zindaE = true;

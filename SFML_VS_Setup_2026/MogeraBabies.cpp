@@ -5,10 +5,16 @@
 
 Mchild::Mchild(float x, float y)
 {
-	//enemy.setSize(sf::Vector2f(15, 15));
-	//enemy.setFillColor(sf::Color::Cyan);
+	enemyTexture.loadFromFile("assets/baby.png");
+
+	enemy.setTexture(enemyTexture);
+	enemy.setScale(
+		50.0f / enemyTexture.getSize().x,  // auto fit to 50px wide
+		54.0f / enemyTexture.getSize().y   // auto fit to 54px tall
+	);
+
 	enemy.setPosition(x, y);
-	
+
 	speedE = 2.0f;  
 	healthE = 1.0f; //health 1 matlub player ki one hit kiya to baby mar jaayega 
 	zindaE = true;

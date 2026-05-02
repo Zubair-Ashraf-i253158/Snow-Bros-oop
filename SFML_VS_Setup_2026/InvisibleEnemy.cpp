@@ -7,8 +7,8 @@ Invisible::Invisible(float x, float y) : Tornado(x, y)
     enemyTexture.loadFromFile("assets/invis.png");
     enemy.setTexture(enemyTexture);
     enemy.setScale(
-        70.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
-        74.0f / enemyTexture.getSize().y   // auto fit to 64px 
+        60.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
+        64.0f / enemyTexture.getSize().y   // auto fit to 64px 
     );
 	
     

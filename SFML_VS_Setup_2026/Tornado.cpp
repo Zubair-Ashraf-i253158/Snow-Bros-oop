@@ -10,8 +10,8 @@ Tornado::Tornado(float x, float y) : FlyingFooga(x, y)
     enemyTexture.loadFromFile("assets/tor.png");
     enemy.setTexture(enemyTexture);
     enemy.setScale(
-        80.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
-        84.0f / enemyTexture.getSize().y   // auto fit to 64px tall
+        60.0f / enemyTexture.getSize().x,  // auto fit to 60px wide
+        64.0f / enemyTexture.getSize().y   // auto fit to 64px tall
     );
     speedE = 2.0f;  
 	healthE = 3.0f; //health
