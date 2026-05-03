@@ -6,14 +6,15 @@ class MainMenu
 private:
     sf::Font font;
     sf::Text title;
-    sf::RectangleShape buttons[5];
-    sf::Text btnText[5];
-    std::string options[5] = {
+    sf::RectangleShape buttons[6];
+    sf::Text btnText[6];
+    string options[6] = {
         "STORY MODE",
-        "LEVEL SELECT",
-        "SHOP",
-        "LEADERBOARD",
-        "LOGOUT"
+    "MULTIPLAYER",
+    "LEVEL SELECT",
+    "SHOP",
+    "LEADERBOARD",
+    "LOGOUT"
     };
 
 public:
@@ -27,7 +28,7 @@ public:
         title.setFillColor(sf::Color::Cyan);
         title.setPosition(200, 40);
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
             buttons[i].setSize(sf::Vector2f(400, 55));
             buttons[i].setPosition(200, 150 + i * 80);
@@ -42,12 +43,12 @@ public:
             btnText[i].setPosition(230, 162 + i * 80);
         }
 
-        // logout button red
+        //logout button red
         buttons[4].setOutlineColor(sf::Color::Red);
         btnText[4].setFillColor(sf::Color::Red);
     }
 
-    // returns: 0=stay 1=story 2=levelselect 3=shop 4=leaderboard 5=logout
+    //0=stay 1=story 2=levelselect 3=shop 4=leaderboard 5=logout
     int update(sf::Event& event)
     {
         if (event.type == sf::Event::MouseButtonPressed)
@@ -57,8 +58,7 @@ public:
                 if (buttons[i].getGlobalBounds().contains(click))
                     return i + 1;
         }
-
-        // hover effect
+       
         if (event.type == sf::Event::MouseMoved)
         {
             sf::Vector2f mouse(event.mouseMove.x, event.mouseMove.y);

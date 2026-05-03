@@ -11,8 +11,8 @@
 #include "InvisibleEnemy.h"
 #include "HUD.h"
 #include <SFML/Graphics.hpp>
-
-
+#include"item.h"
+const int maxItems = 50;
 //zubair bahi asey banatey hien level ,to bas 4 ghantey me 2 pictures he dal sakhta ha//
 // bhai expository ka pura kaam kia ha mana , abhi is ka bhi kr raha
 class Level
@@ -40,10 +40,12 @@ private:
 
     Invisible inV[5];   // 5 invisible enemies
     int invCount;
-
+	
     Mogera m;
     Gama g; 
-
+    Item items[maxItems]; 
+    sf::Texture gemTexture; 
+    sf::Texture starTexture;
 public:
     
     Level();
@@ -100,9 +102,29 @@ public:
     int getInvCount() 
     { return invCount; }
    
-
-
-
+    //for items
+    Item* getItems() { return items; }
+    int getMaxItems() { return maxItems; }
+    void spawnItem(float x, float y, ItemType type) {
+        for (int i = 0; i < maxItems; i++) {
+            if (!items[i].active) {
+                if (type == GEM) {
+                    items[i].spawn(x, y, GEM, gemTexture);
+                }
+                else if (type == STAR) {
+                    items[i].spawn(x, y, STAR, starTexture);
+                }
+                break; 
+            }
+        }
+    }
+    void drawItems(sf::RenderWindow& window) {
+        for (int i = 0; i < maxItems; i++) {
+            if (items[i].active) {
+                window.draw(items[i].sprite);
+            }
+        }
+	}
 
     //HUD GETTER FOR LEVEL
 

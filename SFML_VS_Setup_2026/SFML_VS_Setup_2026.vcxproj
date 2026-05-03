@@ -154,6 +154,7 @@
     <ClInclude Include="GamaKichi.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InvisibleEnemy.h" />
+    <ClInclude Include="item.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="LevelSystem.h" />
     <ClInclude Include="LoginScreen.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="MogeraBabies.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Shop.h" />
     <ClInclude Include="SignupScreen.h" />
     <ClInclude Include="SnowBall.h" />
     <ClInclude Include="SplashScreen.h" />

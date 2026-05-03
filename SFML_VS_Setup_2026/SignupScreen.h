@@ -90,14 +90,14 @@ public:
             if (signupBtn.getGlobalBounds().contains(click))
             {
                 if (username.empty() || password.empty())
-                    error = "Fields cannot be empty!";
+                    error = "Fields cant be empty";
                 else if (auth.signup(username, password))
-                    return 1; // go to login
+                    return 1; //go to login
                 else
-                    error = "Username already taken!";
+                    error = "Username taken!";
             }
             if (backBtn.getGlobalBounds().contains(click))
-                return 1; // back to login
+                return 1; //back to login
         }
 
         if (event.type == sf::Event::TextEntered)

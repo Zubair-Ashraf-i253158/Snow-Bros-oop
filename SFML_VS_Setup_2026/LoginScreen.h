@@ -14,7 +14,7 @@ private:
 
     std::string username = "";
     std::string password = "";
-    bool typingUser = true; // true=username box active
+    bool typingUser = true; //true box active ha 
     std::string error = "";
 
 public:
@@ -22,14 +22,14 @@ public:
     {
         font.loadFromFile("assets/FONT/font.ttf");
 
-        // title
+        //title
         titleText.setFont(font);
         titleText.setString("LOGIN");
         titleText.setCharacterSize(50);
         titleText.setFillColor(sf::Color::Cyan);
         titleText.setPosition(330, 80);
 
-        // username box
+        //username box
         userBox.setSize(sf::Vector2f(400, 45));
         userBox.setPosition(200, 200);
         userBox.setFillColor(sf::Color(30, 30, 30));
@@ -76,7 +76,7 @@ public:
         signupBtn.setString("[ SIGNUP ]");
         signupBtn.setCharacterSize(30);
         signupBtn.setFillColor(sf::Color::Yellow);
-        signupBtn.setPosition(450, 400);
+        signupBtn.setPosition(270, 450);
 
         errorText.setFont(font);
         errorText.setCharacterSize(22);
@@ -95,23 +95,23 @@ public:
             if (loginBtn.getGlobalBounds().contains(click))
             {
                 if (auth.login(username, password))
-                    return 3; // level select
+                    return 3; //level select
                 else
-                    error = "Wrong username or password!";
+                    error = "Wrong username or password";
             }
             if (signupBtn.getGlobalBounds().contains(click))
-                return 2; // go to signup
+                return 2; //go to signup
         }
 
         if (event.type == sf::Event::TextEntered)
         {
             char c = event.text.unicode;
-            if (c == 8) // backspace
+            if (c == 8) //backspace
             {
                 if (typingUser && !username.empty()) username.pop_back();
                 if (!typingUser && !password.empty()) password.pop_back();
             }
-            else if (c >= 32 && c < 127) // normal character
+            else if (c >= 32 && c < 127) //normal character
             {
                 if (typingUser && username.size() < 20) username += c;
                 if (!typingUser && password.size() < 20) password += c;
@@ -124,12 +124,12 @@ public:
     {
         window.clear(sf::Color(20, 20, 60));
 
-        // highlight active box
+        //highlight active box
         userBox.setOutlineColor(typingUser ? sf::Color::Cyan : sf::Color::White);
         passBox.setOutlineColor(!typingUser ? sf::Color::Cyan : sf::Color::White);
 
         userInput.setString(username);
-        // show stars for password
+        //show stars for password
         std::string stars(password.size(), '*');
         passInput.setString(stars);
         errorText.setString(error);

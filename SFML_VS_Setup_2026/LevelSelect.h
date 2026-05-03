@@ -28,7 +28,7 @@ public:
         instruction.setFillColor(sf::Color::White);
         instruction.setPosition(250, 520);
 
-        // 10 boxes - 2 rows of 5
+		//10 level boxes 
         for (int i = 0; i < 10; i++)
         {
             int row = i / 5;
@@ -44,16 +44,16 @@ public:
             numbers[i].setString(std::to_string(i + 1));
             numbers[i].setCharacterSize(35);
             numbers[i].setFillColor(sf::Color::White);
-            // center text in box
+            //box ka center
             numbers[i].setPosition(
                 80 + col * 130 + 40,
                 180 + row * 150 + 20
             );
         }
 
-        // boss levels - different color
-        boxes[4].setFillColor(sf::Color(80, 20, 20)); // level 5
-        boxes[9].setFillColor(sf::Color(80, 20, 20)); // level 10
+        //boss levels  different color
+        boxes[4].setFillColor(sf::Color(80, 20, 20)); //level 5
+        boxes[9].setFillColor(sf::Color(80, 20, 20)); //level 10
     }
 
     // returns selected level (1-10), 0 = stay
@@ -65,7 +65,7 @@ public:
             for (int i = 0; i < 10; i++)
             {
                 if (boxes[i].getGlobalBounds().contains(click))
-                    return i + 1; // return level number
+                    return i + 1; //return level number
             }
         }
         return 0;
@@ -83,19 +83,19 @@ public:
             window.draw(numbers[i]);
         }
 
-        // label boss levels
+        //label boss levels
         sf::Text boss5, boss10;
         boss5.setFont(font);
         boss5.setString("BOSS");
         boss5.setCharacterSize(15);
         boss5.setFillColor(sf::Color::Red);
-        boss5.setPosition(108, 245);
+        boss5.setPosition(608, 245);
 
         boss10.setFont(font);
         boss10.setString("BOSS");
         boss10.setCharacterSize(15);
         boss10.setFillColor(sf::Color::Red);
-        boss10.setPosition(108, 395);
+        boss10.setPosition(608, 395);
 
         window.draw(boss5);
         window.draw(boss10);

@@ -6,9 +6,9 @@
 class AuthSystem
 {
 private:
-    std::string loggedInUser;
+    std::string log_in;
 
-    // simple hash - har character ki value add karo
+    //simple hash har character ki value add karo
     int hashPassword(std::string password)
     {
         int hash = 0;
@@ -18,11 +18,11 @@ private:
     }
 
 public:
-    std::string getUser() { return loggedInUser; }
+    std::string getUser() { return log_in; }
     bool signup(std::string username, std::string password)
     {
-        // check if already exists
-        std::ifstream checkFile("users.txt"); // data/ hatao
+        //check if already exists
+        std::ifstream checkFile("users.txt"); //data hatao
         std::string u;
         int p;
         while (checkFile >> u >> p)
@@ -30,23 +30,23 @@ public:
         checkFile.close();
 
         // save karo
-        std::ofstream file("users.txt", std::ios::app); // data/ hatao
-        file << username << " " << hashPassword(password) << "\n";
+        std::ofstream file("users.txt", std::ios::app); //data hatao
+        file << username << " " << hashPassword(password) << endl;
         file.close();
-        loggedInUser = username;
+        log_in = username;
         return true;
     }
 
     bool login(std::string username, std::string password)
     {
-        std::ifstream file("users.txt"); // data/ hatao
+        std::ifstream file("users.txt"); //data hatao
         std::string u;
         int p;
         while (file >> u >> p)
         {
             if (u == username && p == hashPassword(password))
             {
-                loggedInUser = username;
+                log_in = username;
                 file.close();
                 return true;
             }
