@@ -45,23 +45,21 @@ public:
 		p1Gemt.setFillColor(sf::Color::White);  //Set the color for the gem text
 		p1Gemt.setPosition(700, 10);  //Set the position for the gem text
 
-		if (isMultiplayer)
-		{
-			p2scoret.setFont(f);  //Set the font for the score text
-			p2scoret.setCharacterSize(30);   //Set the character size for the score text
-			p2scoret.setFillColor(sf::Color::White);  //Set the color for the score text
-			p2scoret.setPosition(400, 40);  //Set the position for the score text
+		// Always initialize P2 text objects (they will be drawn conditionally)
+		p2scoret.setFont(f);  //Set the font for the score text
+		p2scoret.setCharacterSize(30);   //Set the character size for the score text
+		p2scoret.setFillColor(sf::Color::White);  //Set the color for the score text
+		p2scoret.setPosition(400, 40);  //Set the position for the score text
 
-			p2livest.setFont(f);  //Set the font for the lives text
-			p2livest.setCharacterSize(30);  //Set the character size for the lives text
-			p2livest.setFillColor(sf::Color::White);  //Set the color for the lives text	
-			p2livest.setPosition(400, 70);   //Set the position for the lives text
+		p2livest.setFont(f);  //Set the font for the lives text
+		p2livest.setCharacterSize(30);  //Set the character size for the lives text
+		p2livest.setFillColor(sf::Color::White);  //Set the color for the lives text	
+		p2livest.setPosition(400, 70);   //Set the position for the lives text
 
-			p2Gemt.setFont(f);  //Set the font for the gem text
-			p2Gemt.setCharacterSize(30);  //Set the character size for the gem text
-			p2Gemt.setFillColor(sf::Color::White);  //Set the color for the gem text
-			p2Gemt.setPosition(700, 40);  //Set the position for the gem text
-		}
+		p2Gemt.setFont(f);  //Set the font for the gem text
+		p2Gemt.setCharacterSize(30);  //Set the character size for the gem text
+		p2Gemt.setFillColor(sf::Color::White);  //Set the color for the gem text
+		p2Gemt.setPosition(700, 40);  //Set the position for the gem text
 	}
 	// HUD mein dono players ki info dikhao
 	void update(int score1, int lives1, int level, int gems1,

@@ -5,6 +5,7 @@
 #include "Botom.h"
 #include "Enemy.h"
 #include "HUD.h"
+#include <iostream>
 class Player : public sf::Drawable
 {	
 private:
@@ -15,6 +16,7 @@ private:
 	bool fire=false;     // kya player fire kar raha hai ya nahi
 	sf::Texture playerTexture;   //idle
 	sf::Texture jumpTexture;     //jump
+	sf::Texture player2Texture;  //player 2 idle texture
 	sf::Sprite playerSprite;
 	
 	float movement = 3.0f;     // left right speed
@@ -68,21 +70,31 @@ public:
 	void setPos(float x, float y)
 	{
 		playerSprite.setPosition(x, y);
+		playerSprite.setOrigin(0, 0); // Ensure origin is correct when setting position
 	}
-	void setPlayer2(bool p2) //player 2 ka texture ka lia
+	void setPlayer2(bool p2)
 	{
 		isPlayer2 = p2;
 		if (isPlayer2)
 		{
-			playerTexture.loadFromFile("assets/player2.png");
+			if (!playerTexture.loadFromFile("assets/naruto.png"))
+			{
+				sf::RectangleShape redBox(sf::Vector2f(60, 64));
+				redBox.setFillColor(sf::Color::Red);
+				return;
+			}
 			playerSprite.setTexture(playerTexture);
-			playerSprite.setScale(
-				60.0f / playerTexture.getSize().x,
-				64.0f / playerTexture.getSize().y
-			);
+			playerSprite.setOrigin(0, 0);
+
+			if (playerTexture.getSize().x > 0 && playerTexture.getSize().y > 0)
+			{
+				playerSprite.setScale(
+					60.0f / playerTexture.getSize().x,
+					64.0f / playerTexture.getSize().y
+				);
+			}
 		}
 	}
-
 	/*======GETTERS FOR HUD ======*/
 	int getScore() const
 	{
@@ -97,6 +109,11 @@ public:
 	int getGem() const
 	{
 		return gems; // current gems do
+	}
+
+	void addScore(int points)
+	{
+		score += points;
 	}
 
 

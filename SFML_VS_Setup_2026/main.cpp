@@ -26,11 +26,12 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
             // M press karo to multiplayer toggle karo
+            if (event.type == sf::Event::KeyPressed &&
+                event.key.code == sf::Keyboard::M)
+                multiPl = !multiPl;
             
         }
-        if (event.type == sf::Event::KeyPressed &&
-            event.key.code == sf::Keyboard::M)
-            multiPl = !multiPl;
+       
          // ENEMY ARRAY BANAO
           // hum Enemy* (base class pointer) use kar rahe hain
          // kyunki Botom, FlyingFooga, Tornado sab Enemy se inherit karte hain
@@ -82,8 +83,71 @@ int main()
         player.update(  level.getPlatforms()  , level.getPlatformCount()     ,    enemies   ,       ecount   );
         if (multiPl)
             player2.update(level.getPlatforms(), level.getPlatformCount(), enemies, ecount);
+        bool botomAlive[5], foogaAlive[2], tornadoAlive[2], invAlive[5];
+bool mogeraAlive = false, gamaAlive = false;
+
+for (int i = 0; i < level.getBotomCount(); i++)
+    botomAlive[i] = level.getBotoms()[i].getZinda();
+for (int i = 0; i < level.getFoogaCount(); i++)
+    foogaAlive[i] = level.getFoogas()[i].getZinda();
+for (int i = 0; i < level.getTornadoCount(); i++)
+    tornadoAlive[i] = level.getTornados()[i].getZinda();
+for (int i = 0; i < level.getInvCount(); i++)
+    invAlive[i] = level.getInvisibles()[i].getZinda();
+if (level.getCurrentLevel() == 5)
+    mogeraAlive = level.getMogera().getZinda();
+if (level.getCurrentLevel() == 10)
+    gamaAlive = level.getGama().getZinda();
 
         level.update(player);
+
+        ////score update 
+        for (int i = 0; i < level.getBotomCount(); i++)
+        {
+            if (botomAlive[i] && !level.getBotoms()[i].getZinda())
+            {
+				int pts = 100 + rand() % 401;//100 se 500 points mil sakte hain
+                player.addScore(pts);
+                if (multiPl) player2.addScore(pts); //player2
+            }
+        }
+        for (int i = 0; i < level.getFoogaCount(); i++)
+        {
+            if (foogaAlive[i] && !level.getFoogas()[i].getZinda())
+            {
+				int pts = 200 + rand() % 601;//200 se 800 points mil sakte hain
+                player.addScore(pts);
+                if (multiPl) player2.addScore(pts);
+            }
+        }
+        for (int i = 0; i < level.getTornadoCount(); i++)
+        {
+            if (tornadoAlive[i] && !level.getTornados()[i].getZinda())
+            {
+				int pts = 300 + rand() % 901; //300 se 1200 points mil sakte hain
+                player.addScore(pts);
+                if (multiPl) player2.addScore(pts);
+            }
+        }
+         for (int i = 0; i < level.getInvCount(); i++)
+        {
+            if (invAlive[i] && !level.getInvisibles()[i].getZinda())
+            {
+				int pts = 500 + rand() % 1001;//500 se 1500 points mil sakte hain
+                player.addScore(pts);
+                if (multiPl) player2.addScore(pts);
+            }
+		 }
+        if (level.getCurrentLevel() == 5 && mogeraAlive && !level.getMogera().getZinda())
+        {
+            player.addScore(5000);
+			if (multiPl) player2.addScore(5000);//mogera marne par 5000 points milte hain
+        }
+        if (level.getCurrentLevel() == 10 && gamaAlive && !level.getGama().getZinda())
+        {
+			player.addScore(10000);//gamakichi marne par 10000 points milte hain
+            if (multiPl) player2.addScore(10000);
+        }
 
         // level complete check
         if (level.isComplete())
@@ -102,6 +166,7 @@ int main()
 		window.draw(player);  //player draw karo
         if (multiPl)
             window.draw(player2); //player 2 draw karo
+
         bool p1Dead = player.getDead();
         bool p2Dead = !multiPl || player2.getDead();
         if (p1Dead && p2Dead)
