@@ -1,50 +1,69 @@
 #include "Player.h"
 #include "SnowBall.h"
 #include"HUD.h"
-
+#include "LevelSystem.h"
 #include"Botom.h"
 Player::Player()
 {
     // texture load karo file se
     if (!playerTexture.loadFromFile("assets/NARUTO.png"))
     {
-        //agar texture load na ho to red rectangle banao
-        sf::RectangleShape PLAYER;
-        PLAYER.setSize(sf::Vector2f(60, 64));
-        PLAYER.setFillColor(sf::Color::Red);
+        
+        sf::RectangleShape redBox(sf::Vector2f(60, 64));
+        redBox.setFillColor(sf::Color::Red);
+       
     }
-    playerTexture.loadFromFile("assets/NARUTO.png");
-    jumpTexture.loadFromFile("assets/JUMP.png");
 
-    playerSprite.setTexture(playerTexture); // default idle
+    if (!jumpTexture.loadFromFile("assets/JUMP.png"))
+    {
+        std::cerr << "ERROR: Failed to load assets/JUMP.png!" << std::endl;
+    }
+                
+    playerSprite.setTexture(playerTexture);
     playerSprite.setScale(
         60.0f / playerTexture.getSize().x,
         64.0f / playerTexture.getSize().y
     );
     playerSprite.setPosition(400, 400);
-}
+}           
 
 void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
 {
+    if (isdead) return;
+    if (isPlayer2)
+        playerSprite.setColor(sf::Color::Cyan); // Make player2 cyan tinted
+    else
+        playerSprite.setColor(sf::Color::White);
 
     //Left arrow se player left jaye
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        facingRight = false;              //player left dekh raha hai to false
-        playerSprite.move(-movement, 0); //left move karo
+        facingRight = false; playerSprite.move(-movement, 0);
+    }
+    else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        facingRight = false; playerSprite.move(-movement, 0);
+    }
+    // Right arrow se player right jaye
+    if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        facingRight = true; playerSprite.move(movement, 0);
+    }
+    else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    {
+        facingRight = true; playerSprite.move(movement, 0);
     }
 
-    // Right arrow se player right jaye
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        facingRight = true;              // player right dekh raha hai to true
-        playerSprite.move(movement, 0); // right move karo
-    }
 
     //Sprite Flip Karo
     //left ja raha hai to sprite ulta karo
-    float scaleX = 60.0f / playerTexture.getSize().x;
-    float scaleY = 64.0f / playerTexture.getSize().y;
+    float scaleX = 0.0f, scaleY = 0.0f;
+
+    if (playerTexture.getSize().x > 0 && playerTexture.getSize().y > 0)
+    {
+        scaleX = 60.0f / playerTexture.getSize().x;
+        scaleY = 64.0f / playerTexture.getSize().y;
+    }
 
     if (!facingRight)
     {
@@ -110,12 +129,17 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
           // Jump
           // up arrow press karo aur ground par ho to jump karo
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && Ground)
+    if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && Ground)
     {
-        jumpSpeed = jump; // upar ki taraf speed do
-        Ground = false;   // ab hawa mein hai
+        jumpSpeed = jump; 
+        Ground = false;
     }
-
+    else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::W) && Ground)
+    {
+        jumpSpeed = jump;
+        Ground = false;
+    }
+    
 
     // player screen se bahar na jaye
     if (playerSprite.getPosition().x < 0)
@@ -152,9 +176,15 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
             Ground = true; // ab ground par hai
         }
     }
+
+    /////////////////////////////////////////////////////////////
+    // Track previous alive status for score tracking
+    
+
+
     /*===================SNOW BALL CODE==========================*/
     // Space press karo to ek naya ball shoot karo
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !fire)
+    if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !fire)
     {
         //dhundo ek inactive ball
         for (int i = 0; i < ballcount; i++)
@@ -170,11 +200,27 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
             }
         }
     }
+    else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::F) && !fire)
+    { 
+        for (int i = 0; i < ballcount; i++)
+        {
+            if (!ball[i].act()) // agar ye ball inactive hai
+            {
+                // is ball ko shoot karo             right side se                               left side se                                        // hand level
+                ball[i].setfire(facingRight ? playerSprite.getPosition().x + 35 : playerSprite.getPosition().x + 30, playerSprite.getPosition().y + 30);
+
+                ball[i].shoot(facingRight ? 1.0f : -1.0f);  //using tenary for choosing direction pf ma para tha and socha tha kabi kaam nahi ai ge :}
+                fire = true; // ek ball shoot ho gaya
+                break;       // loop band karo ek hi ball chahiye
+            }
+        }
+    }
 
     // Space chhod do to dobara shoot kar sako
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if (!isPlayer2 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         fire = false;
-
+    if (isPlayer2 && !sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+        fire = false;
     // sare active balls update karo
     for (int i = 0; i < ballcount; i++)
         ball[i].update();
@@ -235,7 +281,11 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
             hitTimer++;
             if (hitTimer > 120) // 2 second baad normal
             {
-                playerSprite.setPosition(400, 460);
+                // Reset to original starting position for each player
+                if (isPlayer2)
+                    playerSprite.setPosition(200, 400);  // Player 2's start position
+                else
+                    playerSprite.setPosition(400, 460);  // Player 1's start position
                 hit = false;
                 hitTimer = 0;
             }
@@ -256,10 +306,10 @@ void Player::lifedown()
         lives--;
         if (lives<=0)
             {
-			
+			isdead = true; //player mar gaya hai
             
             // game over screen draw karo
-			exit(0);
+			//exit(0);
             // game over loic yaha dalna ha abdullah 
             // for now, bas player ko center par reset kar dete hain
             //  playerSprite.setPosition(200, 400);
@@ -310,61 +360,44 @@ bool Player::getBallActive(int i) const
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const //target is a variable name 
 {
-   /*
-    // player sprite draw karo
-    target.draw(playerSprite, states);
-	
-    for(int i=0 ; i<ballcount ; i++)
-    ball[i].draw(target); // snowball draw karo
-   */
+	// Only draw if player is alive
+	if (isdead) return;
 
-    /*Now adding hitbox logic only using if elsee */
+	// ALWAYS DRAW PLAYER SPRITE
+	target.draw(playerSprite, states);
 
-    //press H
- if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
-      {
-        target.draw(playerSprite, states); //NORMAL sprite player ka draw kro
+	// Always draw snowballs
+	for (int i = 0; i < ballcount; i++)
+		ball[i].draw(target);
 
-        //PLAYER HITBOX 
-        sf::RectangleShape box;
+	// Press H to show hitboxes
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
+	{
+		//PLAYER HITBOX 
+		sf::RectangleShape box;
 		//player sprite ke height aur width ke hisab se normal box ka size set karo
-        box.setSize(sf::Vector2f( playerSprite.getGlobalBounds().width , playerSprite.getGlobalBounds().height ));
+		box.setSize(sf::Vector2f( playerSprite.getGlobalBounds().width , playerSprite.getGlobalBounds().height ));
 
 		box.setPosition(playerSprite.getPosition());// player sprite ke position par box set karo
 		box.setFillColor(sf::Color::Transparent);// box ko transparent karo taki sirf outline dikhe
 		box.setOutlineColor(sf::Color::Green);// box ka outline color green
 		box.setOutlineThickness(5); // box ka outline thickness
 
-        target.draw(box, states);// Draw boundary ya hitbox ON TOP of sprite
+		target.draw(box, states);// Draw boundary ya hitbox ON TOP of sprite
 
-
-        //SNOWBALLS
-        for (int i = 0; i < ballcount; i++)
-        {
-            if (ball[i].act())
-            {
-               
-                ball[i].draw(target);  // Draw actual snowball
-                sf::RectangleShape ballBox;// Draw its hitbox
-
-                ballBox.setSize(sf::Vector2f(  ball[i].getBounds().width ,  ball[i].getBounds().height)); //ball sprite yani pic ki hieght and width normal box ke lyie set  
-
-                ballBox.setPosition( ball[i].getBounds().left  , ball[i].getBounds().top);  //position of ball x and y
-
-                ballBox.setFillColor(sf::Color::Transparent);
-                ballBox.setOutlineColor(sf::Color::Yellow);
-                ballBox.setOutlineThickness(5);
-
-                target.draw(ballBox, states);
-            }
-        }
-    }
-    else
-    {
-        //NORMAL DRAW ONLY
-        target.draw(playerSprite, states);
-
-        for (int i = 0; i < ballcount; i++)
-            ball[i].draw(target);
-    }
+		//SNOWBALLS HITBOX
+		for (int i = 0; i < ballcount; i++)
+		{
+			if (ball[i].act())
+			{
+				sf::RectangleShape ballBox;// Draw its hitbox
+				ballBox.setSize(sf::Vector2f(  ball[i].getBounds().width ,  ball[i].getBounds().height)); //ball sprite yani pic ki hieght and width normal box ke lyie set  
+				ballBox.setPosition( ball[i].getBounds().left  , ball[i].getBounds().top);  //position of ball x and y
+				ballBox.setFillColor(sf::Color::Transparent);
+				ballBox.setOutlineColor(sf::Color::Yellow);
+				ballBox.setOutlineThickness(5);
+				target.draw(ballBox, states);
+			}
+		}
+	}
 }

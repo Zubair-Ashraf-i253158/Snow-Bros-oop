@@ -101,10 +101,29 @@ int main()
             if (level.getCurrentLevel() == 10)
                 enemies[ecount++] = &level.getGama();
 
-            player.update(level.getPlatforms(), level.getPlatformCount(), enemies, ecount);
-            level.update(player);
-            if (level.isComplete()) level.nextLevel();
-            h.update(player.getScore(), player.getLive(), level.getLevel(), player.getGem());
+       
+        
+        // player update mein ye sab hota hai
+        // player movement (left right jump)
+        // gravity apply hoti hai
+        // platform collision check hoti hai
+        // snowball throw hoti hai
+        // snowball enemy ko hit karta hai
+        // player encased enemy ko kick karta hai
+        // rolling snowball chain kill karta hai
+        // player enemy ko touch kare to life down
+       
+        player.update(  level.getPlatforms()  , level.getPlatformCount()     ,    enemies   ,       ecount   );
+
+        level.update(player);
+
+        // level complete check
+        if (level.isComplete())
+            level.nextLevel();
+       
+       //Display hud 
+	   //player se score, lives, level and gems ki value leke update karo hud ko
+        h.update(player.getScore(), player.getLive(), level.getLevel(), player.getGem());
 
             level.draw(window);
             h.draw(window);
