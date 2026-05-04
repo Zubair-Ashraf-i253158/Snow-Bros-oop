@@ -109,9 +109,17 @@ public:
         for (int i = 0; i < maxItems; i++) {
             if (!items[i].active) {
                 if (type == GEM) {
+                    items[i].sprite.setScale(
+                        60.0f / gemTexture.getSize().x,
+                        64.0f / gemTexture.getSize().y
+                    );
                     items[i].spawn(x, y, GEM, gemTexture);
                 }
                 else if (type == STAR) {
+                    items[i].sprite.setScale(
+                        60.0f / starTexture.getSize().x,
+                        64.0f / starTexture.getSize().y
+                    );
                     items[i].spawn(x, y, STAR, starTexture);
                 }
                 break; 

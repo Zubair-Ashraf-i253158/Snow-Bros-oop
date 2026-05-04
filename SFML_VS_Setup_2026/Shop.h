@@ -23,15 +23,15 @@ public:
 
         item1Text.setFont(font);
         item1Text.setString("1. Buy Extra Life (50 Gems)");
-        item1Text.setPosition(250, 200);
+        item1Text.setPosition(20, 200);
 
         item2Text.setFont(font);
         item2Text.setString("2. Speed Boots (30 Gems)");
-        item2Text.setPosition(250, 300);
+        item2Text.setPosition(20, 300);
 
         exitText.setFont(font);
         exitText.setString("Press ESC to Return to Menu");
-        exitText.setPosition(250, 500);
+        exitText.setPosition(20, 500);
 
         gemDisplay.setFont(font);
         gemDisplay.setPosition(50, 50);
@@ -42,10 +42,10 @@ public:
         gemDisplay.setString("Gems: " + std::to_string(p1.getGem()));
 
         if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Escape) {
+            if (event.key.code == sf::Keyboard::Escape|| event.key.code == sf::Keyboard::BackSpace) {
                 return 3; //main meny
             }
-            if (event.key.code == sf::Keyboard::Num1) {
+            if (event.key.code == sf::Keyboard::Num1 || event.key.code == sf::Mouse::Left) {
                 if (p1.getGem() >= 50) {
                     p1.addGem(-50); 
                     p1.addLive(1);  
