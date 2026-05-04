@@ -82,7 +82,10 @@ public:
 		{
 			healthE--;
 			if (healthE <= 0)
-				state = 2; // fully covered snow ma
+			{
+				state = 2;
+				zindaE = false;
+			}// fully covered snow ma
 			else
 				state = 1; // half covered snow ma
 		}

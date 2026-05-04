@@ -581,17 +581,14 @@ bool Level::isComplete()
 
 // NEXT LEVEL 
 // agla level load karo
-
 void Level::nextLevel()
 {
     currentLevel++;
 
     if (currentLevel > 10)
     {
-        // game complete!
-        currentLevel = 10; // abhi ke liye 10 par roko
-        return;
+        currentLevel = 10;
+        return; // yahan ruk jao
     }
     loadLevel(currentLevel);
 }
-
