@@ -435,6 +435,7 @@ void Level::loadLevel(int levelNum)
                 800.0f / bgTexture.getSize().x,
                 600.0f / bgTexture.getSize().y
             );
+            platformCount = 11;
 
             platforms[0] = Platform(0, 567, 800, 10);
             platforms[1] = Platform(210, 490, 387, 10);
@@ -580,17 +581,14 @@ bool Level::isComplete()
 
 // NEXT LEVEL 
 // agla level load karo
-
 void Level::nextLevel()
 {
     currentLevel++;
 
     if (currentLevel > 10)
     {
-        // game complete!
-        currentLevel = 10; // abhi ke liye 10 par roko
-        return;
+        currentLevel = 10;
+        return; // yahan ruk jao
     }
     loadLevel(currentLevel);
 }
-

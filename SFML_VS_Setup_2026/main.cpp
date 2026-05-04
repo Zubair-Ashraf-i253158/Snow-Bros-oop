@@ -52,6 +52,13 @@ int main()
         {
             if (tempEvent.type == sf::Event::Closed)
                 window.close();
+
+            // ESC sirf playing state mein pause kare
+            if (tempEvent.type == sf::Event::KeyPressed &&
+                tempEvent.key.code == sf::Keyboard::Escape &&
+                gameState == 5) // ONLY in playing state
+                paused = !paused;
+
             event = tempEvent;
         }
 
@@ -290,7 +297,21 @@ int main()
                 // real time leaderboard update
                 leaderboard.updateScore(auth.getUser(), player.getScore());
 
-                if (level.isComplete()) level.nextLevel();
+                if (level.isComplete())
+                {
+                    if (level.getCurrentLevel() >= 10)
+                    {
+                        //game complete
+                            level.getCurrentLevel(),
+                            player.getScore(),
+                            player.getGem(),
+                            player.getLive();
+                        leaderboard.updateScore(auth.getUser(), player.getScore());
+						gameState = 8; //end screen
+                    }
+                    else
+                        level.nextLevel();
+                }
 
                 h.update(player.getScore(), player.getLive(), level.getLevel(), player.getGem(),
                     player2.getScore(), player2.getLive(), player2.getGem(), multiPl);
@@ -330,7 +351,7 @@ int main()
 
                 //simple pause text
                 sf::Font font;
-                font.loadFromFile("assets/font.ttf");
+                font.loadFromFile("assets/FONT/font.ttf");
                 sf::Text pauseText("PAUSED - Press ESC to continue", font, 25);
                 pauseText.setPosition(210, 280);
                 pauseText.setFillColor(sf::Color::Cyan);
@@ -341,16 +362,23 @@ int main()
                 menuText.setFillColor(sf::Color::Yellow);
                 window.draw(menuText);
 
-                if (event.type == sf::Event::KeyPressed &&
-                    event.key.code == sf::Keyboard::M)
+                if (event.type == sf::Event::KeyPressed)
                 {
-
-                    level.getCurrentLevel(),
-                        player.getScore(),
-                        player.getGem(),
-                        player.getLive();
-                    paused = false;
-                    gameState = 3;
+                    if (event.key.code == sf::Keyboard::M)
+                    {
+                      
+                            level.getCurrentLevel(),
+                            player.getScore(),
+                            player.getGem(),
+                            player.getLive();
+                        paused = false;
+                        gameState = 3;
+                    }
+                    if (event.key.code == sf::Keyboard::S)
+                    {
+                        paused = false;
+                        gameState = 7; // shop
+                    }
                 }
             }
         }
@@ -368,6 +396,41 @@ int main()
             }
             shop.draw(window);
 		}
+		else if (gameState == 8) //end screen
+        {
+            window.clear(sf::Color(10, 10, 40));
+
+            sf::Font font;
+            font.loadFromFile("assets/FONT/BubbleBobble-rg3rx.ttf");
+
+            sf::Text congrats("GAME COMPLETE!", font, 50);
+            congrats.setFillColor(sf::Color::Cyan);
+            congrats.setPosition(160, 150);
+            window.draw(congrats);
+
+            sf::Text scoreText("Final Score: " + std::to_string(player.getScore()), font, 35);
+            scoreText.setFillColor(sf::Color::Yellow);
+            scoreText.setPosition(220, 250);
+            window.draw(scoreText);
+
+            sf::Text gemsText("Gems Collected: " + std::to_string(player.getGem()), font, 30);
+            gemsText.setFillColor(sf::Color::Green);
+            gemsText.setPosition(240, 310);
+            window.draw(gemsText);
+
+            sf::Text menuText("Press ENTER for Main Menu", font, 28);
+            menuText.setFillColor(sf::Color::White);
+            menuText.setPosition(200, 420);
+            window.draw(menuText);
+
+            if (event.type == sf::Event::KeyPressed &&
+                event.key.code == sf::Keyboard::Enter)
+            {
+                player = Player();
+                player.setPos(500, 400);
+                gameState = 3;
+            }
+        }
 
         window.display();
     }
