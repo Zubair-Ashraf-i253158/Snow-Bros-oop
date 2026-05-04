@@ -11,6 +11,8 @@ protected:
 	float healthE;
 	bool zindaE;
 	float directionE;
+	bool chainKilled = false;
+
 	
 	sf::CircleShape snowcover;
 	sf::Texture enemyTexture;
@@ -52,7 +54,7 @@ public:
 			healthE = other.healthE;
 			zindaE = other.zindaE;
 			directionE = other.directionE;
-			snowcover = other.snowcover;
+		//	snowcover = other.snowcover;
 			enemyTexture = other.enemyTexture;
 			enemy = other.enemy;
 			enemy.setTexture(enemyTexture);
@@ -150,7 +152,12 @@ public:
 			zindaE = false;
 		}
 	}
-
+	bool isChainKilled() const {
+		return chainKilled;
+	}
+	void setChainKilled(bool value) {
+		chainKilled = value;
+	}
 	sf::FloatRect getBounds() const {
 		return enemy.getGlobalBounds();
 	}

@@ -24,10 +24,12 @@ private:
 	float gravity = 0.3f;       // fall speed
 	float jumpSpeed = 0.0f;     // current up/down speed
 	bool Ground = true;
-	
-	
-	int animFrame = 0;    // knsa fram ha abhi
-	int animTimer = 0;    // time jab frame change hona chahiye
+	//power up ka code
+	bool powerUpActive = false;
+	int powerUpTimer = 0;//power up time 
+	float defaultMovement = 5.0f; 
+	float currentMovement = 3.0f;
+
 	bool facingRight = true;
 	bool jmp = false;
 
@@ -51,7 +53,8 @@ public:
 	//void update(Platform platforms[], int count);
 	void update(Platform platforms[], int count, Enemy* enemy[], int ecount);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
+	//power up 
+	void applyPowerUp();
 	/*Life Health and Collosion code  */
 	
 	void lifedown();   //life kam ho ge is fun maa
@@ -94,6 +97,12 @@ public:
 				);
 			}
 		}
+	}
+	void addLive(int amount) {
+		lives += amount;
+	}
+	void addGem(int amount) {
+		gems += amount;
 	}
 	/*======GETTERS FOR HUD ======*/
 	int getScore() const

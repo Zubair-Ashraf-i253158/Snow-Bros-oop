@@ -38,20 +38,20 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
     //Left arrow se player left jaye
     if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        facingRight = false; playerSprite.move(-movement, 0);
+        facingRight = false; playerSprite.move(-currentMovement, 0);
     }
     else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        facingRight = false; playerSprite.move(-movement, 0);
+        facingRight = false; playerSprite.move(-currentMovement, 0);
     }
     // Right arrow se player right jaye
     if (!isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        facingRight = true; playerSprite.move(movement, 0);
+        facingRight = true; playerSprite.move(currentMovement, 0);
     }
     else if (isPlayer2 && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        facingRight = true; playerSprite.move(movement, 0);
+        facingRight = true; playerSprite.move(currentMovement, 0);
     }
 
 
@@ -93,7 +93,15 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
         scaleY = 64.0f / playerTexture.getSize().y;
     }
 
-
+    if (powerUpActive) {
+        powerUpTimer--;
+        if (powerUpTimer <= 0) {
+            powerUpActive = false;
+            currentMovement = defaultMovement;
+            
+            playerSprite.setColor(isPlayer2 ? sf::Color::Cyan : sf::Color::White);
+        }
+    }
 
     /* if (moving)
       {
@@ -260,9 +268,12 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
             for (int j = 0; j < ecount; j++)
             {
 				// diff enemy hona chye		 hit hone wala zinda hona chahiye          hit hone wala aur rolling enemy ke bounds intersect kar rahe ho
-				if (   i != j          &&        enemy[j]->getZinda()      &&        enemy[i]->getBounds().intersects(enemy[j]->getBounds()    )     )//kisi aur ko hit karay to wo bhi mar jaaye
-                   
+                if (i != j && enemy[j]->getZinda() && enemy[i]->getBounds().intersects(enemy[j]->getBounds()))//kisi aur ko hit karay to wo bhi mar jaaye
+
+                {
                     enemy[j]->setZinda(false);
+                    enemy[j]->setChainKilled(true);
+                }
             }
         }
     }
@@ -353,9 +364,12 @@ bool Player::getBallActive(int i) const
     return ball[i].act(); // ball active hai ya nahi
 }
 
-
-
-
+void Player::applyPowerUp() {
+    powerUpActive = true;
+    powerUpTimer = 300; //5 sec
+    currentMovement = defaultMovement * 1.5f; //speed zaida
+	playerSprite.setColor(sf::Color::Yellow); //color tabdeel visibility ke liye
+}
 
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const //target is a variable name 
