@@ -40,7 +40,7 @@ void Level::loadLevel(int levelNum)
     //LEVEL 1 
     //Sirf Botom enemies
     if (levelNum == 4 || levelNum == 9) {
-        bgTexture.loadFromFile("assets/lvl4.png");
+        bgTexture.loadFromFile("assets/lvl bonus.png");
         background.setTexture(bgTexture);
         background.setScale(
             800.0f / bgTexture.getSize().x,
@@ -57,10 +57,17 @@ void Level::loadLevel(int levelNum)
         platforms[8] = Platform(607, 310, 90, 70);   // bottom right small
         platforms[9] = Platform(607, 140, 90, 70);   // upper right small
         //only bonus
-        for (int i = 0; i < 20; i++) {
-            float gemX = 100.0f + (i * 30.0f);
-            float gemY = 200.0f; //bonus ke liye gems spawn karo
-            spawnItem(gemX, gemY, GEM);
+        //spread across all platforms 
+        for (int p = 0; p < platformCount; p++)
+        {
+            sf::FloatRect pl = platforms[p].getBounds();
+            int gemsOnPlatform = 5; //har platform par 5 gems
+            for (int g = 0; g < gemsOnPlatform; g++)
+            {
+                float gemX = pl.left + (pl.width / gemsOnPlatform) * g + 10;
+                float gemY = pl.top - 30; //platform ke upar
+                spawnItem(gemX, gemY, GEM);
+            }
         }
     }
     else

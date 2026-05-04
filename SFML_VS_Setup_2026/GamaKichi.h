@@ -67,6 +67,17 @@ public:
 	Gama() : Gama(0, 0) {}
 	Gama(float x, float y);
 	void update(Platform platforms[], int count) override;
+	sf::FloatRect getRocketBounds(int i) const { return rocket[i].getGlobalBounds(); }
+	bool getRocketActive(int i) const { return rocketactive[i]; }
+	void setRocketInactive(int i) { rocketactive[i] = false; }
+
+	void hitByBall() override  // no snow encasing for boss
+	{
+		healthE--;
+		if (healthE <= 0)
+			zindaE = false;
+	}
 	void draw(sf::RenderWindow& window) override;
+
 
 };

@@ -52,13 +52,6 @@ int main()
         {
             if (tempEvent.type == sf::Event::Closed)
                 window.close();
-
-            // ESC sirf playing state mein pause kare
-            if (tempEvent.type == sf::Event::KeyPressed &&
-                tempEvent.key.code == sf::Keyboard::Escape &&
-                gameState == 5) // ONLY in playing state
-                paused = !paused;
-
             event = tempEvent;
         }
 
@@ -137,6 +130,9 @@ int main()
 
             if (!paused)
             {
+                if (event.type == sf::Event::KeyPressed &&
+                    event.key.code == sf::Keyboard::Escape)
+                    paused = true;
                 Enemy* enemies[20];
                 int ecount = 0;
                 for (int i = 0; i < level.getBotomCount(); i++)
@@ -286,12 +282,18 @@ int main()
 
                 if (level.getCurrentLevel() == 5 && mogeraAlive && !level.getMogera().getZinda())
                 {
-                    player.addScore(5000); if (multiPl) player2.addScore(5000);
+                    player.addScore(5000); 
+                    if (multiPl) player2.addScore(5000);
+                    for (int i = 0; i < 10; i++)
+                        level.spawnItem(300 + i * 20, 300, GEM);
                 }
 
                 if (level.getCurrentLevel() == 10 && gamaAlive && !level.getGama().getZinda())
                 {
-                    player.addScore(10000); if (multiPl) player2.addScore(10000);
+                    player.addScore(10000);
+                    if (multiPl) player2.addScore(10000);
+                    for (int i = 0; i < 20; i++)
+                        level.spawnItem(200 + i * 20, 300, GEM);
                 }
 
                 // real time leaderboard update
@@ -302,12 +304,12 @@ int main()
                     if (level.getCurrentLevel() >= 10)
                     {
                         //game complete
-                            level.getCurrentLevel(),
+                        level.getCurrentLevel(),
                             player.getScore(),
                             player.getGem(),
                             player.getLive();
                         leaderboard.updateScore(auth.getUser(), player.getScore());
-						gameState = 8; //end screen
+                        gameState = 8; //end screen
                     }
                     else
                         level.nextLevel();
@@ -336,49 +338,59 @@ int main()
                 }
 
             }
-            else //paused
+            else // paused
             {
+                // game still drawn behind
                 level.draw(window);
                 h.draw(window);
                 window.draw(player);
                 if (multiPl) window.draw(player2);
 
-                // pause overlay
-                sf::RectangleShape overlay(sf::Vector2f(400, 300));
-                overlay.setPosition(200, 150);
-                overlay.setFillColor(sf::Color(0, 0, 0, 180));
+                // dark overlay
+                sf::RectangleShape overlay(sf::Vector2f(400, 350));
+                overlay.setPosition(200, 125);
+                overlay.setFillColor(sf::Color(0, 0, 0, 210));
+                overlay.setOutlineColor(sf::Color::Cyan);
+                overlay.setOutlineThickness(2);
                 window.draw(overlay);
 
-                //simple pause text
-                sf::Font font;
-                font.loadFromFile("assets/FONT/font.ttf");
-                sf::Text pauseText("PAUSED - Press ESC to continue", font, 25);
-                pauseText.setPosition(210, 280);
-                pauseText.setFillColor(sf::Color::Cyan);
-                window.draw(pauseText);
+                sf::Font pFont;
+                pFont.loadFromFile("assets/FONT/BubbleBobble-rg3rx.ttf");
 
-                sf::Text menuText("Press M to go to Main Menu", font, 22);
-                menuText.setPosition(230, 330);
-                menuText.setFillColor(sf::Color::Yellow);
-                window.draw(menuText);
+                // title
+                sf::Text pt("PAUSED", pFont, 45);
+                pt.setFillColor(sf::Color::Cyan);
+                pt.setPosition(310, 140);
+                window.draw(pt);
 
+                // options
+                std::string opts[4] = { "ESC - Continue", "S   - Shop", "M   - Main Menu", "X   - Exit Game" };
+                sf::Color cols[4] = { sf::Color::Green, sf::Color::Yellow, sf::Color::White, sf::Color::Red };
+
+                for (int i = 0; i < 4; i++)
+                {
+                    sf::Text opt(opts[i], pFont, 28);
+                    opt.setFillColor(cols[i]);
+                    opt.setPosition(250, 230 + i * 55);
+                    window.draw(opt);
+                }
                 if (event.type == sf::Event::KeyPressed)
                 {
-                    if (event.key.code == sf::Keyboard::M)
-                    {
-                      
-                            level.getCurrentLevel(),
-                            player.getScore(),
-                            player.getGem(),
-                            player.getLive();
-                        paused = false;
-                        gameState = 3;
-                    }
+                    if (event.key.code == sf::Keyboard::Escape)
+                        paused = false; // sirf yahan unpause karo
+
                     if (event.key.code == sf::Keyboard::S)
                     {
                         paused = false;
-                        gameState = 7; // shop
+                        gameState = 7;
                     }
+                    if (event.key.code == sf::Keyboard::M)
+                    {
+                        paused = false;
+                        gameState = 3;
+                    }
+                    if (event.key.code == sf::Keyboard::X)
+                        window.close();
                 }
             }
         }
@@ -389,13 +401,26 @@ int main()
             leaderboard.draw(window);
         }
         else if (gameState == 7) //shop
-            {
-            int result = shop.update(event, player);
-            if (result == 3) {
-                gameState = 3; //main menu
-            }
-            shop.draw(window);
-		}
+            {// shop ka apna ESC handle karo
+                if (event.type == sf::Event::KeyPressed &&
+                    (event.key.code == sf::Keyboard::Escape ||
+                        event.key.code == sf::Keyboard::Q))
+                {
+                    gameState = paused ? 5 : 3; // pause se aaya to game, warna menu
+                    paused = false;
+                }
+                else
+                {
+                    int result = shop.update(event, player, &player2, multiPl);
+                    if (result == 3)
+                    {
+                        gameState = paused ? 5 : 3;
+                        paused = false;
+                    }
+                }
+                shop.draw(window);
+}
+		
 		else if (gameState == 8) //end screen
         {
             window.clear(sf::Color(10, 10, 40));

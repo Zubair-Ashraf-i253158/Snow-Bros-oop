@@ -274,6 +274,12 @@ void Player::update(Platform platforms[], int count, Enemy* enemy[], int ecount)
                     enemy[j]->setZinda(false);
                     enemy[j]->setChainKilled(true);
                 }
+                if (i != j && enemy[j]->getZinda() &&
+                    enemy[i]->getBounds().intersects(enemy[j]->getBounds()))
+                {
+                    enemy[j]->setZinda(false);
+					enemy[j]->setChainKilled(true); //chain kill hua
+                }
             }
         }
     }

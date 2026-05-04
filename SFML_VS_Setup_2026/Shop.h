@@ -5,67 +5,166 @@
 class Shop {
 private:
     sf::Font font;
-    sf::Text titleText;
-	sf::Text item1Text; //extra life
-	sf::Text item2Text; //power up
-    sf::Text exitText;
+    sf::Text title;
     sf::Text gemDisplay;
-    int selectedItem = 1;
+    sf::Text msg; // feedback message
+
+    sf::RectangleShape itemBoxes[4];
+    sf::Text itemNames[4];
+    sf::Text itemPrices[4];
+    sf::Text itemDesc[4];
+    sf::Text backText;
+
+    sf::RectangleShape background;
+
+    std::string names[4] = { "Extra Life",  "Speed Boost", "Jump Boost",  "Snowball Power" };
+    std::string descs[4] = { "+1 Life",     "Faster move", "Higher jump", "1-hit encase" };
+    int         costs[4] = { 40,            25,            20,            30 };
+    int msgTimer = 0;
 
 public:
-    Shop() {
-        font.loadFromFile("assets/FONT/font.ttf");
+    Shop()
+    {
+        font.loadFromFile("assets/FONT/BubbleBobble-rg3rx.ttf");
 
-        titleText.setFont(font);
-        titleText.setString("SHOP");
-        titleText.setCharacterSize(40);
-        titleText.setPosition(350, 50);
+        background.setSize(sf::Vector2f(800, 600));
+        background.setFillColor(sf::Color(10, 10, 40));
 
-        item1Text.setFont(font);
-        item1Text.setString("1. Buy Extra Life (50 Gems)");
-        item1Text.setPosition(20, 200);
-
-        item2Text.setFont(font);
-        item2Text.setString("2. Speed Boots (30 Gems)");
-        item2Text.setPosition(20, 300);
-
-        exitText.setFont(font);
-        exitText.setString("Press ESC to Return to Menu");
-        exitText.setPosition(20, 500);
+        title.setFont(font);
+        title.setString("SHOP");
+        title.setCharacterSize(50);
+        title.setFillColor(sf::Color::Cyan);
+        title.setPosition(340, 20);
 
         gemDisplay.setFont(font);
-        gemDisplay.setPosition(50, 50);
+        gemDisplay.setCharacterSize(28);
+        gemDisplay.setFillColor(sf::Color::Yellow);
+        gemDisplay.setPosition(20, 20);
+
+        msg.setFont(font);
+        msg.setCharacterSize(24);
+        msg.setFillColor(sf::Color::Green);
+        msg.setPosition(250, 530);
+
+        backText.setFont(font);
+        backText.setString("Press ESC or Q to go back");
+        backText.setCharacterSize(22);
+        backText.setFillColor(sf::Color::White);
+        backText.setPosition(220, 565);
+
+        // 4 item boxes - 2x2 grid
+        for (int i = 0; i < 4; i++)
+        {
+            int col = i % 2;
+            int row = i / 2;
+            float x = 80 + col * 330;
+            float y = 120 + row * 190;
+
+            itemBoxes[i].setSize(sf::Vector2f(290, 160));
+            itemBoxes[i].setPosition(x, y);
+            itemBoxes[i].setFillColor(sf::Color(30, 30, 80));
+            itemBoxes[i].setOutlineColor(sf::Color::Cyan);
+            itemBoxes[i].setOutlineThickness(2);
+
+            itemNames[i].setFont(font);
+            itemNames[i].setString(std::to_string(i + 1) + ". " + names[i]);
+            itemNames[i].setCharacterSize(24);
+            itemNames[i].setFillColor(sf::Color::White);
+            itemNames[i].setPosition(x + 10, y + 10);
+
+            itemDesc[i].setFont(font);
+            itemDesc[i].setString(descs[i]);
+            itemDesc[i].setCharacterSize(20);
+            itemDesc[i].setFillColor(sf::Color(180, 180, 255));
+            itemDesc[i].setPosition(x + 10, y + 50);
+
+            itemPrices[i].setFont(font);
+            itemPrices[i].setString("Cost: " + std::to_string(costs[i]) + " Gems");
+            itemPrices[i].setCharacterSize(22);
+            itemPrices[i].setFillColor(sf::Color::Yellow);
+            itemPrices[i].setPosition(x + 10, y + 90);
+        }
     }
 
-    //Returns 0 to stay in shop, 3 to go back to main menu
-    int update(sf::Event& event, Player& p1) {
+    // returns 0=stay, 3=back to menu
+    int update(sf::Event& event, Player& p1, Player* p2 = nullptr, bool multi = false)
+    {
         gemDisplay.setString("Gems: " + std::to_string(p1.getGem()));
 
-        if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Escape|| event.key.code == sf::Keyboard::BackSpace) {
-                return 3; //main meny
-            }
-            if (event.key.code == sf::Keyboard::Num1 || event.key.code == sf::Mouse::Left) {
-                if (p1.getGem() >= 50) {
-                    p1.addGem(-50); 
-                    p1.addLive(1);  
+        if (msgTimer > 0) msgTimer--;
+        else msg.setString("");
+
+       
+
+            // press 1-4 to buy
+            int buy = -1;
+            if (event.key.code == sf::Keyboard::Num1) buy = 0;
+            if (event.key.code == sf::Keyboard::Num2) buy = 1;
+            if (event.key.code == sf::Keyboard::Num3) buy = 2;
+            if (event.key.code == sf::Keyboard::Num4) buy = 3;
+
+            if (buy >= 0)
+            {
+                if (p1.getGem() >= costs[buy])
+                {
+                    p1.addGem(-costs[buy]);
+                    if (buy == 0) p1.addLive(1);
+                    else          p1.applyPowerUp();
+                    msg.setString("Bought: " + names[buy] + "!");
+                    msg.setFillColor(sf::Color::Green);
+                    msgTimer = 120;
                 }
-            }
-            if (event.key.code == sf::Keyboard::Num2) {
-                if (p1.getGem() >= 30) {
-                    p1.addGem(-30);
-                    p1.applyPowerUp();
+                else
+                {
+                    msg.setString("Not enough gems!");
+                    msg.setFillColor(sf::Color::Red);
+                    msgTimer = 120;
                 }
             }
         }
-        return 0; 
-    }
 
-    void draw(sf::RenderWindow& window) {
-        window.draw(titleText);
-        window.draw(item1Text);
-        window.draw(item2Text);
-        window.draw(exitText);
+        //mouse click on boxes
+        if (event.type == sf::Event::MouseButtonPressed)
+        {
+            sf::Vector2f click(event.mouseButton.x, event.mouseButton.y);
+            for (int i = 0; i < 4; i++)
+            {
+                if (itemBoxes[i].getGlobalBounds().contains(click))
+                {
+                    if (p1.getGem() >= costs[i])
+                    {
+                        p1.addGem(-costs[i]);
+                        if (i == 0) p1.addLive(1);
+                        else        p1.applyPowerUp();
+                        msg.setString("Bought: " + names[i] + "!");
+                        msg.setFillColor(sf::Color::Green);
+                    }
+                    else
+                    {
+                        msg.setString("Not enough gems!");
+                        msg.setFillColor(sf::Color::Red);
+                    }
+                    msgTimer = 120;
+                }
+            }
+        }
+        return 0;
+    }
+    
+
+    void draw(sf::RenderWindow& window)
+    {
+        window.draw(background);
+        window.draw(title);
         window.draw(gemDisplay);
+        window.draw(backText);
+        window.draw(msg);
+        for (int i = 0; i < 4; i++)
+        {
+            window.draw(itemBoxes[i]);
+            window.draw(itemNames[i]);
+            window.draw(itemDesc[i]);
+            window.draw(itemPrices[i]);
+        }
     }
 };

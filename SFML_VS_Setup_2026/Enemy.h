@@ -22,7 +22,6 @@ protected:
 	int state = 0;
 	int meltTime = 0;
 	float roll = 1.0f;
-	
 	/*hitting and collision code*/
 
 	bool cover = false; //enemy snow ma band naahi ha
@@ -65,7 +64,9 @@ public:
 		}
 		return *this;
 	}
-
+	
+	bool isChainKilled() const { return chainKilled; }
+	void setChainKilled(bool c) { chainKilled = c; }
 	//this is abstract class matlub ke is class ke object nahi ban sakta, iske sirf derived class ke object ban sakta hai
 	virtual void update(Platform platforms[], int count) = 0;
 	
@@ -76,7 +77,7 @@ public:
 	// 2 ka meaning ha fully encased, 
 	// 3 ka meaning ha rolling, 
 	// 4 ka meaning ha melting
-    void hitByBall()
+   virtual void hitByBall()
 	{
 		if (state == 0 || state == 1)
 		{
@@ -155,12 +156,8 @@ public:
 			zindaE = false;
 		}
 	}
-	bool isChainKilled() const {
-		return chainKilled;
-	}
-	void setChainKilled(bool value) {
-		chainKilled = value;
-	}
+	
+	
 	sf::FloatRect getBounds() const {
 		return enemy.getGlobalBounds();
 	}

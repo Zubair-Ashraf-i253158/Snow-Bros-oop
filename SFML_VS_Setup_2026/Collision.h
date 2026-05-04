@@ -4,7 +4,7 @@
 #include "Enemy.h"
 #include "FlyingFooga.h"  
 #include "Tornado.h"    
-
+#include "GamaKichi.h"
 class Collision
 {
 public:
@@ -147,5 +147,35 @@ static void TornadoCollision(Player& player, Tornado t[], int tCount)
             }
         }
     }
+}
+static void GamaCollision(Player& player, Gama& g)
+{
+    if (!g.getZinda()) return;
+
+    // snowball hits gama body
+    for (int i = 0; i < player.getballcount(); i++)
+    {
+        if (!player.getBallActive(i)) continue;
+        if (player.getBallBounds(i).intersects(g.getBounds()))
+        {
+            g.hitByBall();
+            player.setBallActive(i, false);
+        }
+    }
+
+    // player touches gama - lose life
+    if (!player.gethit())
+        if (player.getBounds().intersects(g.getBounds()))
+            player.lifedown();
+
+    // rockets hit player
+    if (!player.gethit())
+        for (int i = 0; i < 5; i++)
+            if (g.getRocketActive(i) &&
+                g.getRocketBounds(i).intersects(player.getBounds()))
+            {
+                player.lifedown();
+                g.setRocketInactive(i);
+            }
 }
 };
