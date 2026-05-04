@@ -435,6 +435,7 @@ void Level::loadLevel(int levelNum)
                 800.0f / bgTexture.getSize().x,
                 600.0f / bgTexture.getSize().y
             );
+            platformCount = 11;
 
             platforms[0] = Platform(0, 567, 800, 10);
             platforms[1] = Platform(210, 490, 387, 10);
