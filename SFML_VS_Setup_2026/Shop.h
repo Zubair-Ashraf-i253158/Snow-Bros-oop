@@ -121,7 +121,7 @@ public:
                     msgTimer = 120;
                 }
             }
-        }
+        
 
         //mouse click on boxes
         if (event.type == sf::Event::MouseButtonPressed)
