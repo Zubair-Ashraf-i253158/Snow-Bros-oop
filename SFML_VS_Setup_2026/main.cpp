@@ -100,13 +100,10 @@ int main()
                 gameState = 5;
             }
             if (result == 3) gameState = 4; //level select
-            if (result == 4) 
+            if (result == 4)
             {
-                int result = shop.update(event, player);
-                if (result == 3) {
-                    gameState = 3; //main menu
-                }
-                shop.draw(window);
+                gameState = 7;
+               
             }
             if (result == 5) gameState = 6; // leaderboard
             if (result == 6) gameState = 1; // logout
@@ -188,17 +185,17 @@ int main()
                             player2.applyPowerUp();
                         }
                     }
-                //update
-                        // player update mein ye sab hota hai
-        // player movement (left right jump)
-        // gravity apply hoti hai
-        // platform collision check hoti hai
-        // snowball throw hoti hai
-        // snowball enemy ko hit karta hai
-        // player encased enemy ko kick karta hai
-        // rolling snowball chain kill karta hai
-        // player enemy ko touch kare to life down
-        //hover effect
+                }  //update
+                            // player update mein ye sab hota hai
+            // player movement (left right jump)
+            // gravity apply hoti hai
+            // platform collision check hoti hai
+            // snowball throw hoti hai
+            // snowball enemy ko hit karta hai
+            // player encased enemy ko kick karta hai
+            // rolling snowball chain kill karta hai
+            // player enemy ko touch kare to life down
+            //hover effect
                 player.update(level.getPlatforms(), level.getPlatformCount(), enemies, ecount);
                 if (multiPl)
                     player2.update(level.getPlatforms(), level.getPlatformCount(), enemies, ecount);
@@ -219,17 +216,17 @@ int main()
                         {
                             level.spawnItem(dropX, dropY, STAR); //drop
                         }
-						//star 20% chance se drop hoga
+                        //star 20% chance se drop hoga
                         if (rand() % 100 < 20) {
                             level.spawnItem(dropX, dropY, STAR);
                         }
-						
+
                     }
 
                 for (int i = 0; i < level.getFoogaCount(); i++)
                     if (foogaAlive[i] && !level.getFoogas()[i].getZinda())
                     {
-                        int p = 200 + rand() % 601; player.addScore(p); 
+                        int p = 200 + rand() % 601; player.addScore(p);
                         if (multiPl) player2.addScore(p);
                         float dropX = level.getFoogas()[i].getBounds().left;
                         float dropY = level.getFoogas()[i].getBounds().top;
@@ -247,7 +244,7 @@ int main()
                 for (int i = 0; i < level.getTornadoCount(); i++)
                     if (tornadoAlive[i] && !level.getTornados()[i].getZinda())
                     {
-                        int p = 300 + rand() % 901; player.addScore(p); 
+                        int p = 300 + rand() % 901; player.addScore(p);
                         if (multiPl) player2.addScore(p);
                         float dropX = level.getTornados()[i].getBounds().left;
                         float dropY = level.getTornados()[i].getBounds().top;
@@ -267,7 +264,7 @@ int main()
                     {
                         int p = 500 + rand() % 1001; player.addScore(p);
                         if (multiPl) player2.addScore(p);
-                         float dropX = level.getInvisibles()[i].getBounds().left;
+                        float dropX = level.getInvisibles()[i].getBounds().left;
                         float dropY = level.getInvisibles()[i].getBounds().top;
 
                         if (level.getInvisibles()[i].isChainKilled())
@@ -309,13 +306,14 @@ int main()
                 if (p1Dead && p2Dead)
                 {
                     //save progress and go to main menu
-                  
-                        level.getCurrentLevel(),
+
+                    level.getCurrentLevel(),
                         player.getScore(),
                         player.getGem(),
                         player.getLive();
                     gameState = 3;
                 }
+
             }
             else //paused
             {
@@ -346,8 +344,8 @@ int main()
                 if (event.type == sf::Event::KeyPressed &&
                     event.key.code == sf::Keyboard::M)
                 {
-                   
-                        level.getCurrentLevel(),
+
+                    level.getCurrentLevel(),
                         player.getScore(),
                         player.getGem(),
                         player.getLive();
@@ -362,6 +360,14 @@ int main()
             if (result == 1) gameState = 3;
             leaderboard.draw(window);
         }
+        else if (gameState == 7) //shop
+            {
+            int result = shop.update(event, player);
+            if (result == 3) {
+                gameState = 3; //main menu
+            }
+            shop.draw(window);
+		}
 
         window.display();
     }

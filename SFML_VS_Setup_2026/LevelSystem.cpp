@@ -39,7 +39,7 @@ void Level::loadLevel(int levelNum)
 
     //LEVEL 1 
     //Sirf Botom enemies
-    if (currentLevel == 4 || currentLevel == 9) {
+    if (levelNum == 4 || levelNum == 9) {
         bgTexture.loadFromFile("assets/lvl4.png");
         background.setTexture(bgTexture);
         background.setScale(
@@ -352,24 +352,28 @@ void Level::loadLevel(int levelNum)
 
         else if (levelNum == 8)
         {
-            bgTexture.loadFromFile("assets/lvl8.png");
+            bgTexture.loadFromFile("assets/lvl 6.png");
             background.setTexture(bgTexture);
             background.setScale(
                 800.0f / bgTexture.getSize().x,
                 600.0f / bgTexture.getSize().y
             );
 
-            platformCount = 10;
-            platforms[0] = Platform(0, 524, 800, 10);
-            platforms[1] = Platform(0, 440, 160, 10);
-            platforms[2] = Platform(640, 440, 160, 10);
-            platforms[3] = Platform(280, 400, 240, 10);
-            platforms[4] = Platform(100, 320, 200, 10);
-            platforms[5] = Platform(500, 320, 200, 10);
-            platforms[6] = Platform(280, 240, 240, 10);
-            platforms[7] = Platform(0, 160, 180, 10);
-            platforms[8] = Platform(620, 160, 180, 10);
-            platforms[9] = Platform(280, 80, 240, 10);
+            platformCount = 11;
+
+            //ground
+            platforms[0] = Platform(0, 567, 800, 10);
+            platforms[1] = Platform(210, 490, 387, 10);
+            platforms[2] = Platform(0, 400, 110, 10);
+            platforms[3] = Platform(0, 310, 110, 10);
+            platforms[4] = Platform(700, 400, 130, 10);
+            platforms[5] = Platform(700, 310, 130, 10);
+            platforms[6] = Platform(215, 310, 140, 10);
+            platforms[7] = Platform(455, 310, 140, 10);
+            platforms[8] = Platform(0, 225, 205, 10);
+            platforms[9] = Platform(600, 225, 210, 10);
+            platforms[10] = Platform(167, 140, 470, 10);
+
 
             bCount = 5;
             b[0] = Botom(100, 50);
@@ -432,12 +436,17 @@ void Level::loadLevel(int levelNum)
                 600.0f / bgTexture.getSize().y
             );
 
-            // open platforms for final boss
-            platformCount = 3;
-            platforms[0] = Platform(0, 524, 800, 10);   // ground
-            platforms[1] = Platform(0, 350, 200, 10);   // left
-            platforms[2] = Platform(600, 350, 200, 10); // right
-
+            platforms[0] = Platform(0, 567, 800, 10);
+            platforms[1] = Platform(210, 490, 387, 10);
+            platforms[2] = Platform(0, 400, 110, 10);
+            platforms[3] = Platform(0, 310, 110, 10);
+            platforms[4] = Platform(700, 400, 130, 10);
+            platforms[5] = Platform(700, 310, 130, 10);
+            platforms[6] = Platform(215, 310, 140, 10);
+            platforms[7] = Platform(455, 310, 140, 10);
+            platforms[8] = Platform(0, 225, 205, 10);
+            platforms[9] = Platform(600, 225, 210, 10);
+            platforms[10] = Platform(167, 140, 470, 10);
 
             g = Gama(350, 150);
 

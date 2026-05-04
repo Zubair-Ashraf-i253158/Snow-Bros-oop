@@ -14,7 +14,7 @@ private:
 
 public:
     Shop() {
-        font.loadFromFile("assets/font.ttf");
+        font.loadFromFile("assets/FONT/font.ttf");
 
         titleText.setFont(font);
         titleText.setString("SHOP");
