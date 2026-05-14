@@ -171,7 +171,7 @@ SFML_VS_Setup_2026/
 ### Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/snow-bros-remake.git
+   git clone https://github.com/Zubair-Ashraf-i253158/Snow-Bros-oop.git
    ```
 
 2. Download SFML 2.6.2 (VC17 64-bit) and extract it.
